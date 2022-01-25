@@ -1,5 +1,3 @@
-# CS536_SP22
+# Compiler
 
-## Group Members: 
-Hong Xu (hxu328@wisc.edu)
-Huan Xu (<>)
+## Hong's Branch
