@@ -110,8 +110,10 @@ public class SymTable {
     }
 
     public void print(){
+        System.out.println("** Sym Table **");
         for(HashMap<String, Sym> scope : scopes){
-            System.out.println(scope.toString() + "\n");
+            System.out.println(scope.toString());
         }
+        System.out.println();
     }
 }

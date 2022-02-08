@@ -49,6 +49,7 @@ public class SymTable {
 
     public SymTable(){
         scopes = new LinkedList<HashMap<String, Sym>>();
+        addScope();
     }
 
     public void addDecl(String name, Sym sym) throws DuplicateSymException, EmptySymTableException, IllegalArgumentException
