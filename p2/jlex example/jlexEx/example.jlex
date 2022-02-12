@@ -1,0 +1,61 @@
+// This file contains a complete JLex specification for a very small
+// example.
+
+// User Code section:  For right now, we will not use it.
+
+%%
+
+DIGIT=		[0-9]
+LETTER=		[a-zA-Z]
+WHITESPACE=	[\040\t\n]
+
+%state SPECIALINTSTATE
+
+%implements java_cup.runtime.Scanner
+%function next_token
+%type java_cup.runtime.Symbol
+
+%eofval{
+System.out.println("All done");
+return null;
+%eofval}
+
+%line
+
+%%
+
+0                           { yybegin(SPECIALINTSTATE);
+                              System.out.println("Entering special state");
+                            }
+
+<SPECIALINTSTATE>{DIGIT}+   { yybegin(YYINITIAL);
+                              System.out.println(yyline+1 + ": OCTALLIT (" 
+			                         + yytext() + ")");
+                              System.out.println("Leaving special int state");
+                            }
+
+<SPECIALINTSTATE>x{DIGIT}+  { yybegin(YYINITIAL);
+                              System.out.println(yyline+1 + ": HEXLIT (" 
+			                         + yytext() + ")");
+			      System.out.println("Leaving special int state");
+			     }
+
+<SPECIALINTSTATE>.          { System.out.println(yyline+1 + 
+                              ": bad char in special int state");
+			    }
+
+[1-9]{DIGIT}*              { System.out.println(yyline+1 + ": INTLIT (" 
+                                                 + yytext() + ")"); }
+
+<YYINITIAL>({LETTER}|"_")({DIGIT}|{LETTER}|"_")* {
+                              System.out.println(yyline+1 + ": ID " 
+			                         + yytext());
+                            }
+"="                         { System.out.println(yyline+1 + ": ASSIGN"); }
+"+"                         { System.out.println(yyline+1 + ": PLUS"); }
+"^"                         { System.out.println(yyline+1 + ": EXP"); }
+"<"                         { System.out.println(yyline+1 + ": LESSTHAN"); }
+"+="                        { System.out.println(yyline+1 + ": INCR"); }
+"<="                        { System.out.println(yyline+1 + ": LEQ"); }
+{WHITESPACE}*               { }
+.               	    { System.out.println(yyline+1 + ": bad char"); }
