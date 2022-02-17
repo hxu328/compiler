@@ -61,6 +61,7 @@ WHITESPACE=   [\040\t]
 
 LETTER=		[a-zA-Z]
 
+
 %implements java_cup.runtime.Scanner
 %function next_token
 %type java_cup.runtime.Symbol
@@ -70,6 +71,8 @@ return new Symbol(sym.EOF);
 %eofval}
 
 %line
+
+%state STRING
 
 %%
 
@@ -143,7 +146,11 @@ return new Symbol(sym.EOF);
                                                 CharNum.num += yytext().length();
                                                 return S;
                                             }
-    // TODO: String
+    // TODO: String imcomplete
+    \"        { CharNum.num += yytext().length();
+                yybegin(STRING);
+              }
+
 
     // Integer literal
     // TODO: check overflow
@@ -291,11 +298,16 @@ return new Symbol(sym.EOF);
 
 
     // Comment
+    // TODO: \n at end?
+    ("//*"[^\n]*) | ("%"[^n]*)    { CharNum.num += yytext().length(); }
 
 
 }
 
+<STRING> {
+    
 
+}
 
 // Illegal characters
 // TODO: outof any states? See https://jflex.de/manual.html
