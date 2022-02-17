@@ -146,9 +146,10 @@ return new Symbol(sym.EOF);
                                                 CharNum.num += yytext().length();
                                                 return S;
                                             }
-    // TODO: String imcomplete
+    // TODO: String imcomplete, eof
     \"        { CharNum.num += yytext().length();
                 yybegin(STRING);
+                // TODO: add double quote
               }
 
 
@@ -291,15 +292,14 @@ return new Symbol(sym.EOF);
               }
 
     // Whitespace: Spaces, tabs, and newline characters
-    // TODO: + or * for WHITESPACE?
     \n        { CharNum.num = 1; }
 
     {WHITESPACE}+  { CharNum.num += yytext().length(); }
 
 
     // Comment
-    // TODO: \n at end?
-    ("//*"[^\n]*) | ("%"[^n]*)    { CharNum.num += yytext().length(); }
+    // TODO: eof?
+    ("//*"[^\n]*) | ("%"[^\n]*)    { CharNum.num += yytext().length(); }
 
 
 }
