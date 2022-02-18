@@ -49,8 +49,6 @@ class StrLitTokenVal extends TokenVal {
     }
 }
 
-StringBuffer string = new StringBuffer();
-
 // The following class is used to keep track of the character number at 
 // which the current token starts on its line.
 class CharNum {
@@ -58,6 +56,10 @@ class CharNum {
 }
 
 %%
+
+%{
+StringBuffer string = new StringBuffer();
+%}
 
 DIGIT=        [0-9]
 WHITESPACE=   [\s\t]
@@ -73,6 +75,7 @@ return new Symbol(sym.EOF);
 
 %line
 %state STRING
+%state COMMENT
 
 %%
 
@@ -85,23 +88,28 @@ return new Symbol(sym.EOF);
             return S;
           }
 
-<YYINITIAL>\"   { string.setLength(0); 
+<YYINITIAL>\"  { string.setLength(0); 
                   string.append('\"'); 
                   CharNum.num += yytext().length(); 
                   yybegin(STRING);}
 
-<STRING>[^\n\"\\]+   { CharNum.num += yytext().length();
+<YYINITIAL>"//\*|% " {CharNum.num += yytext().length();}
+
+<COMMENT>[^\n]* {CharNum.num += yytext().length();}
+<COMMENT>\n     { yybegin(YYINITIAL);
+                  CharNum.num = 1;}
+
+<STRING>[^\n\"\\]*   { CharNum.num += yytext().length();
                         string.append(yytext());}
-<STRING>\n    { CharNum.num += yytext().length(); 
+<STRING>\n    { CharNum.num = 1; 
                 ErrMsg.fatal(yyline+1, CharNum.num,
                 "ignoring new line inside a string.");}
 <STRING>\\    { CharNum.num += yytext().length(); string.append('\\');}
 <STRING>\"    { yybegin(YYINITIAL);
                 string.append('\"');
                 CharNum.num += yytext().length();
-                return symbol(sym.STRINGLITERAL,
-                string.toString());}
-
+                return new Symbol(sym.STRINGLITERAL,
+                new StrLitTokenVal(yyline+1, CharNum.num, string.toString()));}
 
 \n        { CharNum.num = 1; }
 
