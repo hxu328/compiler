@@ -39,14 +39,24 @@
 public class Sym {
     private String type;
 
+    /**
+     * Sym constructor. Initialize this type to the passed in type.
+     * @param type
+     */
     public Sym(String type){
         this.type = type;
     }
 
+    /**
+     * @return this type
+     */
     public String getType(){
         return this.type;
     }
 
+    /**
+     * @return this type
+     */
     public String toString(){
         return this.type;
     }

@@ -43,15 +43,22 @@
 
 import java.util.*;
 
+
 public class SymTable {
 
     private LinkedList<HashMap<String, Sym>> scopes;
 
+    /**
+     * SymTable constructor. Initialize a SymTable with 1 scope.
+     */
     public SymTable(){
         scopes = new LinkedList<HashMap<String, Sym>>();
         addScope();
     }
 
+    /**
+     * Add a variable with key name value sym to the closest scope.
+     */
     public void addDecl(String name, Sym sym) throws DuplicateSymException, EmptySymTableException, IllegalArgumentException
     {
         if(scopes.isEmpty()){
@@ -68,6 +75,9 @@ public class SymTable {
         currScope.put(name, sym);
     }
     
+    /**
+     * Look for a variable with key name from the cloest scope.
+     */
     public Sym lookupLocal(String name) throws EmptySymTableException
     {
         if(scopes.isEmpty()){
@@ -82,6 +92,9 @@ public class SymTable {
         }
     }
 
+    /**
+     * look for a variable with key name from all possible scopes. Return the one from the cloest scope.
+     */
     public Sym lookupGlobal(String name) throws EmptySymTableException
     {
         if(scopes.isEmpty()){
@@ -97,10 +110,16 @@ public class SymTable {
         return null;
     }
 
+    /**
+     * Add a new empty scope that becomes the closest scope.
+     */
     public void addScope(){
         scopes.addFirst(new HashMap<String, Sym>());
     }
 
+    /**
+     * Remove the closest scope.
+     */
     public void removeScope() throws EmptySymTableException
     {
         if(scopes.isEmpty()){
@@ -109,6 +128,9 @@ public class SymTable {
         scopes.removeFirst();
     }
 
+    /**
+     * Print out all scopes and the variables in them, from closest to farest.
+     */
     public void print(){
         System.out.println("** Sym Table **");
         for(HashMap<String, Sym> scope : scopes){
