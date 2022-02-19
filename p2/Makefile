@@ -36,7 +36,7 @@ ErrMsg.class: ErrMsg.java
 # to expected results
 ###
 test:
-	java -cp $(CP) P2 
+	java -cp $(CP) P2
 	diff allTokens.in allTokens.out
 
 ###
@@ -48,3 +48,4 @@ clean:
 
 cleantest:
 	rm -f allTokens.out
+	rm -f test_1.out
