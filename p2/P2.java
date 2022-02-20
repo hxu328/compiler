@@ -20,7 +20,7 @@ public class P2 {
         //testmy_1();
         CharNum.num = 1;
 
-        testmy_2();
+        testmy_2("stress.txt");
         CharNum.num = 1;
 
 
@@ -335,13 +335,13 @@ public class P2 {
         outFile.close();
     }
 
-    private static void testmy_2() throws IOException {
+    private static void testmy_2(String filename) throws IOException {
         // open input and output files
         FileReader inFile = null;
         PrintWriter outFile = null;
         try {
-            inFile = new FileReader("eof.txt");
-            outFile = new PrintWriter(new FileWriter("eof.txt.out"));
+            inFile = new FileReader(filename);
+            outFile = new PrintWriter(new FileWriter(filename + ".out"));
         } catch (FileNotFoundException ex) {
             System.err.println("File eof.in not found.");
             System.exit(-1);

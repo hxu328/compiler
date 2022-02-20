@@ -66,7 +66,7 @@ WHITESPACE=   [\040\t]
 LETTER=       [a-zA-Z]
 ESCAPED=       [\\][nt\"\'\?\\]
 NONESCAPED=    [\\][^nt\"\'\?\\]
-STRINGCHARACTER = [^\n\"\\] | {ESCAPED}
+STRINGCHARACTER= [^\n\"\\] | {ESCAPED}
 
 
 %implements java_cup.runtime.Scanner
@@ -342,10 +342,35 @@ return new Symbol(sym.EOF);
                                     "ignoring unterminated string literal");
                                   CharNum.num = 1;
                                   yybegin(YYINITIAL); }
+
+<STRING> {STRINGCHARACTER}*\\ { 
+                                    System.out.println("this is bad: " + yytext());yybegin(BADESCAPE); }
+
 <STRING> {STRINGCHARACTER}*    {  ErrMsg.fatal(yyline+1, CharNum.num,
                                     "ignoring unterminated string literal");
                                   CharNum.num = 1;
                                   yybegin(YYINITIAL); }
+
+<BADESCAPE> [^\n]*\" {
+   ErrMsg.fatal(yyline+1, CharNum.num,
+                "ignoring string literal with bad escaped character");
+                CharNum.num = 1;
+                yybegin(YYINITIAL);
+}
+
+<BADESCAPE> [^\"]*\n {
+   ErrMsg.fatal(yyline+1, CharNum.num,
+                "ignoring unterminated string literal with bad escaped character");
+                CharNum.num = 1;
+                yybegin(YYINITIAL);
+}
+
+<BADESCAPE> [^\"]* {
+   ErrMsg.fatal(yyline+1, CharNum.num,
+                "ignoring unterminated string literal with bad escaped character");
+                CharNum.num = 1;
+                yybegin(YYINITIAL);
+}
 
 <YYINITIAL> .         { ErrMsg.fatal(yyline+1, CharNum.num,
                          "ignoring illegal character: " + yytext());
