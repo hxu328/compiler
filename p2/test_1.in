@@ -1,6 +1,1 @@
-if (x = 1){
-"hello \ world"
-//* this is comment one
-%comment two here
-
-haha
+"world \n"

@@ -17,10 +17,10 @@ public class P2 {
     
         // ADD CALLS TO OTHER TEST METHODS HERE
 
-        //testmy_1();
+        testmy_1();
         CharNum.num = 1;
 
-        testmy_2();
+        //testmy_2();
         CharNum.num = 1;
 
 
