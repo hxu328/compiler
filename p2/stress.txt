@@ -1,1 +1,8 @@
-"\n"
+xx "hello
+"this is bad \a
+"second bad \
+"third bad \e haha"
+"forth bad \k"
+"fifth \n world \k hello \n"
+"sisx \t \n \"|\\\n\t\tt"
+"anthor bad

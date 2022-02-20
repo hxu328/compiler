@@ -64,9 +64,9 @@ StringBuffer string = new StringBuffer();
 DIGIT=        [0-9]
 WHITESPACE=   [\040\t]
 LETTER=       [a-zA-Z]
-ESCAPED=       [\\][nt\"\'\?\\]
-NONESCAPED=    [\\][^nt\"\'\?\\]
-STRINGCHARACTER= [^\n\"\\] | {ESCAPED}
+ESCAPED=       ([\\][nt\"\'\?\\])
+NONESCAPED=    ([\\][^nt\"\'\?\\])
+STRINGCHARACTER= (([^\n\"\\])|([\\][nt\"\'\?\\]))
 
 
 %implements java_cup.runtime.Scanner
@@ -331,11 +331,11 @@ return new Symbol(sym.EOF);
                         yybegin(STRING);
                       }
 
-<STRING> {STRINGCHARACTER}*\"  {  string.append(yytext());
+<STRING> {STRINGCHARACTER}*\"  {  yybegin(YYINITIAL); 
+                                  string.append(yytext());
                                   Symbol S = new Symbol(sym.STRINGLITERAL,
                                     new StrLitTokenVal(yyline+1, CharNum.num, string.toString()));
                                   CharNum.num += yytext().length() + 1;
-                                  yybegin(YYINITIAL); 
                                   return S;
                                 }
 <STRING> {STRINGCHARACTER}*\n  {  ErrMsg.fatal(yyline+1, CharNum.num,
@@ -344,7 +344,7 @@ return new Symbol(sym.EOF);
                                   yybegin(YYINITIAL); }
 
 <STRING> {STRINGCHARACTER}*\\ { 
-                                    System.out.println("this is bad: " + yytext());yybegin(BADESCAPE); }
+                                   yybegin(BADESCAPE); }
 
 <STRING> {STRINGCHARACTER}*    {  ErrMsg.fatal(yyline+1, CharNum.num,
                                     "ignoring unterminated string literal");
