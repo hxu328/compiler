@@ -17,7 +17,7 @@ public class P2 {
     
         // ADD CALLS TO OTHER TEST METHODS HERE
 
-        testmy_1();
+        //testmy_1();
         CharNum.num = 1;
 
         testmy_2();
@@ -181,6 +181,8 @@ public class P2 {
 
             token = scanner.next_token();
         } // end while
+        System.out.print("Alltoken: char number is ");
+        System.out.println(CharNum.num);
         outFile.close();
     }
 

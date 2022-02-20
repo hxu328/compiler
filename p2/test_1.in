@@ -1,5 +1,5 @@
 if (x = 1){
-"hello \ss \t world  after it
+"hello \ world"
 //* this is comment one
 %comment two here
 
