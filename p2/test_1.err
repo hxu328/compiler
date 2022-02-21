@@ -1,0 +1,5 @@
+5:5 ****ERROR**** ignoring unterminated string literal
+6:2 ****ERROR**** ignoring unterminated string literal
+7:4 ****ERROR**** ignoring string literal with bad escaped character
+8:5 ****ERROR**** ignoring unterminated string literal with bad escaped character
+9:1 ****ERROR**** ignoring unterminated string literal with bad escaped character

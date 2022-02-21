@@ -64,9 +64,9 @@ StringBuffer string = new StringBuffer();
 DIGIT=        [0-9]
 WHITESPACE=   [\040\t]
 LETTER=       [a-zA-Z]
-ESCAPED=       (\\n)|(\\t)|(\\")|(\\')|(\\?)|(\\\)
-NONESCAPED=    [\\][^nt\"\'\?\\\n]
-STRINGCHARACTER= (\\n)|(\\t)|(\\")|(\\')|(\\?)|(\\\)|[^\n\"\\]
+ESCAPED=       ([\\][nt\"\'\?\\])
+NONESCAPED=    ([\\][^nt\"\'\?\\\n])
+STRINGCHARACTER= (([^\n\"\\])|([\\][nt\"\'\?\\]))
 
 
 %implements java_cup.runtime.Scanner
@@ -161,9 +161,20 @@ return new Symbol(sym.EOF);
 
 <YYINITIAL> {DIGIT}+  { // NOTE: the following computation of the integer value does
                         //       NOT check for overflow. This must be changed.
-                        int val = Integer.parseInt(yytext());
-                        Symbol S = new Symbol(sym.INTLITERAL,
-                             new IntLitTokenVal(yyline+1, CharNum.num, val));
+                        Symbol S;
+                        int val;
+                        try{
+                          val = Integer.parseInt(yytext());
+                        } catch (Exception e) {
+                          ErrMsg.warn(yyline+1, CharNum.num, "integer literal too large; using max value");
+                          S = new Symbol(sym.INTLITERAL,
+                             new IntLitTokenVal(yyline+1, CharNum.num, Integer.MAX_VALUE));
+                          CharNum.num += yytext().length();
+                          return S;
+                        }
+                        
+                        S = new Symbol(sym.INTLITERAL,
+                            new IntLitTokenVal(yyline+1, CharNum.num, val));
                         CharNum.num += yytext().length();
                         return S;
                       }
@@ -325,31 +336,36 @@ return new Symbol(sym.EOF);
 <YYINITIAL> ("//*"|"%")[^\n]*  { CharNum.num += yytext().length(); }
 
 
-<YYINITIAL> [\"]        { string.setLength(0); 
+<YYINITIAL> \"       { string.setLength(0); 
                         string.append('\"'); 
                         yybegin(STRING);
                       }
 
 
-<STRING> {STRINGCHARACTER}*[\"]  {  string.append(yytext());
+<STRING> {STRINGCHARACTER}*\"  {  string.append(yytext());
                                   Symbol S = new Symbol(sym.STRINGLITERAL,
                                     new StrLitTokenVal(yyline+1, CharNum.num, string.toString()));
                                   CharNum.num += yytext().length() + 1;
                                   yybegin(YYINITIAL); 
                                   return S;
                                 }
-<STRING> {STRINGCHARACTER}*[\n]  {  ErrMsg.fatal(yyline+1, CharNum.num,
+<STRING> {STRINGCHARACTER}*\n  {  ErrMsg.fatal(yyline+1, CharNum.num,
                                     "ignoring unterminated string literal");
                                   CharNum.num = 1;
                                   yybegin(YYINITIAL);
                                 }
 
-<STRING> ({STRINGCHARACTER}|{NONESCAPED})*[\\][\n]  { ErrMsg.fatal(yyline+1, CharNum.num,
+<STRING> ({STRINGCHARACTER}|{NONESCAPED})*[\\]\n  { ErrMsg.fatal(yyline+1, CharNum.num,
                                                       "ignoring unterminated string literal with bad escaped character");
                                                     CharNum.num = 1;
                                                     yybegin(YYINITIAL); 
                                                   }
-<STRING> {STRINGCHARACTER}*{NONESCAPED}({STRINGCHARACTER}|{NONESCAPED})*[\n]  { ErrMsg.fatal(yyline+1, CharNum.num,
+<STRING> ({STRINGCHARACTER}|{NONESCAPED})*[\\]    { ErrMsg.fatal(yyline+1, CharNum.num,
+                                                      "ignoring unterminated string literal with bad escaped character");
+                                                    CharNum.num = 1;
+                                                    yybegin(YYINITIAL); 
+                                                  }
+<STRING> {STRINGCHARACTER}*{NONESCAPED}({STRINGCHARACTER}|{NONESCAPED})*\n  { ErrMsg.fatal(yyline+1, CharNum.num,
                                                                                 "ignoring unterminated string literal with bad escaped character");
                                                                               CharNum.num = 1;
                                                                               yybegin(YYINITIAL); 
@@ -360,7 +376,7 @@ return new Symbol(sym.EOF);
                                                                               yybegin(YYINITIAL); 
                                                                             }
 
-<STRING> {STRINGCHARACTER}*{NONESCAPED}({STRINGCHARACTER}|{NONESCAPED})*[\"]  { ErrMsg.fatal(yyline+1, CharNum.num,
+<STRING> {STRINGCHARACTER}*{NONESCAPED}({STRINGCHARACTER}|{NONESCAPED})*\"  { ErrMsg.fatal(yyline+1, CharNum.num,
                                                                                 "ignoring string literal with bad escaped character");
                                                                               CharNum.num += yytext().length() + 1;
                                                                               yybegin(YYINITIAL); 
