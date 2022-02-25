@@ -48,5 +48,6 @@ then
 fi
 
 zip -9 -r $ZIPNAME . -x $0 .* $IGNORE > /dev/null
-echo "Zip File Structure:\n$ZIPNAME"
+echo "Zip File Structure:"
+echo $ZIPNAME
 zip -sf $ZIPNAME | tail -n +2 | head -n -1 | awk -F/ 'NF <= 2' | sort | sed -e 's/^\s*/|──/'
