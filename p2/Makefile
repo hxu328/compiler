@@ -40,6 +40,7 @@ test:
 	diff allTokens.in allTokens.out
 	diff test_1.out test_1.out.exp
 	diff test_1.err test_1.err.exp
+	diff test_2.out test_2.out.exp
 
 ###
 # clean up

@@ -14,3 +14,4 @@ _legal_identifier_0
 0_illegal_identifier
 @#$:                                                            % illegal characters
 "\nn\tt\\\\\\\"\""                                              % tricky legal string
+"unterminated string (eof)
