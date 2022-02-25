@@ -1,6 +1,0 @@
-7:5 "%not a comment"
-8:5 "//*not a comment"
-9:1 "legal literal %"
-10:1 "legal literal //*"
-11:1 "9999"
-11:9 999999

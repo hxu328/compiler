@@ -53,3 +53,4 @@ cleantest:
 	rm -f allTokens.out
 	rm -f test_1.out
 	rm -f test_1.err
+	rm -f test_2.out
