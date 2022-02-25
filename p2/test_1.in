@@ -7,3 +7,10 @@
    "backslash followed by space: \ is not allowed"              //* line: 7, charnum: 4
     "bad escaped character: \a AND not terminated               //* line: 8, charnum: 5
 "very bad string: unterminated and bad escaped \
+00000000000100000                                               % tricky legal integer
+2147483649                                                      % integer overflow
+00009147483649                                                  % tricky integer overflow
+_legal_identifier_0
+0_illegal_identifier
+@#$:                                                            % illegal characters
+"\nn\tt\\\\\\\"\""                                              % tricky legal string
