@@ -1,5 +1,5 @@
 #!/bin/bash
-# Shell scipt for zipping CS536 project. 
+# Shell script for zipping CS536 project. 
 # @author Huan Xu <https://github.com/hxu296>
 
 usage()
