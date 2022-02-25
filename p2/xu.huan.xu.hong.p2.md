@@ -2,7 +2,7 @@
 To run this program as it's originally intended to, the following conditions must be met:
 1. Access control must grant write access for `P2.java` to the directory that contains `P2.java`
 2. The following files must contain exactly the same data as their originally uploaded and be in the same directory as `P2.java`: `test_1.in`, `test_1.out.exp`, `test_1.err.exp`, `test_2.in`, `test_2.out.exp`
-3. Access control must grant read access to the above-mentioned files
+3. Access control must grant read access for the above-mentioned files
 
 Note: Assumption 2 should already be satisfied upon unzipping the submitted archive file.
 
