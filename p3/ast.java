@@ -276,6 +276,12 @@ class StructDeclNode extends DeclNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+        doIndent(p, indent);
+        p.print("struct ");
+        myId.unparse(p, 0);
+        p.println(" {");
+        myDeclList.unparse(p, indent+4);
+        p.println("};");
     }
 
     // two kids
@@ -304,6 +310,7 @@ class BoolNode extends TypeNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+        p.print("bool");
     }
 }
 
@@ -312,6 +319,7 @@ class VoidNode extends TypeNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+        p.print("void");
     }
 }
 
@@ -321,6 +329,7 @@ class StructNode extends TypeNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+        myId.unparse(p, indent);
     }
 	
 	// one kid

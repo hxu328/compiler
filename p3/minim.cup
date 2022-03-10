@@ -71,6 +71,7 @@ terminal                ASSIGN;
  *
  * NOTE: You will need to add more nonterminals to this list as you
  *       add productions to the grammar below.
+ * TODO: //
  */
 non terminal ProgramNode      program;
 non terminal LinkedList       declList;
@@ -78,6 +79,8 @@ non terminal DeclNode         decl;
 non terminal VarDeclNode      varDecl;
 non terminal TypeNode         type;
 non terminal IdNode           id;
+non terminal LinkedList       structBody;
+non terminal StructDeclNode   structDecl;
  
  
 /* NOTE: Add precedence and associativity declarations here */
@@ -107,15 +110,41 @@ declList        ::= declList:dl decl:d
 decl            ::= varDecl:v
                 {: RESULT = v;
                 :}
+                | structDecl:s
+                {: RESULT = s;
+                :}
                 ;
 
 varDecl         ::= type:t id:i SEMICOLON
                 {: RESULT = new VarDeclNode(t, i, VarDeclNode.NOT_STRUCT);
                 :}
+                | STRUCT id:i1 id:i2 SEMICOLON
+                {: RESULT = new VarDeclNode(new StructNode(i1), i2, 0);
+                :}
+                ;
+
+structDecl      ::= STRUCT id:i LCURLY structBody:sb RCURLY SEMICOLON
+                {: RESULT = new StructDeclNode(i, new DeclListNode(sb));
+                :}
+                ;
+
+structBody      ::= structBody:sb varDecl:vd
+                {: sb.addLast(vd);
+                   RESULT = sb;
+                :}
+                | varDecl:vd
+                {: RESULT = new LinkedList<DeclNode>(Arrays.asList(vd));
+                :}
                 ;
 
 type            ::= INT
                 {: RESULT = new IntNode();
+                :}
+                | BOOL
+                {: RESULT = new BoolNode();
+                :}
+                | VOID
+                {: RESULT = new VoidNode();
                 :}
                 ;
 

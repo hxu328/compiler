@@ -1,2 +1,5 @@
 int x;
 int y;
+bool z;
+void k;
+struct my {int x; int y; struct my my1; };
