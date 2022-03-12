@@ -81,6 +81,11 @@ non terminal TypeNode         type;
 non terminal IdNode           id;
 non terminal LinkedList       structBody;
 non terminal StructDeclNode   structDecl;
+non terminal FnDeclNode       fnDecl;
+non terminal LinkedList       formals;
+non terminal FnBodyNode       fnBody;
+non terminal LinkedList       varDeclList;
+non terminal LinkedList       stmtList;
  
  
 /* NOTE: Add precedence and associativity declarations here */
@@ -110,8 +115,20 @@ declList        ::= declList:dl decl:d
 decl            ::= varDecl:v
                 {: RESULT = v;
                 :}
+                | fnDecl:f
+                {: RESULT = f;
+                :}
                 | structDecl:s
                 {: RESULT = s;
+                :}
+                ;
+
+varDeclList     ::= varDeclList:vl varDecl:v
+                {: vl.addLast(v);
+                   RESULT = vl;
+                :}
+                | /* epsilon */
+                {: RESULT = new LinkedList<VarDeclNode>();
                 :}
                 ;
 
@@ -120,6 +137,11 @@ varDecl         ::= type:t id:i SEMICOLON
                 :}
                 | STRUCT id:i1 id:i2 SEMICOLON
                 {: RESULT = new VarDeclNode(new StructNode(i1), i2, 0);
+                :}
+                ;
+
+fnDecl          ::= type:t id:i formals:fm fnBody:fb
+                {: RESULT = new FnDeclNode(t, i, new FormalsListNode(fm), fb);
                 :}
                 ;
 
@@ -134,6 +156,21 @@ structBody      ::= structBody:sb varDecl:vd
                 :}
                 | varDecl:vd
                 {: RESULT = new LinkedList<DeclNode>(Arrays.asList(vd));
+                :}
+                ;
+
+formals         ::= LPAREN RPAREN
+                {: RESULT = new LinkedList<FormalDeclNode>();
+                :}
+                ;
+
+fnBody          ::= LCURLY varDeclList:v stmtList:s RCURLY
+                {: RESULT = new FnBodyNode(new DeclListNode(v), new StmtListNode(s));
+                :}
+                ;
+
+stmtList        ::= /* epsilon */
+                {: RESULT = new LinkedList<StmtNode>();
                 :}
                 ;
 

@@ -1,9 +1,14 @@
-int x;
-int y;
-bool z;
-void k;
-struct my {
-    int x;
-    int y;
-    my my1;
-};
+     int x;
+     int y;
+     bool z;
+     void k;
+     struct my {
+         int x;
+         int y;
+         my my1;
+     };
+     int k() {
+         int x;
+         int y;
+         my my1;
+     }
