@@ -86,6 +86,8 @@ non terminal LinkedList       formals;
 non terminal FnBodyNode       fnBody;
 non terminal LinkedList       varDeclList;
 non terminal LinkedList       stmtList;
+non terminal LinkedList       formalsList;
+non terminal FormalDeclNode   formalDecl;
  
  
 /* NOTE: Add precedence and associativity declarations here */
@@ -161,6 +163,23 @@ structBody      ::= structBody:sb varDecl:vd
 
 formals         ::= LPAREN RPAREN
                 {: RESULT = new LinkedList<FormalDeclNode>();
+                :}
+                | LPAREN formalsList:f RPAREN
+                {: RESULT = f;
+                :}
+                ;
+
+formalsList     ::= formalDecl:f
+                {: RESULT = new LinkedList<FormalDeclNode>(Arrays.asList(f));
+                :}
+                | formalDecl:f COMMA formalsList:fl
+                {: fl.addFirst(f);
+                   RESULT = fl;
+                :}
+                ;
+
+formalDecl      ::= type:t id:i
+                {: RESULT = new FormalDeclNode(t, i);
                 :}
                 ;
 

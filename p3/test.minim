@@ -3,4 +3,4 @@ int y;
 bool z;
 void k;
 struct my {int x; int y; struct my my1; };
-int k ( ) {int x; int y; struct my my1;}
+int k (int a, bool b) {int x; int y; struct my my1;}

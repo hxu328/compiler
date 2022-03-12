@@ -55,7 +55,7 @@ public class P3 {
             System.err.println("Exception occured during parse: " + ex);
             System.exit(-1);
         }
-        ((ASTnode)root.value).unparse(outFile, 5);
+        ((ASTnode)root.value).unparse(outFile, 0);
         outFile.close();
 
         return;
