@@ -239,10 +239,18 @@ class VarDeclNode extends DeclNode {
 
     public void unparse(PrintWriter p, int indent) {
         doIndent(p, indent);
-        myType.unparse(p, 0);
-        p.print(" ");
-        myId.unparse(p, 0);
-        p.println(";");
+        if(mySize == NOT_STRUCT){
+            myType.unparse(p, 0);
+            p.print(" ");
+            myId.unparse(p, 0);
+            p.println(";");
+        }else{ // struct id id semicolon
+            p.print("struct ");
+            ((StructNode)myType).unparse(p, 0);
+            p.print(" ");
+            myId.unparse(p, 0);
+            p.println(";");
+        }
     }
 
     // three kids

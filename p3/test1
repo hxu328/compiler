@@ -1,0 +1,4 @@
+//* nonterminals: program, declList(epsilon)
+
+//* begin of the program (empty program)
+% end of the program
