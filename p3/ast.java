@@ -464,7 +464,7 @@ class ReadStmtNode extends StmtNode {
 
     public void unparse(PrintWriter p, int indent) {
         doIndent(p, indent);
-        p.print(">> ");
+        p.print("input >> ");
         myExp.unparse(p, 0);
         p.println(";");
     }
@@ -480,7 +480,7 @@ class WriteStmtNode extends StmtNode {
 
     public void unparse(PrintWriter p, int indent) {
         doIndent(p, indent);
-        p.print("<<");
+        p.print("disp << ");
         myExp.unparse(p, 0);
         p.println(";");
     }
@@ -640,9 +640,7 @@ class StringLitNode extends ExpNode {
 
     public void unparse(PrintWriter p, int indent) {
         doIndent(p, indent);
-        p.print("\"");
         p.print(myStrVal);
-        p.print("\"");
     }
 
     private int myLineNum;
@@ -705,11 +703,9 @@ class DotAccessExpNode extends ExpNode {
 
     public void unparse(PrintWriter p, int indent) {
         doIndent(p, indent);
-        p.print("(");
         myLoc.unparse(p, 0);
         p.print(".");
         myId.unparse(p, 0);
-        p.print(")");
     }
 
     // two kids
@@ -805,8 +801,10 @@ class NotNode extends UnaryExpNode {
 
     public void unparse(PrintWriter p, int indent) {
         doIndent(p, indent);
+        p.print("(");
         p.print("!");
         myExp.unparse(p, 0);
+        p.print(")");
     }
 }
 
