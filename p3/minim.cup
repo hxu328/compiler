@@ -223,7 +223,7 @@ stmtList        ::= /* epsilon */
                 :}
                 | stmtList:sl stmt:s
                 {:
-                 sl.add(s);
+                 sl.addLast(s);
                  RESULT = sl;
                 :}
                 ;
@@ -321,10 +321,10 @@ exp             ::= assignExp:ae
                 :}
                 | exp:ex1 GREATEREQ exp:ex2
                 {: RESULT = new GreaterEqNode(ex1, ex2);
-                :} %prec UMINUS
+                :}
                 | MINUS term:t
                 {: RESULT = new UnaryMinusNode(t);
-                :}
+                :} %prec UMINUS
                 | term:t
                 {: RESULT = t;
                 :}
