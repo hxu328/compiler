@@ -20,11 +20,11 @@
         a++;
         c = 0;
         a = (a + a);
-        a.a = (a + a);
-        a.a.a = (a + a);
+        (a.a) = (a + a);
+        ((a.a).a) = (a + a);
         a = b = c;
         a = b;
-        a = b.b;
+        a = (b.b);
         a = 1;
         a = ""1"";
         a = true;
@@ -43,21 +43,21 @@
         a = (a = b > a = b);
         a = (a = b <= a = b);
         a = (a = b >= a = b);
-        a = -a;
-        a = -1;
-        a = -""1"";
-        a = -true;
-        a = -false;
+        a = (-a);
+        a = (-1);
+        a = (-""1"");
+        a = (-true);
+        a = (-false);
         a = a();
         a = a(a = b);
         a = a(a = b, a = b);
         a++;
-        a.a++;
-        a.a.a++;
+        (a.a)++;
+        ((a.a).a)++;
         a--;
-        a.a--;
-        a.a.a--;
-        >> a.a;
+        (a.a)--;
+        ((a.a).a)--;
+        >> (a.a);
         >> a;
         <<a = a;
         if ((a == 1)){
@@ -71,7 +71,8 @@
             int b;
             a = 1;
             b = 2;
-        } else {
+        }
+        else {
             int a;
             int b;
             a = 1;

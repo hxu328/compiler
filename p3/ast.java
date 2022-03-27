@@ -532,7 +532,9 @@ class IfElseStmtNode extends StmtNode {
         myThenDeclList.unparse(p, indent+4);
         myThenStmtList.unparse(p, indent+4);
         doIndent(p, indent);
-        p.println("} else {");
+        p.println("}");
+        doIndent(p, indent);
+        p.println("else {");
         myElseDeclList.unparse(p, indent+4);
         myElseStmtList.unparse(p, indent+4);
         doIndent(p, indent);
@@ -703,9 +705,11 @@ class DotAccessExpNode extends ExpNode {
 
     public void unparse(PrintWriter p, int indent) {
         doIndent(p, indent);
+        p.print("(");
         myLoc.unparse(p, 0);
         p.print(".");
         myId.unparse(p, 0);
+        p.print(")");
     }
 
     // two kids
@@ -787,8 +791,10 @@ class UnaryMinusNode extends UnaryExpNode {
 
     public void unparse(PrintWriter p, int indent) {
         doIndent(p, indent);
+        p.print("(");
         p.print("-");
         myExp.unparse(p, 0);
+        p.print(")");
     }
 }
 
