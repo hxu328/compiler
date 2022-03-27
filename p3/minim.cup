@@ -222,9 +222,8 @@ stmtList        ::= /* epsilon */
                 {: RESULT = new LinkedList<StmtNode>();
                 :}
                 | stmtList:sl stmt:s
-                {:
-                 sl.addLast(s);
-                 RESULT = sl;
+                {: sl.addLast(s);
+                   RESULT = sl;
                 :}
                 ;
 

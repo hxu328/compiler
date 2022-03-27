@@ -192,6 +192,7 @@ class FnBodyNode extends ASTnode {
 
     public void unparse(PrintWriter p, int indent) {
         myDeclList.unparse(p, indent);
+        myStmtList.unparse(p, indent);
     }
 
     // two kids
@@ -205,7 +206,6 @@ class StmtListNode extends ASTnode {
     }
 
     public void unparse(PrintWriter p, int indent) {
-        p.print("I am at StmtListNode!");
         Iterator it = myStmts.iterator();
         try {
             while (it.hasNext()) {
@@ -227,13 +227,14 @@ class ExpListNode extends ASTnode {
     }
 
     public void unparse(PrintWriter p, int indent) {
-        p.print("I am at ExpNodelList!");
         Iterator it = myExps.iterator();
         try {
-            while (it.hasNext()) {
+            int length = myExps.size();
+            for(int i = 0; i < length - 1; i++) {
                 ((ExpNode)it.next()).unparse(p, indent);
                 p.print(", ");
             }
+            if(length >= 0) ((ExpNode)it.next()).unparse(p, indent);
         } catch (NoSuchElementException ex) {
             System.err.println("unexpected NoSuchElementException in ExpListNode.print");
             System.exit(-1);
@@ -502,6 +503,7 @@ class IfStmtNode extends StmtNode {
         p.println("){");
         myDeclList.unparse(p, indent);
         myStmtList.unparse(p, indent);
+        doIndent(p, indent);
         p.println("}");
     }
 
@@ -529,9 +531,11 @@ class IfElseStmtNode extends StmtNode {
         p.println("){");
         myThenDeclList.unparse(p, indent);
         myThenStmtList.unparse(p, indent);
+        doIndent(p, indent);
         p.println("} else {");
         myElseDeclList.unparse(p, indent);
         myElseStmtList.unparse(p, indent);
+        doIndent(p, indent);
         p.println("}");
     }
 
@@ -557,6 +561,7 @@ class WhileStmtNode extends StmtNode {
         p.println(") {");
         myDeclList.unparse(p, indent);
         myStmtList.unparse(p, indent);
+        doIndent(p, indent);
         p.println("}");
     }
 
@@ -589,7 +594,7 @@ class ReturnStmtNode extends StmtNode {
     public void unparse(PrintWriter p, int indent) {
         doIndent(p, indent);
         p.print("return ");
-        myExp.unparse(p, 0);
+        if(myExp != null) myExp.unparse(p, 0);
         p.println(";");
     }
 

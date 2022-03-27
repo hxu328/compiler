@@ -17,7 +17,11 @@ int foo2 ( int a, int   b) {int c;}
 //************************* Nonempty stmtList ************************//
 
 void fnc(int a, int b) {
+    int c;
+
     //* loc
+    a++;
+    c = 0;
     a = a + a;
     a.a = a + a;
     a.a.a = a + a;
