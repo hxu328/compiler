@@ -1,0 +1,17 @@
+% all spaces, no tabs
+%23456789abcdefghijklmnopqrstuvwxyz                             //* scaler
+"" "&!88" "use \n to denote a newline character"                //* line: 3, charnum: 1, 4, 11 (all spaces, no tabs)
+   "include a quote like this \" and a backslash like this \\"  //* line: 4, charnum: 4
+    "unterminated                                               //* line: 5, charnum: 5
+ "also unterminated \"                                          //* line: 6, charnum: 2
+   "backslash followed by space: \ is not allowed"              //* line: 7, charnum: 4
+    "bad escaped character: \a AND not terminated               //* line: 8, charnum: 5
+"very bad string: unterminated and bad escaped \
+00000000000100000                                               % tricky legal integer
+2147483649                                                      % integer overflow
+00009147483649                                                  % tricky integer overflow
+_legal_identifier_0
+0_illegal_identifier
+@#$:                                                            % illegal characters
+"\nn\tt\\\\\\\"\""                                              % tricky legal string
+"unterminated string (eof)

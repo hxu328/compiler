@@ -384,6 +384,8 @@ class AssignStmtNode extends StmtNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+        myAssign.unparse(p, indent);
+        p.print(";");
     }
 
     // one kid
@@ -396,6 +398,8 @@ class PostIncStmtNode extends StmtNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+        myExp.unparse(p, indent);
+        p.print("++;");
     }
 
     // one kid
@@ -408,6 +412,8 @@ class PostDecStmtNode extends StmtNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+        myExp.unparse(p, indent);
+        p.print("--;");
     }
 
     // one kid
@@ -420,6 +426,9 @@ class ReadStmtNode extends StmtNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+        p.print("input >>");
+        myExp.unparse(p, indent);
+        p.print(";");
     }
 
     // one kid (actually can only be an IdNode or an ArrayExpNode)
@@ -432,6 +441,9 @@ class WriteStmtNode extends StmtNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+        p.print("disp <<");
+        myExp.unparse(p, indent);
+        p.print(";");
     }
 
     // one kid
@@ -446,6 +458,12 @@ class IfStmtNode extends StmtNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+        p.print("if");
+        myExp.unparse(p, indent);
+        p.print("{");
+        myDeclList.unparse(p, indent);
+        myStmtList.unparse(p, indent);
+        p.print("}");
     }
 
     // three kids
@@ -466,6 +484,17 @@ class IfElseStmtNode extends StmtNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+        p.print("if");
+        myExp.unparse(p, indent);
+        p.print("{");
+        myThenDeclList.unparse(p, indent);
+        myThenStmtList.unparse(p, indent);
+        p.print("}");
+        p.print("else");
+        p.print("{");
+        myElseDeclList.unparse(p, indent);
+        myElseStmtList.unparse(p, indent);
+        p.print("}");
     }
 
     // 5 kids
@@ -484,6 +513,12 @@ class WhileStmtNode extends StmtNode {
     }
 	
     public void unparse(PrintWriter p, int indent) {
+        p.print("while");
+        myExp.unparse(p, indent);
+        p.print("{");
+        myDeclList.unparse(p, indent);
+        myStmtList.unparse(p, indent);
+        p.print("}");
     }
 
     // three kids
@@ -510,6 +545,9 @@ class ReturnStmtNode extends StmtNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+        p.print("return");
+        myExp.unparse(p, indent);
+        p.print(";");
     }
 
     // one kid
