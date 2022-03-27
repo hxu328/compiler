@@ -1,0 +1,19 @@
+    int main() {
+    }
+    int foo() {
+        int a;
+        bool b;
+        void c;
+        struct e d;
+    }
+    int foo1() {
+        int a;
+    }
+    int foo2(int a, int b) {
+        int c;
+    }
+    bool foo3(int c) {
+        struct k f;
+    }
+    void fnc(int a, int b) {
+    }
