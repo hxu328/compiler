@@ -105,6 +105,7 @@ precedence left LESS, LESSEQ, GREATER, GREATEREQ;
 precedence left PLUS, MINUS;
 precedence left TIMES, DIVIDE;
 precedence right NOT, UMINUS;
+precedence left DOT;
 
 start with program;
 
