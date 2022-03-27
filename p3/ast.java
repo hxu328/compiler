@@ -344,6 +344,7 @@ class IntNode extends TypeNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+        doIndent(p, indent);
         p.print("int");
     }
 }
@@ -353,6 +354,7 @@ class BoolNode extends TypeNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+        doIndent(p, indent);
         p.print("bool");
     }
 }
@@ -362,6 +364,7 @@ class VoidNode extends TypeNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+        doIndent(p, indent);
         p.print("void");
     }
 }
@@ -372,6 +375,7 @@ class StructNode extends TypeNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+        doIndent(p, indent);
         myId.unparse(p, indent);
     }
 	

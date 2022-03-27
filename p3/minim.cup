@@ -97,6 +97,7 @@ non terminal FormalDeclNode   formalDecl;
 non terminal LinkedList       actualList;
 
 /* NOTE: Add precedence and associativity declarations here */
+precedence right ASSIGN;
 precedence left OR;
 precedence left AND;
 precedence nonassoc EQUALS, NOTEQUALS;
