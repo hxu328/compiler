@@ -234,7 +234,7 @@ class ExpListNode extends ASTnode {
                 ((ExpNode)it.next()).unparse(p, indent);
                 p.print(", ");
             }
-            if(length >= 0) ((ExpNode)it.next()).unparse(p, indent);
+            if(length > 0) ((ExpNode)it.next()).unparse(p, indent);
         } catch (NoSuchElementException ex) {
             System.err.println("unexpected NoSuchElementException in ExpListNode.print");
             System.exit(-1);
@@ -501,8 +501,8 @@ class IfStmtNode extends StmtNode {
         p.print("if (");
         myExp.unparse(p, 0);
         p.println("){");
-        myDeclList.unparse(p, indent);
-        myStmtList.unparse(p, indent);
+        myDeclList.unparse(p, indent+4);
+        myStmtList.unparse(p, indent+4);
         doIndent(p, indent);
         p.println("}");
     }
@@ -529,12 +529,12 @@ class IfElseStmtNode extends StmtNode {
         p.print("if (");
         myExp.unparse(p, 0);
         p.println("){");
-        myThenDeclList.unparse(p, indent);
-        myThenStmtList.unparse(p, indent);
+        myThenDeclList.unparse(p, indent+4);
+        myThenStmtList.unparse(p, indent+4);
         doIndent(p, indent);
         p.println("} else {");
-        myElseDeclList.unparse(p, indent);
-        myElseStmtList.unparse(p, indent);
+        myElseDeclList.unparse(p, indent+4);
+        myElseStmtList.unparse(p, indent+4);
         doIndent(p, indent);
         p.println("}");
     }
@@ -559,8 +559,8 @@ class WhileStmtNode extends StmtNode {
         p.print("while (");
         myExp.unparse(p, 0);
         p.println(") {");
-        myDeclList.unparse(p, indent);
-        myStmtList.unparse(p, indent);
+        myDeclList.unparse(p, indent+4);
+        myStmtList.unparse(p, indent+4);
         doIndent(p, indent);
         p.println("}");
     }
@@ -593,8 +593,11 @@ class ReturnStmtNode extends StmtNode {
 
     public void unparse(PrintWriter p, int indent) {
         doIndent(p, indent);
-        p.print("return ");
-        if(myExp != null) myExp.unparse(p, 0);
+        p.print("return");
+        if(myExp != null){
+            p.print(" ");
+            myExp.unparse(p, 0);
+        }
         p.println(";");
     }
 
