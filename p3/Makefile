@@ -41,7 +41,6 @@ ErrMsg.class: ErrMsg.java
 ##test
 test:
 	java -cp $(CP) P3 test.minim test.out
-	java -cp $(CP) P3 test.out test.out.out
 
 ###
 # clean
