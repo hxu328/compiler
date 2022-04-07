@@ -1,6 +1,8 @@
 import java.io.*;
 import java.util.*;
 
+
+
 // **********************************************************************
 // The ASTnode class defines the nodes of the abstract-syntax tree that
 // represents a minim program.
@@ -113,6 +115,28 @@ abstract class ASTnode {
     protected void doIndent(PrintWriter p, int indent) {
         for (int k=0; k<indent; k++) p.print(" ");
     }
+
+    // Error messages
+    protected String multi_msg = "Identifier multiply-declared";            // More than one declaration of an identifier
+                                                                            // in a given scope (note: includes identifier 
+                                                                            // associated with a struct definition)
+
+    protected String undecl_msg = "Identifier undeclared";                  // Use of an undeclared identifier
+
+    protected String lhs_badAccess_msg = "Dot-access of non-struct type";   // Bad struct access (LHS of dot-access is not
+                                                                            // of a struct type)
+
+    protected String rhs_badAccess_msg = "Struct field name invalid";       // Bad struct access (RHS of dot-access is not 
+                                                                            // a field of the appropriate a struct)
+
+    protected String void_badDecl_msg = "Non-function declared void";       // Bad declaration (variable or parameter of 
+                                                                            // type void) -- a declaration of anything other
+                                                                            // than a function to be of type void 
+
+    protected String struct_badDecl_msg = "Name of struct type invalid";    // Bad declaration (attempt to declare variable 
+                                                                            // of a bad struct type) -- the name of the
+                                                                            // struct type doesn't exist or is not a struct
+                                                                            // type
 }
 
 // **********************************************************************
