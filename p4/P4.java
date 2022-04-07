@@ -53,8 +53,10 @@ public class P4 {
             System.exit(-1);
         }
 		
-		// ****** Add name analysis part here ******
-		
+		// call name check
+		SymTable symTable = ((ProgramNode)root.value).nameCheck3000();
+        symTable.print();
+        // if everything looks good, call unparse
         ((ASTnode)root.value).unparse(outFile, 0);
         outFile.close();
 

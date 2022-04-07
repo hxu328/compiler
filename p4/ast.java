@@ -1,8 +1,6 @@
 import java.io.*;
 import java.util.*;
 
-
-
 // **********************************************************************
 // The ASTnode class defines the nodes of the abstract-syntax tree that
 // represents a minim program.
@@ -116,6 +114,12 @@ abstract class ASTnode {
         for (int k=0; k<indent; k++) p.print(" ");
     }
 
+    // global name space for name check
+    static protected SymTable mySymTable;
+
+    // name scope level (global scope's level is 0)
+    static protected int myLevel = 0;
+
     // Error messages
     protected String multi_msg = "Identifier multiply-declared";            // More than one declaration of an identifier
                                                                             // in a given scope (note: includes identifier 
@@ -153,6 +157,14 @@ class ProgramNode extends ASTnode {
         myDeclList.unparse(p, indent);
     }
 
+    public SymTable nameCheck3000(){
+        // initialize the global name space
+        mySymTable = new SymTable();
+        // conduct name check for each element of myDeclList, from left to right
+        myDeclList.nameCheck3000();
+        return mySymTable;
+    }
+
     // one kid
     private DeclListNode myDeclList;
 }
@@ -160,6 +172,13 @@ class ProgramNode extends ASTnode {
 class DeclListNode extends ASTnode {
     public DeclListNode(List<DeclNode> S) {
         myDecls = S;
+    }
+
+    public void nameCheck3000(){
+        // conduct name check for each element of myDecls, from left to right
+        for(DeclNode declNode : myDecls){
+            declNode.nameCheck3000();
+        }
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -255,6 +274,7 @@ class ExpListNode extends ASTnode {
 // **********************************************************************
 
 abstract class DeclNode extends ASTnode {
+    abstract public void nameCheck3000();
 }
 
 class VarDeclNode extends DeclNode {
@@ -270,6 +290,22 @@ class VarDeclNode extends DeclNode {
         p.print(" ");
         myId.unparse(p, 0);
         p.println(";");
+    }
+
+    public void nameCheck3000(){
+        // type to Sym
+        String typeStr = myType.getType();
+        Sym newSym = new Sym(typeStr, myLevel);
+        // retrieve variable's name
+        String newStrVal = myId.getStrVal();
+        // try to add decl to the name space
+        try{
+            mySymTable.addDecl(newStrVal, newSym);
+        } catch(DuplicateSymException e){
+            myId.callErrorMessage(multi_msg);
+        } catch(EmptySymTableException e){
+            System.exit(1);  // unexpected fatal error
+        }
     }
 
     // three kids
@@ -303,6 +339,8 @@ class FnDeclNode extends DeclNode {
         p.println("}\n");
     }
 
+    public void nameCheck3000(){}
+
     // 4 kids
     private TypeNode myType;
     private IdNode myId;
@@ -321,6 +359,8 @@ class FormalDeclNode extends DeclNode {
         p.print(" ");
         myId.unparse(p, 0);
     }
+
+    public void nameCheck3000(){}
 
     // two kids
     private TypeNode myType;
@@ -344,6 +384,8 @@ class StructDeclNode extends DeclNode {
 
     }
 
+    public void nameCheck3000(){}
+
     // two kids
     private IdNode myId;
 	private DeclListNode myDeclList;
@@ -354,6 +396,7 @@ class StructDeclNode extends DeclNode {
 // **********************************************************************
 
 abstract class TypeNode extends ASTnode {
+    abstract public String getType();
 }
 
 class IntNode extends TypeNode {
@@ -362,6 +405,10 @@ class IntNode extends TypeNode {
 
     public void unparse(PrintWriter p, int indent) {
         p.print("int");
+    }
+
+    public String getType(){
+        return "int";
     }
 }
 
@@ -372,6 +419,10 @@ class BoolNode extends TypeNode {
     public void unparse(PrintWriter p, int indent) {
         p.print("bool");
     }
+
+    public String getType(){
+        return "bool";
+    }
 }
 
 class VoidNode extends TypeNode {
@@ -380,6 +431,10 @@ class VoidNode extends TypeNode {
 
     public void unparse(PrintWriter p, int indent) {
         p.print("void");
+    }
+
+    public String getType(){
+        return "void";
     }
 }
 
@@ -391,6 +446,10 @@ class StructNode extends TypeNode {
     public void unparse(PrintWriter p, int indent) {
         p.print("struct ");
 		myId.unparse(p, 0);
+    }
+
+    public String getType(){
+        return myId.getStrVal();
     }
 	
 	// one kid
@@ -675,6 +734,14 @@ class IdNode extends ExpNode {
 
     public void unparse(PrintWriter p, int indent) {
         p.print(myStrVal);
+    }
+
+    public String getStrVal(){
+        return myStrVal;
+    }
+
+    public void callErrorMessage(String msg){
+        ErrMsg.fatal(myLineNum, myCharNum, msg);
     }
 
     private int myLineNum;

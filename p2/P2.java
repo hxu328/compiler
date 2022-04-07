@@ -470,13 +470,8 @@ public class P2 {
         FileReader inFile = null;
         PrintWriter outFile = null;
         try {
-<<<<<<< HEAD
-            inFile = new FileReader(filename);
-            outFile = new PrintWriter(new FileWriter(filename + ".out"));
-=======
             inFile = new FileReader("test_2.in");
             outFile = new PrintWriter(new FileWriter("test_2.out"));
->>>>>>> hong_dev_new
         } catch (FileNotFoundException ex) {
             System.err.println("File test_2.in not found.");
             System.exit(-1);
