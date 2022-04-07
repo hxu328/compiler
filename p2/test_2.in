@@ -1,0 +1,12 @@
+//*"ignore bad string literal
+//*ignore b@d character
+     //*     ignore space, tab, and new \n line
+%"ignore bad string literal
+%ignore b@d character
+     %     ignore space, tab, and new \n line  
+    "%not a comment"%is a comment
+    "//*not a comment"//*is a comment
+"legal literal %"
+"legal literal //*"
+"9999"  999999%99999999 ignore overflow
+//*eof
