@@ -66,20 +66,19 @@ class FnSym extends Sym {
 }
 
 class StructSym extends Sym {  // Struct a b; a is the type
-	private int size;
 
-	public StructSym(String type, int level, int size){
+	public StructSym(String type, int level){
 		super(type, level);
-		this.size = size;
-	}
-
-	public int getSize(){
-		return size;
 	}
 
 	@Override
 	public int getLevel(){
 		return super.getLevel();
+	}
+
+	@Override
+	public String getType(){
+		return super.getType();
 	}
 
 	@Override
@@ -89,17 +88,11 @@ class StructSym extends Sym {  // Struct a b; a is the type
 }
 
 class StructDefSym extends Sym {  // struct definition symbol
-	private int size;
 	private SymTable fields;
 
-	public StructDefSym(String type, int level, SymTable fields, int size){  // once constructed, all the fields are correct
+	public StructDefSym(String type, int level, SymTable fields){  // once constructed, all the fields are correct
 		super(type, level);
 		this.fields = fields;
-		this.size = size;
-	}
-
-	public int getSize(){
-		return size;
 	}
 
 	public SymTable getFields(){
