@@ -54,8 +54,8 @@ public class P4 {
         }
 		
 		// call name check
-		SymTable symTable = ((ProgramNode)root.value).nameCheck3000();
-        symTable.print();
+		((ProgramNode)root.value).nameCheck3000();
+        
         // if everything looks good, call unparse
         ((ASTnode)root.value).unparse(outFile, 0);
         outFile.close();

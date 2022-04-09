@@ -62,4 +62,16 @@ public class SymTable {
 		}
 		System.out.println();
 	}
+
+	@Override
+	public String toString() {  // used for check fields
+		HashMap<String, Sym> fields = list.get(0);
+		String temp = " ";
+		for(Map.Entry<String, Sym> entry : fields.entrySet()) {
+			String key = entry.getKey();
+			Sym sym = entry.getValue();
+			temp += key + "=" + sym.getType() + "; ";
+		}
+		return temp;
+	}
 }

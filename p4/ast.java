@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.*;
+import java.lang.*;
 
 // **********************************************************************
 // The ASTnode class defines the nodes of the abstract-syntax tree that
@@ -117,6 +118,9 @@ abstract class ASTnode {
     // global name space for name check
     static protected SymTable mySymTable;
 
+    // global struct definition check
+    static protected HashMap<String, Sym> structPool;
+
     // name scope level (global scope's level is 0)
     static protected int myLevel = 0;
 
@@ -157,12 +161,19 @@ class ProgramNode extends ASTnode {
         myDeclList.unparse(p, indent);
     }
 
-    public SymTable nameCheck3000(){
+    public void nameCheck3000(){
         // initialize the global name space
         mySymTable = new SymTable();
+        structPool = new HashMap<String, Sym>();
         // conduct name check for each element of myDeclList, from left to right
-        myDeclList.nameCheck3000();
-        return mySymTable;
+        myDeclList.nameCheck3000(mySymTable);
+        
+        // print the structPool for debug
+        System.out.println("** struct pool **");
+        System.out.println(structPool.toString());
+
+        // print the symtables for debug
+        mySymTable.print();
     }
 
     // one kid
@@ -174,10 +185,10 @@ class DeclListNode extends ASTnode {
         myDecls = S;
     }
 
-    public void nameCheck3000(){
+    public void nameCheck3000(SymTable symTable){
         // conduct name check for each element of myDecls, from left to right
         for(DeclNode declNode : myDecls){
-            declNode.nameCheck3000();
+            declNode.nameCheck3000(symTable);
         }
     }
 
@@ -191,6 +202,10 @@ class DeclListNode extends ASTnode {
             System.err.println("unexpected NoSuchElementException in DeclListNode.print");
             System.exit(-1);
         }
+    }
+
+    public List<DeclNode> getMyDecls(){
+        return myDecls;
     }
 
     // list of kids (DeclNodes)
@@ -274,7 +289,7 @@ class ExpListNode extends ASTnode {
 // **********************************************************************
 
 abstract class DeclNode extends ASTnode {
-    abstract public void nameCheck3000();
+    abstract public void nameCheck3000(SymTable symTable);
 }
 
 class VarDeclNode extends DeclNode {
@@ -292,20 +307,74 @@ class VarDeclNode extends DeclNode {
         p.println(";");
     }
 
-    public void nameCheck3000(){
-        // type to Sym
-        String typeStr = myType.getType();
-        Sym newSym = new Sym(typeStr, myLevel);
-        // retrieve variable's name
-        String newStrVal = myId.getStrVal();
-        // try to add decl to the name space
-        try{
-            mySymTable.addDecl(newStrVal, newSym);
-        } catch(DuplicateSymException e){
-            myId.callErrorMessage(multi_msg);
-        } catch(EmptySymTableException e){
-            System.exit(1);  // unexpected fatal error
+    public void nameCheck3000(SymTable symTable){
+        // check (type id;) OR (STRUCT id id;)
+        if (mySize == NOT_STRUCT){  // var decl.
+            String typeStr = myType.getType(); // int, bool
+            String name = myId.getStrVal(); // variable's name
+            boolean hasError = false;
+            // check "bad"
+            if(typeStr.compareTo("void") == 0){
+                myId.callErrorMessage(void_badDecl_msg);
+                hasError = true;
+            }
+
+            // check "multi"
+            try{
+                if(symTable.lookupLocal(name) != null){
+                    myId.callErrorMessage(multi_msg);
+                    hasError = true;
+                }
+            } catch (Exception e) {
+                    System.exit(1);
+            }
+
+            // add if no error
+            Sym newSym = new Sym(typeStr, myLevel);
+            if(hasError == true){
+                return;
+            } else {
+                try{
+                    symTable.addDecl(name, newSym);
+                } catch(Exception e){
+                    System.exit(1);  // unexpected fatal error
+                }
+            }
+
+        } else {  // struct declaration: struct point a;
+            String structType = myType.getType();
+            String name = myId.getStrVal(); // variable's name
+            boolean hasError = false;
+            // check "bad"
+            if(!(structPool.containsKey(structType))){  // struct type is not defined
+                ((StructNode)myType).getIdNode().callErrorMessage(struct_badDecl_msg);
+                hasError = true;
+            }
+
+            // check "multi"
+            try{
+                if(symTable.lookupLocal(name) != null || structPool.containsKey(name)){
+                    myId.callErrorMessage(multi_msg);
+                    hasError = true;
+                }
+            } catch (Exception e) {
+                System.exit(1);
+            }
+
+            // add if not error
+            Sym newSym = new StructSym(structType, myLevel);
+            if(hasError == true){
+                return;
+            } else {
+                try{
+                    symTable.addDecl(name, newSym);
+                } catch(Exception e){
+                    System.exit(1);  // unexpected fatal error
+                }
+            }
         }
+
+        return;
     }
 
     // three kids
@@ -339,7 +408,7 @@ class FnDeclNode extends DeclNode {
         p.println("}\n");
     }
 
-    public void nameCheck3000(){}
+    public void nameCheck3000(SymTable symTable){}
 
     // 4 kids
     private TypeNode myType;
@@ -360,7 +429,7 @@ class FormalDeclNode extends DeclNode {
         myId.unparse(p, 0);
     }
 
-    public void nameCheck3000(){}
+    public void nameCheck3000(SymTable symTable){}
 
     // two kids
     private TypeNode myType;
@@ -384,7 +453,27 @@ class StructDeclNode extends DeclNode {
 
     }
 
-    public void nameCheck3000(){}
+    public void nameCheck3000(SymTable symTable){
+        String structType = myId.getStrVal();
+
+        try{
+            // check "multi"
+            if(symTable.lookupLocal(structType) != null || structPool.containsKey(structType)){
+                myId.callErrorMessage(multi_msg);
+                return;
+            }
+            // check fields
+            SymTable childTable = new SymTable();
+            for(DeclNode declNode : myDeclList.getMyDecls()){
+                declNode.nameCheck3000(childTable);
+            }
+            Sym newSym = new StructDefSym("struct", 0, childTable);
+            structPool.put(structType, newSym);
+
+        } catch (Exception e) {
+            System.exit(1);
+        }
+    }
 
     // two kids
     private IdNode myId;
@@ -450,6 +539,10 @@ class StructNode extends TypeNode {
 
     public String getType(){
         return myId.getStrVal();
+    }
+
+    public IdNode getIdNode(){
+        return myId;
     }
 	
 	// one kid

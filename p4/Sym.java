@@ -106,7 +106,7 @@ class StructDefSym extends Sym {  // struct definition symbol
 
 	@Override
 	public String toString(){
-		return super.getType();
+		return fields.toString();
 	}
 
 }

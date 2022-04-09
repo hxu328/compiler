@@ -1,2 +1,18 @@
 int a;
-bool a;
+bool c;
+struct s4 fourth;
+struct s4 a;
+struct s1{
+    int a;
+    bool b;
+    struct s1 myself;
+    struct s3 third;
+};
+
+struct s1 a;
+struct s1 b;
+struct s2{
+    bool c;
+    struct s1 secondStruct;
+};
+
