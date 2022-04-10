@@ -1,16 +1,23 @@
 int f() {
 }
 
+struct s1{
+    int a;
+    bool b;
+};
+
 int main(int a, bool b) {
     int c;
     bool d;
     int e;
     int f;
+    struct s1 s;
     a = b;
     c = 1;
     a = (b + c);
     e = (a + e);
     a = a;
     f();
+    a = (c).a;
 }
 

@@ -1024,7 +1024,51 @@ class DotAccessExpNode extends ExpNode {
 		myId.unparse(p, 0);
     }
 
-    public void nameCheck3000(SymTable symTable){}
+    public Sym getRhs(){
+        return null;
+    }
+
+    public void nameCheck3000(SymTable symTable){
+        String strVal = myId.getStrVal();
+        if(myLoc instanceof IdNode){
+            // base case, myLoc is IdNode
+            // treat myLoc as a struct type, determine if myId is inside the myLoc struct
+            String structInstance = ((IdNode)myLoc).getStrVal();
+            Sym structDecl;
+            try{
+                // search whether the struct's name is in the global scope
+                structDecl = symTable.lookupGlobal(structInstance);
+                if(structDecl == null){
+                    ((IdNode)myLoc).callErrorMessage(undecl_msg);
+                    return;
+                }
+                // determine if the struct's type is inside the structPool
+                String structType = structDecl.getType();
+                Sym structBody = structPool.get(structType);
+                if(structBody == null){
+                    ((IdNode)myLoc).callErrorMessage(lhs_badAccess_msg);
+                    return;
+                }
+                // determine if the rhs' name is within the struct body
+                if(!((StructDefSym)structBody).contains(strVal)){
+                    ((IdNode)myLoc).callErrorMessage(rhs_badAccess_msg);
+                    return;
+                }
+            } catch(Exception e){
+                ((IdNode)myLoc).callErrorMessage(undecl_msg);
+            }
+        } else{
+            // recursive case, myLoc is DotAccessNode
+            ((DotAccessExpNode)myLoc).nameCheck3000(symTable);
+            // if passed the test, we can at least assure that lhs is a variable
+            // now we need to make sure if such variable is a struct or an id
+
+            // if it is an id, lhs is not valid, fatal
+
+            // if it is a struct, we need to make sure if rhs' name is within the struct body
+        }
+        
+    }
 
     // two kids
     private ExpNode myLoc;	

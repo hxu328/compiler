@@ -109,4 +109,12 @@ class StructDefSym extends Sym {  // struct definition symbol
 		return fields.toString();
 	}
 
+	public boolean contains(String name){
+		try{
+			return this.fields.lookupLocal(name) != null;
+		} catch(Exception e){
+			return false;
+		}
+	}
+
 }
