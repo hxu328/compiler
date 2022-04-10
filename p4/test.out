@@ -1,16 +1,16 @@
-int f(){}
+int f() {
+}
 
-int main(int a, bool b){
+int main(int a, bool b) {
     int c;
     bool d;
     int e;
     int f;
-
     a = b;
     c = 1;
-    a = b + c;
-    e = a + e;
+    a = (b + c);
+    e = (a + e);
     a = a;
-
     f();
 }
+

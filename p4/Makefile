@@ -53,6 +53,7 @@ EmptySymTableException.class: EmptySymTableException.java
 ##test
 test:
 	java -cp $(CP) P4 nameErrors.minim nameErrors.out
+	java -cp $(CP) P4 test.minim test.out
 
 ###
 # clean
