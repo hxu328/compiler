@@ -55,9 +55,9 @@ class FnSym extends Sym {
 		for(int i = 0; i < numParam; i++) {
 			if(i == numParam -1) {
 				temp = temp + paramTypes.get(i);
+			} else {
+				temp = temp + paramTypes.get(i) + ",";
 			}
-
-			temp = temp + paramTypes.get(i) + ",";
 		}
 		temp = temp + "->" + super.getType();
 		return temp;

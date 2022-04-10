@@ -121,6 +121,9 @@ abstract class ASTnode {
     // global struct definition check
     static protected HashMap<String, Sym> structPool;
 
+    // global linkedlist for formals
+    static protected LinkedList<String> paramTypes;
+
     // name scope level (global scope's level is 0)
     static protected int myLevel = 0;
 
@@ -165,6 +168,7 @@ class ProgramNode extends ASTnode {
         // initialize the global name space
         mySymTable = new SymTable();
         structPool = new HashMap<String, Sym>();
+        paramTypes = new LinkedList<String>();
         // conduct name check for each element of myDeclList, from left to right
         myDeclList.nameCheck3000(mySymTable);
         
@@ -226,6 +230,12 @@ class FormalsListNode extends ASTnode {
                 it.next().unparse(p, indent);
             }
         } 
+    }
+
+    public void nameCheck3000(SymTable symTable){
+        for(FormalDeclNode formalDecl: myFormals){
+            formalDecl.nameCheck3000(symTable);
+        }
     }
 
     // list of kids (FormalDeclNodes)
@@ -290,6 +300,7 @@ class ExpListNode extends ASTnode {
 
 abstract class DeclNode extends ASTnode {
     abstract public void nameCheck3000(SymTable symTable);
+    //abstract public void nameCheck3000(SymTable symTable, LinkedList<String> paramTypes);
 }
 
 class VarDeclNode extends DeclNode {
@@ -321,12 +332,12 @@ class VarDeclNode extends DeclNode {
 
             // check "multi"
             try{
-                if(symTable.lookupLocal(name) != null){
+                if(symTable.lookupLocal(name) != null || structPool.containsKey(name)){
                     myId.callErrorMessage(multi_msg);
                     hasError = true;
                 }
             } catch (Exception e) {
-                    System.exit(1);
+                    System.exit(-1);
             }
 
             // add if no error
@@ -337,7 +348,7 @@ class VarDeclNode extends DeclNode {
                 try{
                     symTable.addDecl(name, newSym);
                 } catch(Exception e){
-                    System.exit(1);  // unexpected fatal error
+                    System.exit(-1);  // unexpected fatal error
                 }
             }
 
@@ -408,7 +419,53 @@ class FnDeclNode extends DeclNode {
         p.println("}\n");
     }
 
-    public void nameCheck3000(SymTable symTable){}
+    public void nameCheck3000(SymTable symTable){
+        String name = myId.getStrVal();
+        LinkedList<String> tempList = new LinkedList<String>();
+        boolean hasError = false;
+        // check "multi" of the function's name
+        try{
+            if(symTable.lookupLocal(name) != null || structPool.containsKey(name)){
+                myId.callErrorMessage(multi_msg);
+                hasError = true;
+            }
+        } catch (Exception e) {
+            System.exit(1);
+        }
+
+        // create a scope for function
+        symTable.addScope();
+        myLevel++;
+
+        // check formals
+        myFormalsList.nameCheck3000(symTable);
+        tempList = (LinkedList<String>) paramTypes.clone();
+        paramTypes = new LinkedList<String>(); // set to empty
+
+
+        // check funtion body
+
+
+        // delete the scope for function
+        try{
+            symTable.removeScope();
+            myLevel--;
+        } catch (Exception e) {
+            System.exit(1);
+        }
+
+        // if the name has no error, add entry
+        if(!hasError){
+            Sym newSym = new FnSym(myType.getType(), myLevel, tempList, tempList.size());
+            try{
+                symTable.addDecl(name, newSym);
+            } catch (Exception e){
+                System.exit(1);
+            }
+        }
+        
+
+    }
 
     // 4 kids
     private TypeNode myType;
@@ -429,7 +486,42 @@ class FormalDeclNode extends DeclNode {
         myId.unparse(p, 0);
     }
 
-    public void nameCheck3000(SymTable symTable){}
+    public void nameCheck3000(SymTable symTable){
+        String type = myType.getType();
+        String name = myId.getStrVal();
+        boolean hasError = false;
+
+        // check "bad"
+        if(type.compareTo("void") == 0){
+            myId.callErrorMessage(void_badDecl_msg);
+            hasError = true;
+        }
+
+        // check "multi"
+        try{
+            if(symTable.lookupLocal(name) != null){  // not check struct pool
+                myId.callErrorMessage(multi_msg);
+                hasError = true;
+            }
+        } catch (Exception e) {
+                System.exit(1);
+        }
+
+        // add if no error (to scope and paramType)
+        Sym newSym = new Sym(type, myLevel);
+        if(hasError == true){
+            return;
+        } else {
+            try{
+                symTable.addDecl(name, newSym);
+                paramTypes.addLast(type);
+                // System.out.println("paramtype " + paramTypes.toString());
+            } catch(Exception e){
+                System.exit(1);  // unexpected fatal error
+            }
+        }
+
+    }
 
     // two kids
     private TypeNode myType;
