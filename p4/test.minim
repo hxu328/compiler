@@ -1,3 +1,6 @@
+int a;
+int b;
+
 int f(){}
 
 struct s1 {
@@ -5,12 +8,20 @@ struct s1 {
     bool b;
 };
 
-int main(int a, bool b){
+struct s2 {
+    struct s1 mys1;
+};
+
+struct s3 {
+    struct s2 mys2;
+};
+
+int main(int x, bool z){
     int c;
     bool d;
     int e;
     int f;
-    struct s1 s;
+    struct s3 mys3;
 
     a = b;
     c = 1;
@@ -20,5 +31,5 @@ int main(int a, bool b){
 
     f();
 
-    a = c.a;
+    a = mys3.mys2;
 }
