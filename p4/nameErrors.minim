@@ -1,32 +1,73 @@
-//* empty
-struct s0 {
-    int a;
-};
-int s0;
+//* no error declaratioins
 int a;
+int b;
 bool c;
-struct s4 fourth;
-struct s4 a;
-
-struct s1 {
+bool d;
+struct s1{
     int a;
-    int a;
-    bool a;
-    bool b;
-    struct s1 myself;
-    struct s3 third;
+    int b;
+    bool x;
+    bool y;
 };
-struct s1 a;
-struct s1 b;
-
-struct s2 {
-    bool c;
-    struct s1 secondStruct;
+struct s2{
+    int x;
+    struct s1 myS1;
+    bool y;
 };
-
-int main(int a, 
-        bool b){
-    int a;
+int main(){
+    int x;
 }
+void function(int x){
+    bool y;
+}
+
+//* Errors in outermost variable declaratioins
+int a;  //* multi
+bool a; //* multi
+void b; //* bad
+void a; //* bad, multi
+bool b; //* multi
+int s1; //* multi
+int main; //* multi
+bool function; //* multi
+void main; //* bad, multi
+struct main x;  //* bad, multi
+struct s1 s1; //* multi
+struct s1 a; //* multi
+struct s2 main; //* multi
+
+//* Errors in outermost struct definitions and declaratioins
+struct s1{ //*multi
+    int x;
+    struct s3 s1; //* bad (but not print error)
+};
+
+struct s3{
+    int x;
+    bool x; //* multi
+    struct x y; //* bad
+    struct s1 x; //* multi
+    struct y x;//* bad, multi
+    struct s2 myS2;
+    int main;
+    bool function;
+};
+
+//* Errors in function declaratioins
+int foo(int x){
+    bool x; //* multi
+    int y;
+    struct s4 myStruct4; //* bad
+    struct s4 x; //* bad, multi
+    struct s3 y; //* multi
+}
+
+void boo(){
+    int x;
+    bool y;
+    
+}
+
+
 
 
