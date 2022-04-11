@@ -99,6 +99,14 @@ class StructDefSym extends Sym {  // struct definition symbol
 		return fields;
 	}
 
+	public Sym getField(String name){
+		try{
+			return fields.lookupLocal(name);
+		} catch(Exception e){
+			return null;
+		}
+	}
+
 	@Override
 	public int getLevel(){
 		return super.getLevel();
@@ -107,6 +115,14 @@ class StructDefSym extends Sym {  // struct definition symbol
 	@Override
 	public String toString(){
 		return fields.toString();
+	}
+
+	public boolean contains(String name){
+		try{
+			return this.fields.lookupLocal(name) != null;
+		} catch(Exception e){
+			return false;
+		}
 	}
 
 }

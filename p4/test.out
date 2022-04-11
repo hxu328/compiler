@@ -1,35 +1,33 @@
 int a;
 int b;
+int f() {
+}
 
-int f(){}
-
-struct s1 {
+struct s1{
     int a;
     bool b;
 };
 
-struct s2 {
+struct s2{
     struct s1 mys1;
 };
 
-struct s3 {
+struct s3{
     struct s2 mys2;
 };
 
-int main(int x, bool z){
+int main(int x, bool z) {
     int c;
     bool d;
     int e;
     int f;
     struct s3 mys3;
-
     a = b;
     c = 1;
-    a = b + c;
-    e = a + e;
+    a = (b + c);
+    e = (a + e);
     a = a;
-
     f();
-
-    a = mys3.mys2;
+    a = (mys3).mys2;
 }
+

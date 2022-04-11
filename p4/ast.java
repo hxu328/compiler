@@ -253,6 +253,11 @@ class FnBodyNode extends ASTnode {
         myStmtList.unparse(p, indent);
     }
 
+    public void nameCheck3000(SymTable symTable){
+        myDeclList.nameCheck3000(symTable);
+        myStmtList.nameCheck3000(symTable);
+    }
+
     // two kids
     private DeclListNode myDeclList;
     private StmtListNode myStmtList;
@@ -267,6 +272,12 @@ class StmtListNode extends ASTnode {
         Iterator<StmtNode> it = myStmts.iterator();
         while (it.hasNext()) {
             it.next().unparse(p, indent);
+        }
+    }
+
+    public void nameCheck3000(SymTable symTable){
+        for(StmtNode node : myStmts){
+            node.nameCheck3000(symTable);
         }
     }
 
@@ -288,6 +299,12 @@ class ExpListNode extends ASTnode {
                 it.next().unparse(p, indent);
             }
         } 
+    }
+
+    public void nameCheck3000(SymTable symTable){
+        for(ExpNode node : myExps){
+            node.nameCheck3000(symTable);
+        }
     }
 
     // list of kids (ExpNodes)
@@ -422,12 +439,12 @@ class FnDeclNode extends DeclNode {
     public void nameCheck3000(SymTable symTable){
         String name = myId.getStrVal();
         LinkedList<String> tempList = new LinkedList<String>();
-        boolean hasError = false;
+        boolean isMultiDecl = false;
         // check "multi" of the function's name
         try{
             if(symTable.lookupLocal(name) != null || structPool.containsKey(name)){
                 myId.callErrorMessage(multi_msg);
-                hasError = true;
+                isMultiDecl = true;
             }
         } catch (Exception e) {
             System.exit(1);
@@ -442,9 +459,8 @@ class FnDeclNode extends DeclNode {
         tempList = (LinkedList<String>) paramTypes.clone();
         paramTypes = new LinkedList<String>(); // set to empty
 
-
         // check funtion body
-
+        myBody.nameCheck3000(symTable);
 
         // delete the scope for function
         try{
@@ -455,7 +471,7 @@ class FnDeclNode extends DeclNode {
         }
 
         // if the name has no error, add entry
-        if(!hasError){
+        if(!isMultiDecl){
             Sym newSym = new FnSym(myType.getType(), myLevel, tempList, tempList.size());
             try{
                 symTable.addDecl(name, newSym);
@@ -646,6 +662,7 @@ class StructNode extends TypeNode {
 // **********************************************************************
 
 abstract class StmtNode extends ASTnode {
+    abstract public void nameCheck3000(SymTable symTable);
 }
 
 class AssignStmtNode extends StmtNode {
@@ -657,6 +674,10 @@ class AssignStmtNode extends StmtNode {
         doIndent(p, indent);
         myAssign.unparse(p, -1); // no parentheses
         p.println(";");
+    }
+
+    public void nameCheck3000(SymTable symTable){
+        myAssign.nameCheck3000(symTable);
     }
 
     // one kid
@@ -674,6 +695,10 @@ class PostIncStmtNode extends StmtNode {
         p.println("++;");
     }
 
+    public void nameCheck3000(SymTable symTable){
+        myExp.nameCheck3000(symTable);
+    }
+
     // one kid
     private ExpNode myExp;
 }
@@ -687,6 +712,10 @@ class PostDecStmtNode extends StmtNode {
         doIndent(p, indent);
         myExp.unparse(p, 0);
         p.println("--;");
+    }
+
+    public void nameCheck3000(SymTable symTable){
+        myExp.nameCheck3000(symTable);
     }
 
     // one kid
@@ -705,6 +734,10 @@ class ReadStmtNode extends StmtNode {
         p.println(";");
     }
 
+    public void nameCheck3000(SymTable symTable){
+        myExp.nameCheck3000(symTable);
+    }
+
     // one kid (actually can only be an IdNode or an ArrayExpNode)
     private ExpNode myExp;
 }
@@ -719,6 +752,10 @@ class WriteStmtNode extends StmtNode {
         p.print("disp << ");
         myExp.unparse(p, 0);
         p.println(";");
+    }
+
+    public void nameCheck3000(SymTable symTable){
+        myExp.nameCheck3000(symTable);
     }
 
     // one kid
@@ -741,6 +778,9 @@ class IfStmtNode extends StmtNode {
         myStmtList.unparse(p, indent+4);
         doIndent(p, indent);
         p.println("}");
+    }
+
+    public void nameCheck3000(SymTable symTable){
     }
 
     // three kids
@@ -777,6 +817,9 @@ class IfElseStmtNode extends StmtNode {
         p.println("}");        
     }
 
+    public void nameCheck3000(SymTable symTable){
+    }
+
     // 5 kids
     private ExpNode myExp;
     private DeclListNode myThenDeclList;
@@ -803,6 +846,8 @@ class WhileStmtNode extends StmtNode {
         p.println("}");
     }
 
+    public void nameCheck3000(SymTable symTable){}
+
     // three kids
     private ExpNode myExp;
     private DeclListNode myDeclList;
@@ -818,6 +863,10 @@ class CallStmtNode extends StmtNode {
         doIndent(p, indent);
         myCall.unparse(p, indent);
         p.println(";");
+    }
+
+    public void nameCheck3000(SymTable symTable){
+        myCall.nameCheck3000(symTable);
     }
 
     // one kid
@@ -839,6 +888,10 @@ class ReturnStmtNode extends StmtNode {
         p.println(";");
     }
 
+    public void nameCheck3000(SymTable symTable){
+        myExp.nameCheck3000(symTable);
+    }
+
     // one kid
     private ExpNode myExp; // possibly null
 }
@@ -848,6 +901,7 @@ class ReturnStmtNode extends StmtNode {
 // **********************************************************************
 
 abstract class ExpNode extends ASTnode {
+    abstract public void nameCheck3000(SymTable symTable);
 }
 
 class IntLitNode extends ExpNode {
@@ -859,6 +913,9 @@ class IntLitNode extends ExpNode {
 
     public void unparse(PrintWriter p, int indent) {
         p.print(myIntVal);
+    }
+
+    public void nameCheck3000(SymTable symTable){
     }
 
     private int myLineNum;
@@ -877,6 +934,9 @@ class StringLitNode extends ExpNode {
         p.print(myStrVal);
     }
 
+    public void nameCheck3000(SymTable symTable){
+    }
+
     private int myLineNum;
     private int myCharNum;
     private String myStrVal;
@@ -892,6 +952,9 @@ class TrueNode extends ExpNode {
         p.print("true");
     }
 
+    public void nameCheck3000(SymTable symTable){
+    }
+
     private int myLineNum;
     private int myCharNum;
 }
@@ -904,6 +967,9 @@ class FalseNode extends ExpNode {
 
     public void unparse(PrintWriter p, int indent) {
         p.print("false");
+    }
+
+    public void nameCheck3000(SymTable symTable){
     }
 
     private int myLineNum;
@@ -929,9 +995,21 @@ class IdNode extends ExpNode {
         ErrMsg.fatal(myLineNum, myCharNum, msg);
     }
 
+    public void nameCheck3000(SymTable symTable){
+        // check whether myStrVal is in the symTable, if not, throw udecl msg
+        try{
+            if((mySym = symTable.lookupGlobal(myStrVal)) == null){
+                callErrorMessage(undecl_msg);
+            }
+        } catch(Exception e){
+            callErrorMessage(undecl_msg);
+        }
+    }
+
     private int myLineNum;
     private int myCharNum;
     private String myStrVal;
+    public Sym mySym;
 }
 
 class DotAccessExpNode extends ExpNode {
@@ -945,6 +1023,58 @@ class DotAccessExpNode extends ExpNode {
 		myLoc.unparse(p, 0);
 		p.print(").");
 		myId.unparse(p, 0);
+    }
+
+    public IdNode getRhs(){
+        return myId;
+    }
+
+    public void nameCheck3000(SymTable symTable){
+        String strVal = myId.getStrVal();
+        if(myLoc instanceof IdNode){
+            // base case, myLoc is IdNode
+            // treat myLoc as a struct type, determine if myId is inside the myLoc struct
+            // search whether the struct's name is in the global scope
+            ((IdNode)myLoc).nameCheck3000(symTable);
+            if(((IdNode)myLoc).mySym == null) return;  // namecheck failed
+            // determine if the struct's type is inside the structPool
+            String structType = ((IdNode)myLoc).mySym.getType();
+            Sym structBody = structPool.get(structType);
+            if(structBody == null){
+                ((IdNode)myLoc).callErrorMessage(lhs_badAccess_msg);
+                return;
+            }
+            // determine if the rhs' name is within the struct body
+            if(!((StructDefSym)structBody).contains(strVal)){
+                ((IdNode)myLoc).callErrorMessage(rhs_badAccess_msg);
+                return;
+            }
+            // all looks good, assign Sym for myId
+            // retrieve Sym from childTable and assign it for for myId
+            myId.mySym = ((StructDefSym)structBody).getField(myId.getStrVal()); 
+        } else{
+            // recursive case, myLoc is DotAccessNode
+            ((DotAccessExpNode)myLoc).nameCheck3000(symTable);
+            // if passed the test, we can at least assure that lhs is a variable
+            // now we need to make sure if myLoc's right hand side (our lhs) is a struct or an id
+            IdNode lhs = ((DotAccessExpNode)myLoc).getRhs();
+            if(lhs.mySym == null) return;
+            String structType = lhs.mySym.getType();
+            Sym structBody = structPool.get(structType);
+            if(structBody == null){
+                // if it is an id, lhs is not valid, fatal
+                ((IdNode)myLoc).callErrorMessage(lhs_badAccess_msg);
+                return;
+            }
+            // if it is a struct, we need to make sure if rhs' name is within the struct body
+            if(!((StructDefSym)structBody).contains(strVal)){
+                ((IdNode)myId).callErrorMessage(rhs_badAccess_msg);
+                return;
+            }
+            // all looks good, assign Sym for myId
+            // retrieve Sym from childTable and assign it for for myId
+            myId.mySym = ((StructDefSym)structBody).getField(myId.getStrVal()); 
+        }
     }
 
     // two kids
@@ -965,6 +1095,11 @@ class AssignExpNode extends ExpNode {
 		p.print(" = ");
 		myExp.unparse(p, 0);
 		if (indent != -1)  p.print(")");
+    }
+
+    public void nameCheck3000(SymTable symTable){
+        myLhs.nameCheck3000(symTable);
+        myExp.nameCheck3000(symTable);
     }
 
     // two kids
@@ -990,6 +1125,13 @@ class CallExpNode extends ExpNode {
 			myExpList.unparse(p, 0);
 		}
 		p.print(")");
+    }
+
+    public void nameCheck3000(SymTable symTable){
+        myId.nameCheck3000(symTable);
+        if (myExpList != null){
+            myExpList.nameCheck3000(symTable);
+        }
     }
 
     // two kids
@@ -1031,6 +1173,10 @@ class UnaryMinusNode extends UnaryExpNode {
 		myExp.unparse(p, 0);
 		p.print(")");
     }
+
+    public void nameCheck3000(SymTable symTable){
+        myExp.nameCheck3000(symTable);
+    }
 }
 
 class NotNode extends UnaryExpNode {
@@ -1042,6 +1188,10 @@ class NotNode extends UnaryExpNode {
 	    p.print("(!");
 		myExp.unparse(p, 0);
 		p.print(")");
+    }
+
+    public void nameCheck3000(SymTable symTable){
+        myExp.nameCheck3000(symTable);
     }
 }
 
@@ -1061,6 +1211,11 @@ class PlusNode extends BinaryExpNode {
 		myExp2.unparse(p, 0);
 		p.print(")");
     }
+
+    public void nameCheck3000(SymTable symTable){
+        myExp1.nameCheck3000(symTable);
+        myExp2.nameCheck3000(symTable);
+    }
 }
 
 class MinusNode extends BinaryExpNode {
@@ -1074,6 +1229,11 @@ class MinusNode extends BinaryExpNode {
 		p.print(" - ");
 		myExp2.unparse(p, 0);
 		p.print(")");
+    }
+
+    public void nameCheck3000(SymTable symTable){
+        myExp1.nameCheck3000(symTable);
+        myExp2.nameCheck3000(symTable);
     }
 }
 
@@ -1089,6 +1249,11 @@ class TimesNode extends BinaryExpNode {
 		myExp2.unparse(p, 0);
 		p.print(")");
     }
+
+    public void nameCheck3000(SymTable symTable){
+        myExp1.nameCheck3000(symTable);
+        myExp2.nameCheck3000(symTable);
+    }
 }
 
 class DivideNode extends BinaryExpNode {
@@ -1102,6 +1267,11 @@ class DivideNode extends BinaryExpNode {
 		p.print(" / ");
 		myExp2.unparse(p, 0);
 		p.print(")");
+    }
+
+    public void nameCheck3000(SymTable symTable){
+        myExp1.nameCheck3000(symTable);
+        myExp2.nameCheck3000(symTable);
     }
 }
 
@@ -1117,6 +1287,11 @@ class AndNode extends BinaryExpNode {
 		myExp2.unparse(p, 0);
 		p.print(")");
     }
+
+    public void nameCheck3000(SymTable symTable){
+        myExp1.nameCheck3000(symTable);
+        myExp2.nameCheck3000(symTable);
+    }
 }
 
 class OrNode extends BinaryExpNode {
@@ -1130,6 +1305,11 @@ class OrNode extends BinaryExpNode {
 		p.print(" || ");
 		myExp2.unparse(p, 0);
 		p.print(")");
+    }
+
+    public void nameCheck3000(SymTable symTable){
+        myExp1.nameCheck3000(symTable);
+        myExp2.nameCheck3000(symTable);
     }
 }
 
@@ -1145,6 +1325,11 @@ class EqualsNode extends BinaryExpNode {
 		myExp2.unparse(p, 0);
 		p.print(")");
     }
+
+    public void nameCheck3000(SymTable symTable){
+        myExp1.nameCheck3000(symTable);
+        myExp2.nameCheck3000(symTable);
+    }
 }
 
 class NotEqualsNode extends BinaryExpNode {
@@ -1158,6 +1343,11 @@ class NotEqualsNode extends BinaryExpNode {
 		p.print(" != ");
 		myExp2.unparse(p, 0);
 		p.print(")");
+    }
+
+    public void nameCheck3000(SymTable symTable){
+        myExp1.nameCheck3000(symTable);
+        myExp2.nameCheck3000(symTable);
     }
 }
 
@@ -1173,6 +1363,11 @@ class LessNode extends BinaryExpNode {
 		myExp2.unparse(p, 0);
 		p.print(")");
     }
+
+    public void nameCheck3000(SymTable symTable){
+        myExp1.nameCheck3000(symTable);
+        myExp2.nameCheck3000(symTable);
+    }
 }
 
 class GreaterNode extends BinaryExpNode {
@@ -1186,6 +1381,11 @@ class GreaterNode extends BinaryExpNode {
 		p.print(" > ");
 		myExp2.unparse(p, 0);
 		p.print(")");
+    }
+
+    public void nameCheck3000(SymTable symTable){
+        myExp1.nameCheck3000(symTable);
+        myExp2.nameCheck3000(symTable);
     }
 }
 
@@ -1201,6 +1401,11 @@ class LessEqNode extends BinaryExpNode {
 		myExp2.unparse(p, 0);
 		p.print(")");
     }
+
+    public void nameCheck3000(SymTable symTable){
+        myExp1.nameCheck3000(symTable);
+        myExp2.nameCheck3000(symTable);
+    }
 }
 
 class GreaterEqNode extends BinaryExpNode {
@@ -1214,5 +1419,10 @@ class GreaterEqNode extends BinaryExpNode {
 		p.print(" >= ");
 		myExp2.unparse(p, 0);
 		p.print(")");
+    }
+
+    public void nameCheck3000(SymTable symTable){
+        myExp1.nameCheck3000(symTable);
+        myExp2.nameCheck3000(symTable);
     }
 }
