@@ -1,35 +1,87 @@
-int a;
-int b;
-
-int f(){}
-
-struct s1 {
+//* Example test from the website
+struct Point {
+    int x;
+    int y;
+};
+int f(int x, bool b) { }
+void g() {
     int a;
     bool b;
-};
+    struct Point p;
+    p.x = a;
+    b = a == 3;
+    f(a + p.y*2, b);
+    g();
+}
+
+//* global variables
+int x;
+bool y;
+
+struct s1 {
+    int x;
+}
 
 struct s2 {
-    struct s1 mys1;
-};
+    int x;
+    bool y;
+    struct s1 s1;
+    struct s1 s2;
+}
 
 struct s3 {
-    struct s2 mys2;
-};
+    struct s2 s2;
+    int s1;
+    int s3;
+}
 
-int main(int x, bool z){
-    int c;
+void f1(int x, int y){
+    int a;
+    int b;
+    bool c;
     bool d;
-    int e;
-    int f;
-    struct s3 mys3;
+    struct s3 myS3;
 
-    a = b;
-    c = 1;
-    a = b + c;
-    e = a + e;
-    a = a;
+    a = a + b;
+    b = x - a;
+    y = a * x;
+    a = y / x;
+    c = !d;
+    d = c && d;
+    c = c || d;
+    c = d == c;
+    c = d != c;
+    c = a < b;
+    c = a <= b;
+    c = a > b;
+    c = a >= b;
+    a = -b;
+    a = myS3.s2.s1.x;
+    a = 5;
+    a = "hello";
+    a = true;
+    b = false;
+    a = (a + b);
+    a = g();
+    b = g(c, d);
+    b = g(a+b, c+d);
 
-    f();
+    a++;
+    a--;
+    input >> a;
+    disp << b;
+    if(a == 1){
+        int k;
+        k = 3;
+    } else {
+        int k;
+        k = 5;
+    }
 
-    a = mys3.mys2;
+    while(c == true){
+        bool a;
+        a = false;
+    }
+
+
 }

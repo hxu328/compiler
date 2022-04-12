@@ -8,6 +8,7 @@ struct s1{
     int b;
     bool x;
     bool y;
+    int s1;
 };
 struct s2{
     int x;
@@ -24,14 +25,14 @@ void function(int x){
 //* Errors in outermost variable declaratioins
 int a;  //* multi
 bool a; //* multi
-void b; //* bad
+void b; //* bad, multi
 void a; //* bad, multi
 bool b; //* multi
 int s1; //* multi
 int main; //* multi
 bool function; //* multi
 void main; //* bad, multi
-struct main x;  //* bad, multi
+struct main x;  //* bad
 struct s1 s1; //* multi
 struct s1 a; //* multi
 struct s2 main; //* multi
@@ -44,6 +45,7 @@ struct s1{ //*multi
 
 struct s3{
     int x;
+    struct s1 s3;
     bool x; //* multi
     struct x y; //* bad
     struct s1 x; //* multi
@@ -54,7 +56,7 @@ struct s3{
 };
 
 //* Errors in function declaratioins
-int foo(int x){
+int foo(int x, int foo){
     bool x; //* multi
     int y;
     struct s4 myStruct4; //* bad
@@ -62,10 +64,100 @@ int foo(int x){
     struct s3 y; //* multi
 }
 
-void boo(){
+bool a(){  //* multi
+    int a;
+    bool a;} //* multi
+bool main(){ //* multi
     int x;
-    bool y;
+    int x;  //* multi
+
+    w = x; //* undecl
+}
+int koo(int a, 
+        bool a){ //* multi
+            int b;}
+int joo(){int j; 
+        bool j;}  //* multi
+
+
+void boo(bool a){
+    int x;
+    int y;
+    int z;
+    int boo;
+    struct s3 myS3;
+    struct s1 myS1;
+
+    x = w; //* undecl
+    w++; //* undecl
+    w--; //* undecl
+    input >> w; //* undecl
+    disp << w; //* undecl
+    if( w == x){ //* undecl
+        int a;
+        bool a; //* multi
+        int k;
+        a = b;
+    } else {
+        int a;
+        int a; //* multi
+        k = a; //* undecl
+    }
+
+    if (w == y){ //* undecl
+        int k;
+        z = w; //* undecl
+    }
+
+    while(w == y){ //* undecl
+        int p;
+        x = p; 
+        x = q; //* undecl
+    }
+
+    return k = x; //* undecl
+    return;
+    a(); //* undecl
+    foo();
+    main();
+    function();
+    boo(); //* undecl
+    foo(a);
+    boo(kkk); //* undecl, undecl
     
+}
+
+int exp(){
+    int x;
+    int y;
+    struct s3 myS3;
+
+    //* errors in expressions
+
+    z = qq + qq; //* undecl, undecl, undecl
+    x = qq - qq; //* undecl, undecl
+    x = qq * qq; //* undecl, undecl
+    x = qq / qq; //* undecl, undecl
+    x = !qq; //* undecl
+    x = qq && qq; //* undecl, undecl
+    x = qq || qq; //* undecl, undecl
+    x = qq == qq; //* undecl, undecl
+    x = qq != qq; //* undecl, undecl
+    x = qq < qq; //* undecl, undecl
+    x = qq > qq; //* undecl, undecl
+    x = qq <= qq; //* undecl, undecl
+    x = qq >= qq; //* undecl, undecl
+    x = -qq; //* undecl, undecl
+
+    //* erros in dot access
+    x.a = 1; //* lhs
+    myS7.a = 1; //* undecl (option lhs)
+    myS7.k.k = 1; //* undecl (option lhs)
+    myS3.k = 1; //* rhs
+    myS3.s3.w = 1;//* rhs
+    myS3.s5.w = 1;//* undecl (option lhs)
+    myS3.x.w = 1;//* lhs
+    myS3.s3.s1.k = 1;//* lhs
 }
 
 
