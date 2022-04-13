@@ -173,11 +173,11 @@ class ProgramNode extends ASTnode {
         myDeclList.nameCheck3000(mySymTable);
         
         // print the structPool for debug
-        System.out.println("** struct pool **");
-        System.out.println(structPool.toString());
+        // System.out.println("** struct pool **");
+        // System.out.println(structPool.toString());
 
         // print the symtables for debug
-        mySymTable.print();
+        // mySymTable.print();
     }
 
     // one kid
@@ -1063,7 +1063,7 @@ class IdNode extends ExpNode {
     public void unparse(PrintWriter p, int indent) {
         p.print(myStrVal);
         if(mySym != null){
-            System.out.print("(" + mySym.toString() + ")");
+            p.print("(" + mySym.toString() + ")");
         }
     }
 
@@ -1099,9 +1099,10 @@ class DotAccessExpNode extends ExpNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
-	    p.print("(");
+	    // p.print("(");
 		myLoc.unparse(p, 0);
-		p.print(").");
+		// p.print(").");
+        p.print(".");
 		myId.unparse(p, 0);
     }
 
