@@ -578,6 +578,11 @@ class StructDeclNode extends DeclNode {
             }
             Sym newSym = new StructDefSym("struct", 0, childTable);
             structPool.put(structType, newSym);
+            try{
+                symTable.addDecl(structType, newSym);
+            } catch (Exception e){
+                System.exit(1);
+            }
 
         } catch (Exception e) {
             System.exit(1);
