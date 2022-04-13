@@ -57,7 +57,9 @@ public class P4 {
 		((ProgramNode)root.value).nameCheck3000();
         
         // if everything looks good, call unparse
-        ((ASTnode)root.value).unparse(outFile, 0);
+        if(ErrMsg.hasError == false){
+            ((ASTnode)root.value).unparse(outFile, 0);
+        }
         outFile.close();
 
         return;

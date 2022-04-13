@@ -7,6 +7,22 @@ public class SymTable {
 		list = new LinkedList<HashMap<String, Sym>>();
 		list.add(new HashMap<String, Sym>());
 	}
+
+	public void addDeclAtLast(String name, Sym sym) 
+	throws DuplicateSymException, EmptySymTableException {
+		if (name == null || sym == null)
+			throw new IllegalArgumentException();
+		
+		if (list.isEmpty())
+			throw new EmptySymTableException();
+		
+		int lastIndex = list.size();
+		HashMap<String, Sym> symTab = list.get(lastIndex - 1);
+		if (symTab.containsKey(name))
+			throw new DuplicateSymException();
+		
+		symTab.put(name, sym);
+	}
 	
 	public void addDecl(String name, Sym sym) 
 	throws DuplicateSymException, EmptySymTableException {

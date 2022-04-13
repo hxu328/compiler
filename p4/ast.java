@@ -349,7 +349,7 @@ class VarDeclNode extends DeclNode {
 
             // check "multi"
             try{
-                if(symTable.lookupLocal(name) != null || structPool.containsKey(name)){
+                if(symTable.lookupLocal(name) != null){
                     myId.callErrorMessage(multi_msg);
                     hasError = true;
                 }
@@ -381,7 +381,7 @@ class VarDeclNode extends DeclNode {
 
             // check "multi"
             try{
-                if(symTable.lookupLocal(name) != null || structPool.containsKey(name)){
+                if(symTable.lookupLocal(name) != null){
                     myId.callErrorMessage(multi_msg);
                     hasError = true;
                 }
@@ -459,6 +459,16 @@ class FnDeclNode extends DeclNode {
         tempList = (LinkedList<String>) paramTypes.clone();
         paramTypes = new LinkedList<String>(); // set to empty
 
+        // after checking formals, if name of function is valid, insert the entry first
+        if(!isMultiDecl){
+            Sym newSym = new FnSym(myType.getType(), myLevel, tempList, tempList.size());
+            try{
+                symTable.addDeclAtLast(name, newSym);
+            } catch (Exception e){
+                System.exit(1);
+            }
+        }
+
         // check funtion body
         myBody.nameCheck3000(symTable);
 
@@ -470,15 +480,6 @@ class FnDeclNode extends DeclNode {
             System.exit(1);
         }
 
-        // if the name has no error, add entry
-        if(!isMultiDecl){
-            Sym newSym = new FnSym(myType.getType(), myLevel, tempList, tempList.size());
-            try{
-                symTable.addDecl(name, newSym);
-            } catch (Exception e){
-                System.exit(1);
-            }
-        }
         
 
     }
@@ -781,6 +782,24 @@ class IfStmtNode extends StmtNode {
     }
 
     public void nameCheck3000(SymTable symTable){
+        // test express in ()
+        myExp.nameCheck3000(symTable);
+
+        // add scope
+        symTable.addScope();
+        myLevel++;
+
+        // test then {}
+        myDeclList.nameCheck3000(symTable);
+        myStmtList.nameCheck3000(symTable);
+
+        // delete scope
+        try{
+            symTable.removeScope();
+            myLevel--;
+        } catch (Exception e) {
+            System.exit(1);
+        }
     }
 
     // three kids
@@ -818,6 +837,41 @@ class IfElseStmtNode extends StmtNode {
     }
 
     public void nameCheck3000(SymTable symTable){
+        // test express in ()
+        myExp.nameCheck3000(symTable);
+
+        // add scope
+        symTable.addScope();
+        myLevel++;
+
+        // test then {}
+        myThenDeclList.nameCheck3000(symTable);
+        myThenStmtList.nameCheck3000(symTable);
+
+        // delete scope
+        try{
+            symTable.removeScope();
+            myLevel--;
+        } catch (Exception e) {
+            System.exit(1);
+        }
+
+        // add scope
+        symTable.addScope();
+        myLevel++;
+
+        // test else {}
+        myElseDeclList.nameCheck3000(symTable);
+        myElseStmtList.nameCheck3000(symTable);
+
+        // delete scope
+        try{
+            symTable.removeScope();
+            myLevel--;
+        } catch (Exception e) {
+            System.exit(1);
+        }
+
     }
 
     // 5 kids
@@ -846,7 +900,26 @@ class WhileStmtNode extends StmtNode {
         p.println("}");
     }
 
-    public void nameCheck3000(SymTable symTable){}
+    public void nameCheck3000(SymTable symTable){
+        // test express in ()
+        myExp.nameCheck3000(symTable);
+
+        // add scope
+        symTable.addScope();
+        myLevel++;
+
+        // test then {}
+        myDeclList.nameCheck3000(symTable);
+        myStmtList.nameCheck3000(symTable);
+
+        // delete scope
+        try{
+            symTable.removeScope();
+            myLevel--;
+        } catch (Exception e) {
+            System.exit(1);
+        }
+    }
 
     // three kids
     private ExpNode myExp;
@@ -889,7 +962,11 @@ class ReturnStmtNode extends StmtNode {
     }
 
     public void nameCheck3000(SymTable symTable){
-        myExp.nameCheck3000(symTable);
+        if(myExp != null){
+            myExp.nameCheck3000(symTable);
+        }
+
+        return;
     }
 
     // one kid
@@ -985,6 +1062,9 @@ class IdNode extends ExpNode {
 
     public void unparse(PrintWriter p, int indent) {
         p.print(myStrVal);
+        if(mySym != null){
+            System.out.print("(" + mySym.toString() + ")");
+        }
     }
 
     public String getStrVal(){
@@ -1063,7 +1143,7 @@ class DotAccessExpNode extends ExpNode {
             Sym structBody = structPool.get(structType);
             if(structBody == null){
                 // if it is an id, lhs is not valid, fatal
-                ((IdNode)myLoc).callErrorMessage(lhs_badAccess_msg);
+                ((IdNode)lhs).callErrorMessage(lhs_badAccess_msg);
                 return;
             }
             // if it is a struct, we need to make sure if rhs' name is within the struct body
@@ -1128,6 +1208,7 @@ class CallExpNode extends ExpNode {
     }
 
     public void nameCheck3000(SymTable symTable){
+
         myId.nameCheck3000(symTable);
         if (myExpList != null){
             myExpList.nameCheck3000(symTable);

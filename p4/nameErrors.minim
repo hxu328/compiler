@@ -117,11 +117,11 @@ void boo(bool a){
 
     return k = x; //* undecl
     return;
-    a(); //* undecl
+    a();
     foo();
     main();
     function();
-    boo(); //* undecl
+    boo();
     foo(a);
     boo(kkk); //* undecl, undecl
     
@@ -147,7 +147,7 @@ int exp(){
     x = qq > qq; //* undecl, undecl
     x = qq <= qq; //* undecl, undecl
     x = qq >= qq; //* undecl, undecl
-    x = -qq; //* undecl, undecl
+    x = -qq; //* undecl
 
     //* erros in dot access
     x.a = 1; //* lhs
@@ -155,7 +155,7 @@ int exp(){
     myS7.k.k = 1; //* undecl (option lhs)
     myS3.k = 1; //* rhs
     myS3.s3.w = 1;//* rhs
-    myS3.s5.w = 1;//* undecl (option lhs)
+    myS3.s5.w = 1;//* rhs
     myS3.x.w = 1;//* lhs
     myS3.s3.s1.k = 1;//* lhs
 }
