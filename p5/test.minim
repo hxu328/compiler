@@ -7,5 +7,6 @@ int f(int x, bool b) { }
 void g() {
     int a;
     bool b;
-    b = !a;
+    struct Point p;
+    b = ((b - 1) + (a * b) - (b / a)) + b;
 }

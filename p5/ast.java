@@ -1186,6 +1186,7 @@ abstract class ExpNode extends ASTnode {
      ***/
     public void nameAnalysis(SymTable symTab) { }
     abstract public Type nameCheckExp();
+    abstract public void callErrorMessage(String msg);
 }
 
 class IntLitNode extends ExpNode {
@@ -1506,7 +1507,7 @@ class DotAccessExpNode extends ExpNode {
     }
 
     public void callErrorMessage(String msg){
-        myId.callErrorMessage(msg);
+        myLoc.callErrorMessage(msg);
     }
 
     public Type nameCheckExp() {
@@ -1547,6 +1548,10 @@ class AssignExpNode extends ExpNode {
         if (indent != -1)  p.print(")");
     }
 
+    public void callErrorMessage(String msg){
+        myLhs.callErrorMessage(msg);
+    }
+
     public Type nameCheckExp() {
         return myExp.nameCheckExp();
     }
@@ -1584,6 +1589,10 @@ class CallExpNode extends ExpNode {
             myExpList.unparse(p, 0);
         }
         p.print(")");
+    }
+
+    public void callErrorMessage(String msg){
+        myId.callErrorMessage(msg);
     }
 
     public Type nameCheckExp() {return null;}
@@ -1646,8 +1655,21 @@ class UnaryMinusNode extends UnaryExpNode {
         p.print(")");
     }
 
+    public void callErrorMessage(String msg){
+        myExp.callErrorMessage(msg);
+    }
+
     public Type nameCheckExp() {
-        return null;
+        Type myType = myExp.nameCheckExp();
+        if(myType.isIntType()){
+            return myType;
+        }else if (myType.isErrorType()){
+            return myType;
+        }else{
+            myType = new ErrorType();
+            myExp.callErrorMessage(arith_non_numeric);
+            return myType;
+        }
     }
 }
 
@@ -1662,20 +1684,22 @@ class NotNode extends UnaryExpNode {
         p.print(")");
     }
 
+    public void callErrorMessage(String msg){
+        myExp.callErrorMessage(msg);
+    }
+
     public Type nameCheckExp() {
-        if(myExp instanceof TrueNode){
-            return ((TrueNode)myExp).nameCheckExp();
-        } else if (myExp instanceof FalseNode){
-            return ((FalseNode)myExp).nameCheckExp();
-        } else if (myExp instanceof IdNode){
-            Type myType = ((IdNode)myExp).nameCheckExp();
-            if(!myType.isBoolType()){
-                ((IdNode)myExp).callErrorMessage(logi_non_bool);
-                return new ErrorType();
-            }
+        Type myType = myExp.nameCheckExp();
+        if(myType.isBoolType()){
+            return myType;
+        }else if (myType.isErrorType()){
+            return myType;
+        }else{
+            myType = new ErrorType();
+            myExp.callErrorMessage(logi_non_bool);
+            return myType;
         }
 
-        return new ErrorType();
     }
 }
 
@@ -1696,7 +1720,26 @@ class PlusNode extends BinaryExpNode {
         p.print(")");
     }
 
-    public Type nameCheckExp() {return null;}
+    public void callErrorMessage(String msg){
+        myExp1.callErrorMessage(msg);
+    }
+
+    public Type nameCheckExp() {
+        Type myType1 = myExp1.nameCheckExp();
+        Type myType2 = myExp2.nameCheckExp();
+        if((!myType1.isIntType()) && (!myType1.isErrorType())){
+            myExp1.callErrorMessage(arith_non_numeric);
+        }
+        if((!myType2.isIntType()) && (!myType2.isErrorType())){
+            myExp2.callErrorMessage(arith_non_numeric);
+        }
+
+        if(myType1.isIntType() && myType2.isIntType()){ // lhs and rhs operands are good
+            return myType1;
+        }else{
+            return new ErrorType();
+        }
+    }
 }
 
 class MinusNode extends BinaryExpNode {
@@ -1712,7 +1755,26 @@ class MinusNode extends BinaryExpNode {
         p.print(")");
     }
 
-    public Type nameCheckExp() {return null;}
+    public void callErrorMessage(String msg){
+        myExp1.callErrorMessage(msg);
+    }
+
+    public Type nameCheckExp() {
+        Type myType1 = myExp1.nameCheckExp();
+        Type myType2 = myExp2.nameCheckExp();
+        if((!myType1.isIntType()) && (!myType1.isErrorType())){
+            myExp1.callErrorMessage(arith_non_numeric);
+        }
+        if((!myType2.isIntType()) && (!myType2.isErrorType())){
+            myExp2.callErrorMessage(arith_non_numeric);
+        }
+
+        if(myType1.isIntType() && myType2.isIntType()){ // lhs and rhs operands are good
+            return myType1;
+        }else{
+            return new ErrorType();
+        }
+    }
 }
 
 class TimesNode extends BinaryExpNode {
@@ -1728,12 +1790,35 @@ class TimesNode extends BinaryExpNode {
         p.print(")");
     }
 
-    public Type nameCheckExp() {return null;}
+    public void callErrorMessage(String msg){
+        myExp1.callErrorMessage(msg);
+    }
+
+    public Type nameCheckExp() {
+        Type myType1 = myExp1.nameCheckExp();
+        Type myType2 = myExp2.nameCheckExp();
+        if((!myType1.isIntType()) && (!myType1.isErrorType())){
+            myExp1.callErrorMessage(arith_non_numeric);
+        }
+        if((!myType2.isIntType()) && (!myType2.isErrorType())){
+            myExp2.callErrorMessage(arith_non_numeric);
+        }
+
+        if(myType1.isIntType() && myType2.isIntType()){ // lhs and rhs operands are good
+            return myType1;
+        }else{
+            return new ErrorType();
+        }
+    }
 }
 
 class DivideNode extends BinaryExpNode {
     public DivideNode(ExpNode exp1, ExpNode exp2) {
         super(exp1, exp2);
+    }
+
+    public void callErrorMessage(String msg){
+        myExp1.callErrorMessage(msg);
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -1744,7 +1829,22 @@ class DivideNode extends BinaryExpNode {
         p.print(")");
     }
 
-    public Type nameCheckExp() {return null;}
+    public Type nameCheckExp() {
+        Type myType1 = myExp1.nameCheckExp();
+        Type myType2 = myExp2.nameCheckExp();
+        if((!myType1.isIntType()) && (!myType1.isErrorType())){
+            myExp1.callErrorMessage(arith_non_numeric);
+        }
+        if((!myType2.isIntType()) && (!myType2.isErrorType())){
+            myExp2.callErrorMessage(arith_non_numeric);
+        }
+
+        if(myType1.isIntType() && myType2.isIntType()){ // lhs and rhs operands are good
+            return myType1;
+        }else{
+            return new ErrorType();
+        }
+    }
 }
 
 class AndNode extends BinaryExpNode {
@@ -1760,7 +1860,26 @@ class AndNode extends BinaryExpNode {
         p.print(")");
     }
 
-    public Type nameCheckExp() {return null;}
+    public void callErrorMessage(String msg){
+        myExp1.callErrorMessage(msg);
+    }
+
+    public Type nameCheckExp() {
+        Type myType1 = myExp1.nameCheckExp();
+        Type myType2 = myExp2.nameCheckExp();
+        if((!myType1.isBoolType()) && (!myType1.isErrorType())){
+            myExp1.callErrorMessage(logi_non_bool);
+        }
+        if((!myType2.isBoolType()) && (!myType2.isErrorType())){
+            myExp2.callErrorMessage(logi_non_bool);
+        }
+
+        if(myType1.isBoolType() && myType2.isBoolType()){ // lhs and rhs operands are good
+            return myType1;
+        }else{
+            return new ErrorType();
+        }
+    }
 }
 
 class OrNode extends BinaryExpNode {
@@ -1776,7 +1895,26 @@ class OrNode extends BinaryExpNode {
         p.print(")");
     }
 
-    public Type nameCheckExp() {return null;}
+    public void callErrorMessage(String msg){
+        myExp1.callErrorMessage(msg);
+    }
+
+    public Type nameCheckExp() {
+        Type myType1 = myExp1.nameCheckExp();
+        Type myType2 = myExp2.nameCheckExp();
+        if((!myType1.isBoolType()) && (!myType1.isErrorType())){
+            myExp1.callErrorMessage(logi_non_bool);
+        }
+        if((!myType2.isBoolType()) && (!myType2.isErrorType())){
+            myExp2.callErrorMessage(logi_non_bool);
+        }
+
+        if(myType1.isBoolType() && myType2.isBoolType()){ // lhs and rhs operands are good
+            return myType1;
+        }else{
+            return new ErrorType();
+        }
+    }
 }
 
 class EqualsNode extends BinaryExpNode {
@@ -1790,6 +1928,10 @@ class EqualsNode extends BinaryExpNode {
         p.print(" == ");
         myExp2.unparse(p, 0);
         p.print(")");
+    }
+
+    public void callErrorMessage(String msg){
+        myExp1.callErrorMessage(msg);
     }
 
     public Type nameCheckExp() {return null;}
@@ -1808,6 +1950,10 @@ class NotEqualsNode extends BinaryExpNode {
         p.print(")");
     }
 
+    public void callErrorMessage(String msg){
+        myExp1.callErrorMessage(msg);
+    }
+
     public Type nameCheckExp() {return null;}
 }
 
@@ -1822,6 +1968,10 @@ class LessNode extends BinaryExpNode {
         p.print(" < ");
         myExp2.unparse(p, 0);
         p.print(")");
+    }
+
+    public void callErrorMessage(String msg){
+        myExp1.callErrorMessage(msg);
     }
 
     public Type nameCheckExp() {return null;}
@@ -1840,6 +1990,10 @@ class GreaterNode extends BinaryExpNode {
         p.print(")");
     }
 
+    public void callErrorMessage(String msg){
+        myExp1.callErrorMessage(msg);
+    }
+
     public Type nameCheckExp() {return null;}
 }
 
@@ -1856,6 +2010,10 @@ class LessEqNode extends BinaryExpNode {
         p.print(")");
     }
 
+    public void callErrorMessage(String msg){
+        myExp1.callErrorMessage(msg);
+    }
+
     public Type nameCheckExp() {return null;}
 }
 
@@ -1870,6 +2028,10 @@ class GreaterEqNode extends BinaryExpNode {
         p.print(" >= ");
         myExp2.unparse(p, 0);
         p.print(")");
+    }
+
+    public void callErrorMessage(String msg){
+        myExp1.callErrorMessage(msg);
     }
 
     public Type nameCheckExp() {return null;}
