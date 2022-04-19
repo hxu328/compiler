@@ -3,10 +3,25 @@ struct Point {
     int x;
     int y;
 };
-int f(int x, bool b) { }
+int f(int x, bool b) { 
+    return;
+}
 void g() {
     int a;
     bool b;
     struct Point p;
     b = ((b - 1) + (a * b) - (b / a)) + b;
+    a++;
+    g++;
+    p.x++;
+
+    a = (a - 1) < (a + 1);
+    a();
+    f();
+    f(1);
+    f(1, 1);
+    f(1, true);
+    f(true, true);
+    f(1, (true + 1));
+    return a;
 }

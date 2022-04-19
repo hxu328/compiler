@@ -365,6 +365,10 @@ class ExpListNode extends ASTnode {
         } 
     }
 
+    public List<ExpNode> getList(){
+        return myExps;
+    }
+
     // list of kids (ExpNodes)
     private List<ExpNode> myExps;
 }
@@ -865,7 +869,15 @@ class PostIncStmtNode extends StmtNode {
         p.println("++;");
     }
 
-    public void typeCheck3000(TypeNode myType){}
+    public void typeCheck3000(TypeNode myType){
+        Type expType = myExp.nameCheckExp();
+        if(expType.isIntType() || expType.isErrorType()){
+            // do nothing
+        }else{
+            myExp.callErrorMessage(arith_non_numeric);
+        }
+
+    }
 
     // one kid
     private ExpNode myExp;
@@ -890,7 +902,14 @@ class PostDecStmtNode extends StmtNode {
         p.println("--;");
     }
 
-    public void typeCheck3000(TypeNode myType){}
+    public void typeCheck3000(TypeNode myType){
+        Type expType = myExp.nameCheckExp();
+        if(expType.isIntType() || expType.isErrorType()){
+            // do nothing
+        }else{
+            myExp.callErrorMessage(arith_non_numeric);
+        }
+    }
 
     // one kid
     private ExpNode myExp;
@@ -917,6 +936,16 @@ class ReadStmtNode extends StmtNode {
     }
 
     public void typeCheck3000(TypeNode myType){
+        Type expType = myExp.nameCheckExp();
+        if(expType.isFnType()){
+            myExp.callErrorMessage(read_fnct);
+        } else if (expType.isStructDefType()){
+            myExp.callErrorMessage(read_struct_name);
+        } else if (expType.isStructType()){
+            myExp.callErrorMessage(read_struct_var);
+        } else {
+            // do nothing (expType can be int, bool, ErrorType, won't be void or String due to the grammer)
+        }
     }
 
     // one kid (actually can only be an IdNode or an ArrayExpNode)
@@ -943,7 +972,20 @@ class WriteStmtNode extends StmtNode {
         p.println(";");
     }
 
-    public void typeCheck3000(TypeNode myType){}
+    public void typeCheck3000(TypeNode myType){
+        Type expType = myExp.nameCheckExp();
+        if(expType.isFnType()){
+            myExp.callErrorMessage(write_fnct);
+        } else if (expType.isStructDefType()){
+            myExp.callErrorMessage(write_struct_name);
+        } else if (expType.isStructType()){
+            myExp.callErrorMessage(write_struct_var);
+        } else if (expType.isVoidType()){
+            myExp.callErrorMessage(write_void);
+        } else {
+            // do nothing (expType is int, bool, String, ErrorType)
+        }
+    }
 
     // one kid
     private ExpNode myExp;
@@ -989,7 +1031,16 @@ class IfStmtNode extends StmtNode {
         p.println("}");
     }
 
-    public void typeCheck3000(TypeNode myType){}
+    public void typeCheck3000(TypeNode myType){
+        Type condType = myExp.nameCheckExp();
+        if((!condType.isBoolType()) && (!condType.isErrorType())){
+            myExp.callErrorMessage(if_non_bool);
+        }
+
+        myStmtList.typeCheck3000(myType);
+        
+
+    }
     
     // three kids
     private ExpNode myExp;
@@ -1060,7 +1111,15 @@ class IfElseStmtNode extends StmtNode {
         p.println("}");        
     }
 
-    public void typeCheck3000(TypeNode myType){}
+    public void typeCheck3000(TypeNode myType){
+        Type condType = myExp.nameCheckExp();
+        if((!condType.isBoolType()) && (!condType.isErrorType())){
+            myExp.callErrorMessage(if_non_bool);
+        }
+
+        myThenStmtList.typeCheck3000(myType);
+        myElseStmtList.typeCheck3000(myType);
+    }
 
     // 5 kids
     private ExpNode myExp;
@@ -1110,7 +1169,14 @@ class WhileStmtNode extends StmtNode {
         p.println("}");
     }
 
-    public void typeCheck3000(TypeNode myType){}
+    public void typeCheck3000(TypeNode myType){
+        Type condType = myExp.nameCheckExp();
+        if((!condType.isBoolType()) && (!condType.isErrorType())){
+            myExp.callErrorMessage(while_non_bool);
+        }
+
+        myStmtList.typeCheck3000(myType);
+    }
 
     // three kids
     private ExpNode myExp;
@@ -1137,7 +1203,9 @@ class CallStmtNode extends StmtNode {
         p.println(";");
     }
 
-    public void typeCheck3000(TypeNode myType){}
+    public void typeCheck3000(TypeNode myType){
+        myCall.nameCheckExp();
+    }
 
     // one kid
     private CallExpNode myCall;
@@ -1170,6 +1238,25 @@ class ReturnStmtNode extends StmtNode {
     }
 
     public void typeCheck3000(TypeNode myType){
+        Type retType = myType.type();
+        if(!retType.isVoidType()){  // function is non-void
+            if(myExp == null){
+                ErrMsg.fatal(0,0,return_mis);
+                return;
+            }
+            Type expType = myExp.nameCheckExp();
+            if(retType.equals(expType) || expType.isErrorType()){
+                return;
+            } else {
+                myExp.callErrorMessage(return_bad);
+                return;
+            }
+        } else {  // function is void
+            if(myExp != null){
+                myExp.callErrorMessage(return_to_void);
+            }
+            return;
+        }
     }
 
     // one kid
@@ -1595,7 +1682,47 @@ class CallExpNode extends ExpNode {
         myId.callErrorMessage(msg);
     }
 
-    public Type nameCheckExp() {return null;}
+    public Type nameCheckExp() {
+        Type myType = myId.nameCheckExp();
+        if(!myType.isFnType()){  // myId is non-function
+            myId.callErrorMessage(call_non_fnct);
+            return new ErrorType();
+        }
+
+        Sym expSym = myId.sym();
+        Type retType = ((FnSym)expSym).getReturnType();
+        int numParams = ((FnSym)expSym).getNumParams();
+        List<ExpNode> exps = myExpList.getList();
+
+        // # of args in fnct def is 0
+        if(numParams == 0){
+            if(exps.size() != 0){
+                myId.callErrorMessage(call_wrg_num_args);
+            }
+            return retType;
+        }
+
+        // # of args in fnct def is > 0
+        if(numParams != exps.size()){  // wrong # of args
+            myId.callErrorMessage(call_wrg_num_args);
+            return retType;
+        }
+
+        // check types (# args > 0)
+        List<Type> types = ((FnSym)expSym).getParamTypes();
+        for(int i = 0; i < exps.size(); i++){
+            Type tempType1 = (exps.get(i)).nameCheckExp();
+            Type tempType2 = types.get(i);
+            if(tempType1.equals(tempType2) || tempType1.isErrorType()){
+                continue;
+            } else {
+                (exps.get(i)).callErrorMessage(call_type_mismatch);
+            }
+        }
+
+
+        return retType;
+    }
 
     // two kids
     private IdNode myId;
@@ -1974,7 +2101,22 @@ class LessNode extends BinaryExpNode {
         myExp1.callErrorMessage(msg);
     }
 
-    public Type nameCheckExp() {return null;}
+    public Type nameCheckExp() {
+        Type myType1 = myExp1.nameCheckExp();
+        Type myType2 = myExp2.nameCheckExp();
+        if((!myType1.isIntType()) && (!myType1.isErrorType())){
+            myExp1.callErrorMessage(rela_non_numeric);
+        }
+        if((!myType2.isIntType()) && (!myType2.isErrorType())){
+            myExp2.callErrorMessage(rela_non_numeric);
+        }
+
+        if(myType1.isIntType() && myType2.isIntType()){
+            return new BoolType();
+        }else{
+            return new ErrorType();
+        }
+    }
 }
 
 class GreaterNode extends BinaryExpNode {
@@ -1994,7 +2136,22 @@ class GreaterNode extends BinaryExpNode {
         myExp1.callErrorMessage(msg);
     }
 
-    public Type nameCheckExp() {return null;}
+    public Type nameCheckExp() {
+        Type myType1 = myExp1.nameCheckExp();
+        Type myType2 = myExp2.nameCheckExp();
+        if((!myType1.isIntType()) && (!myType1.isErrorType())){
+            myExp1.callErrorMessage(rela_non_numeric);
+        }
+        if((!myType2.isIntType()) && (!myType2.isErrorType())){
+            myExp2.callErrorMessage(rela_non_numeric);
+        }
+
+        if(myType1.isIntType() && myType2.isIntType()){
+            return new BoolType();
+        }else{
+            return new ErrorType();
+        }
+    }
 }
 
 class LessEqNode extends BinaryExpNode {
@@ -2014,7 +2171,22 @@ class LessEqNode extends BinaryExpNode {
         myExp1.callErrorMessage(msg);
     }
 
-    public Type nameCheckExp() {return null;}
+    public Type nameCheckExp() {
+        Type myType1 = myExp1.nameCheckExp();
+        Type myType2 = myExp2.nameCheckExp();
+        if((!myType1.isIntType()) && (!myType1.isErrorType())){
+            myExp1.callErrorMessage(rela_non_numeric);
+        }
+        if((!myType2.isIntType()) && (!myType2.isErrorType())){
+            myExp2.callErrorMessage(rela_non_numeric);
+        }
+
+        if(myType1.isIntType() && myType2.isIntType()){
+            return new BoolType();
+        }else{
+            return new ErrorType();
+        }
+    }
 }
 
 class GreaterEqNode extends BinaryExpNode {
@@ -2034,5 +2206,20 @@ class GreaterEqNode extends BinaryExpNode {
         myExp1.callErrorMessage(msg);
     }
 
-    public Type nameCheckExp() {return null;}
+    public Type nameCheckExp() {
+        Type myType1 = myExp1.nameCheckExp();
+        Type myType2 = myExp2.nameCheckExp();
+        if((!myType1.isIntType()) && (!myType1.isErrorType())){
+            myExp1.callErrorMessage(rela_non_numeric);
+        }
+        if((!myType2.isIntType()) && (!myType2.isErrorType())){
+            myExp2.callErrorMessage(rela_non_numeric);
+        }
+
+        if(myType1.isIntType() && myType2.isIntType()){
+            return new BoolType();
+        }else{
+            return new ErrorType();
+        }
+    }
 }
