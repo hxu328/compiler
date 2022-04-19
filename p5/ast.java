@@ -165,6 +165,11 @@ class ProgramNode extends ASTnode {
         myDeclList.nameAnalysis(symTab);
     }
     
+    public void typeCheck3000(){
+        // call typeCheck for its child
+        myDeclList.typeCheck3000();
+    }
+
     public void unparse(PrintWriter p, int indent) {
         myDeclList.unparse(p, indent);
     }
@@ -211,6 +216,14 @@ class DeclListNode extends ASTnode {
         } catch (NoSuchElementException ex) {
             System.err.println("unexpected NoSuchElementException in DeclListNode.print");
             System.exit(-1);
+        }
+    }
+
+    public void typeCheck3000(){
+        for(DeclNode node : myDecls){
+            if(node instanceof FnDeclNode){
+                ((FnDeclNode)node).typeCheck3000();
+            }
         }
     }
 
@@ -285,6 +298,10 @@ class FnBodyNode extends ASTnode {
         myStmtList.unparse(p, indent);
     }
 
+    public void typeCheck3000(TypeNode myType){
+        myStmtList.typeCheck3000(myType);
+    }
+
     // two kids
     private DeclListNode myDeclList;
     private StmtListNode myStmtList;
@@ -309,6 +326,19 @@ class StmtListNode extends ASTnode {
         Iterator<StmtNode> it = myStmts.iterator();
         while (it.hasNext()) {
             it.next().unparse(p, indent);
+        }
+    }
+
+    public void typeCheck3000(TypeNode myType){
+        for(StmtNode node : myStmts){
+            if(node instanceof ReturnStmtNode){
+                // compare return type with function type
+                if(((ReturnStmtNode)node).typeCheck3000(myType) != myType.type()){
+                    // throw an error
+                }
+            } else {
+                node.typeCheck3000(myType);
+            }
         }
     }
 
@@ -556,6 +586,10 @@ class FnDeclNode extends DeclNode {
         p.println("}\n");
     }
 
+    public void typeCheck3000(){
+        myBody.typeCheck3000(myType);
+    }
+
     // 4 kids
     private TypeNode myType;
     private IdNode myId;
@@ -789,6 +823,7 @@ class StructNode extends TypeNode {
 
 abstract class StmtNode extends ASTnode {
     abstract public void nameAnalysis(SymTable symTab);
+    abstract public Type typeCheck3000(TypeNode myType);
 }
 
 class AssignStmtNode extends StmtNode {
@@ -809,6 +844,8 @@ class AssignStmtNode extends StmtNode {
         myAssign.unparse(p, -1); // no parentheses
         p.println(";");
     }
+
+    public Type typeCheck3000(TypeNode myType){return null;}
 
     // one kid
     private AssignExpNode myAssign;
@@ -833,6 +870,8 @@ class PostIncStmtNode extends StmtNode {
         p.println("++;");
     }
 
+    public Type typeCheck3000(TypeNode myType){return null;}
+
     // one kid
     private ExpNode myExp;
 }
@@ -855,6 +894,8 @@ class PostDecStmtNode extends StmtNode {
         myExp.unparse(p, 0);
         p.println("--;");
     }
+
+    public Type typeCheck3000(TypeNode myType){return null;}
 
     // one kid
     private ExpNode myExp;
@@ -880,6 +921,10 @@ class ReadStmtNode extends StmtNode {
         p.println(";");
     }
 
+    public Type typeCheck3000(TypeNode myType){
+        return null;
+    }
+
     // one kid (actually can only be an IdNode or an ArrayExpNode)
     private ExpNode myExp;
 }
@@ -903,6 +948,8 @@ class WriteStmtNode extends StmtNode {
         myExp.unparse(p, 0);
         p.println(";");
     }
+
+    public Type typeCheck3000(TypeNode myType){return null;}
 
     // one kid
     private ExpNode myExp;
@@ -948,6 +995,8 @@ class IfStmtNode extends StmtNode {
         p.println("}");
     }
 
+    public Type typeCheck3000(TypeNode myType){return null;}
+    
     // three kids
     private ExpNode myExp;
     private DeclListNode myDeclList;
@@ -1017,6 +1066,8 @@ class IfElseStmtNode extends StmtNode {
         p.println("}");        
     }
 
+    public Type typeCheck3000(TypeNode myType){return null;}
+
     // 5 kids
     private ExpNode myExp;
     private DeclListNode myThenDeclList;
@@ -1065,6 +1116,8 @@ class WhileStmtNode extends StmtNode {
         p.println("}");
     }
 
+    public Type typeCheck3000(TypeNode myType){return null;}
+
     // three kids
     private ExpNode myExp;
     private DeclListNode myDeclList;
@@ -1089,6 +1142,8 @@ class CallStmtNode extends StmtNode {
         myCall.unparse(p, indent);
         p.println(";");
     }
+
+    public Type typeCheck3000(TypeNode myType){return null;}
 
     // one kid
     private CallExpNode myCall;
@@ -1118,6 +1173,10 @@ class ReturnStmtNode extends StmtNode {
             myExp.unparse(p, 0);
         }
         p.println(";");
+    }
+
+    public Type typeCheck3000(TypeNode myType){
+        return null;
     }
 
     // one kid
