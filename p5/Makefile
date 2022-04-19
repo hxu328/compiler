@@ -58,7 +58,6 @@ EmptySymTableException.class: EmptySymTableException.java
 # test
 ###
 test:
-	java -cp $(CP) P5 typeErrors.minim typeErrors.out
 	java -cp $(CP) P5 test.minim test.out
 
 ###

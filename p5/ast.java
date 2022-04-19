@@ -331,14 +331,7 @@ class StmtListNode extends ASTnode {
 
     public void typeCheck3000(TypeNode myType){
         for(StmtNode node : myStmts){
-            if(node instanceof ReturnStmtNode){
-                // compare return type with function type
-                if(((ReturnStmtNode)node).typeCheck3000(myType) != myType.type()){
-                    // throw an error
-                }
-            } else {
-                node.typeCheck3000(myType);
-            }
+            node.typeCheck3000(myType);
         }
     }
 
@@ -823,7 +816,7 @@ class StructNode extends TypeNode {
 
 abstract class StmtNode extends ASTnode {
     abstract public void nameAnalysis(SymTable symTab);
-    abstract public Type typeCheck3000(TypeNode myType);
+    abstract public void typeCheck3000(TypeNode myType);
 }
 
 class AssignStmtNode extends StmtNode {
@@ -845,7 +838,9 @@ class AssignStmtNode extends StmtNode {
         p.println(";");
     }
 
-    public Type typeCheck3000(TypeNode myType){return null;}
+    public void typeCheck3000(TypeNode myType){
+        myAssign.nameCheckExp();
+    }
 
     // one kid
     private AssignExpNode myAssign;
@@ -870,7 +865,7 @@ class PostIncStmtNode extends StmtNode {
         p.println("++;");
     }
 
-    public Type typeCheck3000(TypeNode myType){return null;}
+    public void typeCheck3000(TypeNode myType){}
 
     // one kid
     private ExpNode myExp;
@@ -895,7 +890,7 @@ class PostDecStmtNode extends StmtNode {
         p.println("--;");
     }
 
-    public Type typeCheck3000(TypeNode myType){return null;}
+    public void typeCheck3000(TypeNode myType){}
 
     // one kid
     private ExpNode myExp;
@@ -921,8 +916,7 @@ class ReadStmtNode extends StmtNode {
         p.println(";");
     }
 
-    public Type typeCheck3000(TypeNode myType){
-        return null;
+    public void typeCheck3000(TypeNode myType){
     }
 
     // one kid (actually can only be an IdNode or an ArrayExpNode)
@@ -949,7 +943,7 @@ class WriteStmtNode extends StmtNode {
         p.println(";");
     }
 
-    public Type typeCheck3000(TypeNode myType){return null;}
+    public void typeCheck3000(TypeNode myType){}
 
     // one kid
     private ExpNode myExp;
@@ -995,7 +989,7 @@ class IfStmtNode extends StmtNode {
         p.println("}");
     }
 
-    public Type typeCheck3000(TypeNode myType){return null;}
+    public void typeCheck3000(TypeNode myType){}
     
     // three kids
     private ExpNode myExp;
@@ -1066,7 +1060,7 @@ class IfElseStmtNode extends StmtNode {
         p.println("}");        
     }
 
-    public Type typeCheck3000(TypeNode myType){return null;}
+    public void typeCheck3000(TypeNode myType){}
 
     // 5 kids
     private ExpNode myExp;
@@ -1116,7 +1110,7 @@ class WhileStmtNode extends StmtNode {
         p.println("}");
     }
 
-    public Type typeCheck3000(TypeNode myType){return null;}
+    public void typeCheck3000(TypeNode myType){}
 
     // three kids
     private ExpNode myExp;
@@ -1143,7 +1137,7 @@ class CallStmtNode extends StmtNode {
         p.println(";");
     }
 
-    public Type typeCheck3000(TypeNode myType){return null;}
+    public void typeCheck3000(TypeNode myType){}
 
     // one kid
     private CallExpNode myCall;
@@ -1175,8 +1169,7 @@ class ReturnStmtNode extends StmtNode {
         p.println(";");
     }
 
-    public Type typeCheck3000(TypeNode myType){
-        return null;
+    public void typeCheck3000(TypeNode myType){
     }
 
     // one kid
@@ -1192,6 +1185,7 @@ abstract class ExpNode extends ASTnode {
      * Default version for nodes with no names
      ***/
     public void nameAnalysis(SymTable symTab) { }
+    abstract public Type nameCheckExp();
 }
 
 class IntLitNode extends ExpNode {
@@ -1203,6 +1197,15 @@ class IntLitNode extends ExpNode {
 
     public void unparse(PrintWriter p, int indent) {
         p.print(myIntVal);
+    }
+
+    public void callErrorMessage(String msg){
+        ErrMsg.fatal(myLineNum, myCharNum, msg);
+    }
+
+    public Type nameCheckExp() {
+        Type myType = new IntType();
+        return myType;
     }
 
     private int myLineNum;
@@ -1221,6 +1224,15 @@ class StringLitNode extends ExpNode {
         p.print(myStrVal);
     }
 
+    public void callErrorMessage(String msg){
+        ErrMsg.fatal(myLineNum, myCharNum, msg);
+    }
+
+    public Type nameCheckExp() {
+        Type myType = new StringType();
+        return myType;
+    }
+
     private int myLineNum;
     private int myCharNum;
     private String myStrVal;
@@ -1236,6 +1248,15 @@ class TrueNode extends ExpNode {
         p.print("true");
     }
 
+    public void callErrorMessage(String msg){
+        ErrMsg.fatal(myLineNum, myCharNum, msg);
+    }
+
+    public Type nameCheckExp() {
+        Type myType = new BoolType();
+        return myType;
+    }
+
     private int myLineNum;
     private int myCharNum;
 }
@@ -1248,6 +1269,15 @@ class FalseNode extends ExpNode {
 
     public void unparse(PrintWriter p, int indent) {
         p.print("false");
+    }
+
+    public void callErrorMessage(String msg){
+        ErrMsg.fatal(myLineNum, myCharNum, msg);
+    }
+
+    public Type nameCheckExp() {
+        Type myType = new BoolType();
+        return myType;
     }
 
     private int myLineNum;
@@ -1298,6 +1328,11 @@ class IdNode extends ExpNode {
 
     public void callErrorMessage(String msg){
         ErrMsg.fatal(myLineNum, myCharNum, msg);
+    }
+
+    public Type nameCheckExp() {
+        Type myType = mySym.getType();
+        return myType;
     }   
     
     /***
@@ -1470,6 +1505,16 @@ class DotAccessExpNode extends ExpNode {
         myId.unparse(p, 0);
     }
 
+    public void callErrorMessage(String msg){
+        myId.callErrorMessage(msg);
+    }
+
+    public Type nameCheckExp() {
+        return myId.nameCheckExp();
+    }
+
+
+
     // two kids
     private ExpNode myLoc;    
     private IdNode myId;
@@ -1500,6 +1545,10 @@ class AssignExpNode extends ExpNode {
         p.print(" = ");
         myExp.unparse(p, 0);
         if (indent != -1)  p.print(")");
+    }
+
+    public Type nameCheckExp() {
+        return myExp.nameCheckExp();
     }
 
     // two kids
@@ -1536,6 +1585,8 @@ class CallExpNode extends ExpNode {
         }
         p.print(")");
     }
+
+    public Type nameCheckExp() {return null;}
 
     // two kids
     private IdNode myId;
@@ -1594,6 +1645,10 @@ class UnaryMinusNode extends UnaryExpNode {
         myExp.unparse(p, 0);
         p.print(")");
     }
+
+    public Type nameCheckExp() {
+        return null;
+    }
 }
 
 class NotNode extends UnaryExpNode {
@@ -1605,6 +1660,22 @@ class NotNode extends UnaryExpNode {
         p.print("(!");
         myExp.unparse(p, 0);
         p.print(")");
+    }
+
+    public Type nameCheckExp() {
+        if(myExp instanceof TrueNode){
+            return ((TrueNode)myExp).nameCheckExp();
+        } else if (myExp instanceof FalseNode){
+            return ((FalseNode)myExp).nameCheckExp();
+        } else if (myExp instanceof IdNode){
+            Type myType = ((IdNode)myExp).nameCheckExp();
+            if(!myType.isBoolType()){
+                ((IdNode)myExp).callErrorMessage(logi_non_bool);
+                return new ErrorType();
+            }
+        }
+
+        return new ErrorType();
     }
 }
 
@@ -1624,6 +1695,8 @@ class PlusNode extends BinaryExpNode {
         myExp2.unparse(p, 0);
         p.print(")");
     }
+
+    public Type nameCheckExp() {return null;}
 }
 
 class MinusNode extends BinaryExpNode {
@@ -1638,6 +1711,8 @@ class MinusNode extends BinaryExpNode {
         myExp2.unparse(p, 0);
         p.print(")");
     }
+
+    public Type nameCheckExp() {return null;}
 }
 
 class TimesNode extends BinaryExpNode {
@@ -1652,6 +1727,8 @@ class TimesNode extends BinaryExpNode {
         myExp2.unparse(p, 0);
         p.print(")");
     }
+
+    public Type nameCheckExp() {return null;}
 }
 
 class DivideNode extends BinaryExpNode {
@@ -1666,6 +1743,8 @@ class DivideNode extends BinaryExpNode {
         myExp2.unparse(p, 0);
         p.print(")");
     }
+
+    public Type nameCheckExp() {return null;}
 }
 
 class AndNode extends BinaryExpNode {
@@ -1680,6 +1759,8 @@ class AndNode extends BinaryExpNode {
         myExp2.unparse(p, 0);
         p.print(")");
     }
+
+    public Type nameCheckExp() {return null;}
 }
 
 class OrNode extends BinaryExpNode {
@@ -1694,6 +1775,8 @@ class OrNode extends BinaryExpNode {
         myExp2.unparse(p, 0);
         p.print(")");
     }
+
+    public Type nameCheckExp() {return null;}
 }
 
 class EqualsNode extends BinaryExpNode {
@@ -1708,6 +1791,8 @@ class EqualsNode extends BinaryExpNode {
         myExp2.unparse(p, 0);
         p.print(")");
     }
+
+    public Type nameCheckExp() {return null;}
 }
 
 class NotEqualsNode extends BinaryExpNode {
@@ -1722,6 +1807,8 @@ class NotEqualsNode extends BinaryExpNode {
         myExp2.unparse(p, 0);
         p.print(")");
     }
+
+    public Type nameCheckExp() {return null;}
 }
 
 class LessNode extends BinaryExpNode {
@@ -1736,6 +1823,8 @@ class LessNode extends BinaryExpNode {
         myExp2.unparse(p, 0);
         p.print(")");
     }
+
+    public Type nameCheckExp() {return null;}
 }
 
 class GreaterNode extends BinaryExpNode {
@@ -1750,6 +1839,8 @@ class GreaterNode extends BinaryExpNode {
         myExp2.unparse(p, 0);
         p.print(")");
     }
+
+    public Type nameCheckExp() {return null;}
 }
 
 class LessEqNode extends BinaryExpNode {
@@ -1764,6 +1855,8 @@ class LessEqNode extends BinaryExpNode {
         myExp2.unparse(p, 0);
         p.print(")");
     }
+
+    public Type nameCheckExp() {return null;}
 }
 
 class GreaterEqNode extends BinaryExpNode {
@@ -1778,4 +1871,6 @@ class GreaterEqNode extends BinaryExpNode {
         myExp2.unparse(p, 0);
         p.print(")");
     }
+
+    public Type nameCheckExp() {return null;}
 }

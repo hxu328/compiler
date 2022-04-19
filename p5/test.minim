@@ -1,0 +1,11 @@
+//* Example test from the website
+struct Point {
+    int x;
+    int y;
+};
+int f(int x, bool b) { }
+void g() {
+    int a;
+    bool b;
+    b = !a;
+}
