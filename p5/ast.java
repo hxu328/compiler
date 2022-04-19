@@ -113,6 +113,36 @@ abstract class ASTnode {
     protected void doIndent(PrintWriter p, int indent) {
         for (int k=0; k<indent; k++) p.print(" ");
     }
+
+    // Error messages
+    protected String write_fnct = "Write attempt of function";
+    protected String write_struct_name = "Write attempt of struct name";
+    protected String write_struct_var = "Write attempt of struct variable";
+    protected String write_void = "Write attempt of void";
+    protected String read_fnct = "Read attempt of function";
+    protected String read_struct_name = "Read attempt of struct name";
+    protected String read_struct_var = "Read attempt of struct variable";
+    protected String call_non_fnct = "Call attempt on non-function";
+    protected String call_wrg_num_args = "Function call with wrong # of args";
+    protected String call_type_mismatch = "Actual type and formal type do not match";
+    protected String return_mis = "Return value missing";
+    protected String return_to_void = "Return with value in void function";
+    protected String return_bad = "Bad return value";
+    protected String arith_non_numeric = "Arithmetic operator with non-numeric operand";
+    protected String rela_non_numeric = "Relational operator with non-numeric operand";
+    protected String logi_non_bool = "Logical operator with non-bool operand";
+    protected String if_non_bool = "Non-bool expression in condition of if";
+    protected String while_non_bool = "Non-bool expression in condition of while";
+    protected String type_mismatch = "Type mismatch";
+    protected String equ_void_fnct = "Equality operator used with void functions";
+    protected String equ_fnct_name = "Equality operator used with functions";
+    protected String equ_struct_name = "Equality operator used with struct names";
+    protected String equ_struct_var = "Equality operator used with struct variables";
+    protected String assign_fnct_name = "Function assignment";
+    protected String assign_struct_name = "Struct name assignment";
+    protected String assign_struct_var = "Struct variable assignment";
+
+
 }
 
 // **********************************************************************
@@ -1205,7 +1235,11 @@ class IdNode extends ExpNode {
      ***/
     public int charNum() {
         return myCharNum;
-    }    
+    }
+
+    public void callErrorMessage(String msg){
+        ErrMsg.fatal(myLineNum, myCharNum, msg);
+    }   
     
     /***
      * nameAnalysis
