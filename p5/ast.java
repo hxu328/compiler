@@ -1594,7 +1594,7 @@ class DotAccessExpNode extends ExpNode {
     }
 
     public void callErrorMessage(String msg){
-        myLoc.callErrorMessage(msg);
+        myId.callErrorMessage(msg);
     }
 
     public Type nameCheckExp() {
@@ -1640,7 +1640,37 @@ class AssignExpNode extends ExpNode {
     }
 
     public Type nameCheckExp() {
-        return myExp.nameCheckExp();
+        Type lhsType = myLhs.nameCheckExp();  // can't be error type
+        Type rhsType = myExp.nameCheckExp();
+
+        if(!lhsType.equals(rhsType)){
+            if(!lhsType.isErrorType() && !rhsType.isErrorType()){
+                myLhs.callErrorMessage(type_mismatch);
+            }
+            return new ErrorType();
+        }
+
+        if(lhsType.isFnType() && rhsType.isFnType()){
+            myLhs.callErrorMessage(assign_fnct_name);
+            return new ErrorType();
+        }
+
+        if(lhsType.isStructDefType() && rhsType.isStructDefType()){
+            myLhs.callErrorMessage(assign_struct_name);
+            return new ErrorType();
+        }
+
+        if(lhsType.isStructType() && rhsType.isStructType()){
+            myLhs.callErrorMessage(assign_struct_var);
+            return new ErrorType();
+        }
+
+        if(!lhsType.isErrorType() && !rhsType.isErrorType()){
+            return rhsType;
+        } else {
+            return new ErrorType();
+        }
+
     }
 
     // two kids
@@ -2061,7 +2091,50 @@ class EqualsNode extends BinaryExpNode {
         myExp1.callErrorMessage(msg);
     }
 
-    public Type nameCheckExp() {return null;}
+    public Type nameCheckExp() {
+        Type myType1 = myExp1.nameCheckExp();
+        Type myType2 = myExp2.nameCheckExp();
+
+        // check mismatch
+        if(!myType1.equals(myType2)){
+            if(!myType1.isErrorType() && !myType2.isErrorType()){
+                myExp1.callErrorMessage(type_mismatch);
+            }
+            return new ErrorType();
+        }
+
+        // check void operands
+        if(myType1.isVoidType() && myType2.isVoidType()){
+            myExp1.callErrorMessage(equ_void_fnct);
+            return new ErrorType();
+        }
+
+        // check fnct name operands
+        if(myType1.isFnType() && myType2.isFnType()){
+            myExp1.callErrorMessage(equ_fnct_name);
+            return new ErrorType();
+        }
+
+        // check struct name operands
+        if(myType1.isStructDefType() && myType2.isStructDefType()){
+            myExp1.callErrorMessage(equ_struct_name);
+            return new ErrorType();
+        }
+
+        // check struct variable operands
+        if(myType1.isStructType() && myType2.isStructType()){
+            myExp1.callErrorMessage(equ_struct_var);
+            return new ErrorType();
+        }
+
+        if(!myType1.isErrorType() && !myType2.isErrorType()){
+            return new BoolType();
+        } else {
+            return new ErrorType();
+        }
+
+
+    }
 }
 
 class NotEqualsNode extends BinaryExpNode {

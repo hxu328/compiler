@@ -1,0 +1,26 @@
+12:11 ****ERROR**** Arithmetic operator with non-numeric operand
+12:15 ****ERROR**** Arithmetic operator with non-numeric operand
+13:11 ****ERROR**** Type mismatch
+14:11 ****ERROR**** Relational operator with non-numeric operand
+14:15 ****ERROR**** Relational operator with non-numeric operand
+15:11 ****ERROR**** Equality operator used with functions
+18:5 ****ERROR**** Call attempt on non-function
+19:5 ****ERROR**** Function call with wrong # of args
+20:5 ****ERROR**** Function call with wrong # of args
+21:12 ****ERROR**** Actual type and formal type do not match
+22:7 ****ERROR**** Actual type and formal type do not match
+22:12 ****ERROR**** Actual type and formal type do not match
+23:5 ****ERROR**** Call attempt on non-function
+26:5 ****ERROR**** Type mismatch
+27:5 ****ERROR**** Struct variable assignment
+28:12 ****ERROR**** Read attempt of struct name
+29:17 ****ERROR**** Logical operator with non-bool operand
+30:11 ****ERROR**** Logical operator with non-bool operand
+30:18 ****ERROR**** Logical operator with non-bool operand
+33:12 ****ERROR**** Return with value in void function
+36:19 ****ERROR**** Arithmetic operator with non-numeric operand
+37:17 ****ERROR**** Arithmetic operator with non-numeric operand
+38:5 ****ERROR**** Type mismatch
+41:18 ****ERROR**** Arithmetic operator with non-numeric operand
+41:28 ****ERROR**** Relational operator with non-numeric operand
+41:34 ****ERROR**** Relational operator with non-numeric operand
