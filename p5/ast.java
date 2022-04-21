@@ -1594,7 +1594,7 @@ class DotAccessExpNode extends ExpNode {
     }
 
     public void callErrorMessage(String msg){
-        myId.callErrorMessage(msg);
+        myLoc.callErrorMessage(msg);
     }
 
     public Type nameCheckExp() {
