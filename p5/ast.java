@@ -2154,7 +2154,50 @@ class NotEqualsNode extends BinaryExpNode {
         myExp1.callErrorMessage(msg);
     }
 
-    public Type nameCheckExp() {return null;}
+    public Type nameCheckExp() {
+        Type myType1 = myExp1.nameCheckExp();
+        Type myType2 = myExp2.nameCheckExp();
+
+        // check mismatch
+        if(!myType1.equals(myType2)){
+            if(!myType1.isErrorType() && !myType2.isErrorType()){
+                myExp1.callErrorMessage(type_mismatch);
+            }
+            return new ErrorType();
+        }
+
+        // check void operands
+        if(myType1.isVoidType() && myType2.isVoidType()){
+            myExp1.callErrorMessage(equ_void_fnct);
+            return new ErrorType();
+        }
+
+        // check fnct name operands
+        if(myType1.isFnType() && myType2.isFnType()){
+            myExp1.callErrorMessage(equ_fnct_name);
+            return new ErrorType();
+        }
+
+        // check struct name operands
+        if(myType1.isStructDefType() && myType2.isStructDefType()){
+            myExp1.callErrorMessage(equ_struct_name);
+            return new ErrorType();
+        }
+
+        // check struct variable operands
+        if(myType1.isStructType() && myType2.isStructType()){
+            myExp1.callErrorMessage(equ_struct_var);
+            return new ErrorType();
+        }
+
+        if(!myType1.isErrorType() && !myType2.isErrorType()){
+            return new BoolType();
+        } else {
+            return new ErrorType();
+        }
+
+
+    }
 }
 
 class LessNode extends BinaryExpNode {
