@@ -59,16 +59,12 @@
 22:15 ****ERROR**** Arithmetic operator with non-numeric operand
 22:24 ****ERROR**** Logical operator with non-bool operand
 23:8 ****ERROR**** Type mismatch
-23:16 ****ERROR**** Type mismatch
 23:24 ****ERROR**** Logical operator with non-bool operand
 24:8 ****ERROR**** Type mismatch
-24:16 ****ERROR**** Type mismatch
 24:24 ****ERROR**** Logical operator with non-bool operand
 25:8 ****ERROR**** Type mismatch
-25:16 ****ERROR**** Type mismatch
 25:24 ****ERROR**** Logical operator with non-bool operand
 26:8 ****ERROR**** Type mismatch
-26:16 ****ERROR**** Type mismatch
 26:24 ****ERROR**** Logical operator with non-bool operand
 27:8 ****ERROR**** Logical operator with non-bool operand
 27:15 ****ERROR**** Logical operator with non-bool operand
@@ -191,28 +187,20 @@
 66:15 ****ERROR**** Arithmetic operator with non-numeric operand
 66:24 ****ERROR**** Relational operator with non-numeric operand
 67:8 ****ERROR**** Type mismatch
-67:16 ****ERROR**** Type mismatch
 67:23 ****ERROR**** Relational operator with non-numeric operand
 68:8 ****ERROR**** Type mismatch
-68:16 ****ERROR**** Type mismatch
 68:23 ****ERROR**** Relational operator with non-numeric operand
 69:8 ****ERROR**** Type mismatch
-69:16 ****ERROR**** Type mismatch
 69:23 ****ERROR**** Relational operator with non-numeric operand
 70:8 ****ERROR**** Type mismatch
-70:16 ****ERROR**** Type mismatch
 70:23 ****ERROR**** Relational operator with non-numeric operand
 71:8 ****ERROR**** Type mismatch
-71:16 ****ERROR**** Type mismatch
 71:24 ****ERROR**** Relational operator with non-numeric operand
 72:8 ****ERROR**** Type mismatch
-72:16 ****ERROR**** Type mismatch
 72:24 ****ERROR**** Relational operator with non-numeric operand
 73:8 ****ERROR**** Type mismatch
-73:16 ****ERROR**** Type mismatch
 73:24 ****ERROR**** Relational operator with non-numeric operand
 74:8 ****ERROR**** Type mismatch
-74:16 ****ERROR**** Type mismatch
 74:24 ****ERROR**** Relational operator with non-numeric operand
 75:8 ****ERROR**** Logical operator with non-bool operand
 75:15 ****ERROR**** Logical operator with non-bool operand
@@ -335,28 +323,20 @@
 114:15 ****ERROR**** Arithmetic operator with non-numeric operand
 114:23 ****ERROR**** Arithmetic operator with non-numeric operand
 115:8 ****ERROR**** Type mismatch
-115:16 ****ERROR**** Type mismatch
 115:23 ****ERROR**** Arithmetic operator with non-numeric operand
 116:8 ****ERROR**** Type mismatch
-116:16 ****ERROR**** Type mismatch
 116:23 ****ERROR**** Arithmetic operator with non-numeric operand
 117:8 ****ERROR**** Type mismatch
-117:16 ****ERROR**** Type mismatch
 117:23 ****ERROR**** Arithmetic operator with non-numeric operand
 118:8 ****ERROR**** Type mismatch
-118:16 ****ERROR**** Type mismatch
 118:23 ****ERROR**** Arithmetic operator with non-numeric operand
 119:8 ****ERROR**** Type mismatch
-119:16 ****ERROR**** Type mismatch
 119:23 ****ERROR**** Arithmetic operator with non-numeric operand
 120:8 ****ERROR**** Type mismatch
-120:16 ****ERROR**** Type mismatch
 120:23 ****ERROR**** Arithmetic operator with non-numeric operand
 121:8 ****ERROR**** Type mismatch
-121:16 ****ERROR**** Type mismatch
 121:23 ****ERROR**** Arithmetic operator with non-numeric operand
 122:8 ****ERROR**** Type mismatch
-122:16 ****ERROR**** Type mismatch
 122:23 ****ERROR**** Arithmetic operator with non-numeric operand
 123:8 ****ERROR**** Logical operator with non-bool operand
 123:15 ****ERROR**** Logical operator with non-bool operand
@@ -419,14 +399,10 @@
 142:15 ****ERROR**** Arithmetic operator with non-numeric operand
 142:24 ****ERROR**** Type mismatch
 143:8 ****ERROR**** Type mismatch
-143:16 ****ERROR**** Type mismatch
 143:24 ****ERROR**** Type mismatch
 144:8 ****ERROR**** Type mismatch
-144:15 ****ERROR**** Type mismatch
 144:24 ****ERROR**** Type mismatch
 145:8 ****ERROR**** Type mismatch
-145:16 ****ERROR**** Type mismatch
 145:24 ****ERROR**** Type mismatch
 146:8 ****ERROR**** Type mismatch
-146:15 ****ERROR**** Type mismatch
 146:24 ****ERROR**** Type mismatch
