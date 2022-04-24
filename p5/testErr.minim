@@ -159,3 +159,21 @@ void test_io(){
     input >> io_s;
     input >> s;
 }
+//* test function call
+void func(int x){}
+struct notfunc {int s;};
+void test_func_void(){
+    struct notfunc nf;
+    notfunc();
+    nf();
+    func(1, 2, 3);
+    func(true);
+    return true;
+}
+int test_func_ret(){
+    return;
+}
+int test_func_bad_ret(){
+    return true;
+}
+

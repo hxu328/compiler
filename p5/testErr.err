@@ -389,3 +389,10 @@
 158:14 ****ERROR**** Read attempt of function
 159:14 ****ERROR**** Read attempt of struct name
 160:14 ****ERROR**** Read attempt of struct variable
+167:5 ****ERROR**** Call attempt on non-function
+168:5 ****ERROR**** Call attempt on non-function
+169:5 ****ERROR**** Function call with wrong # of args
+170:10 ****ERROR**** Actual type and formal type do not match
+171:12 ****ERROR**** Return with value in void function
+0:0 ****ERROR**** Return value missing
+177:12 ****ERROR**** Bad return value
