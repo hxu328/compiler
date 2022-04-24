@@ -69,14 +69,66 @@ def gen_wrong_value(type: list) -> str:
         raise Exception('Unknown type')
 
 
-def gen_error_cases(line_offset=2+1, char_offset=3+4):
+def gen_io_error_cases(line_offset=1, char_offset=3+4):
     """
-    Generate test cases for error checking
+    Generate test cases for IO operations
+    The variations are so few that it's possible to just hard code everything
+    """
+    line_number = line_offset
+    error_cases, error_messages = [], []
+    # setting up the test environment and entering the test function
+    error_cases.append('//* test I/O operations')
+    error_cases.append('void io_f(){}')
+    error_cases.append('struct io_s {int s;};')
+    error_cases.append('void test_io(){')
+    error_cases.append('    struct io_s s;')
+    line_number += 6
+    # start testing
+    # Write attempt of function
+    error_cases.append('    disp << io_f;')
+    error_messages.append('{}:{} ****ERROR**** {}'.format(line_number, 13, 'Write attempt of function'))
+    line_number += 1
+    # Write attempt of struct name
+    error_cases.append('    disp << io_s;')
+    error_messages.append('{}:{} ****ERROR**** {}'.format(line_number, 13, 'Write attempt of struct name'))
+    line_number += 1
+    # Write attempt of struct variable
+    error_cases.append('    disp << s;')
+    error_messages.append('{}:{} ****ERROR**** {}'.format(line_number, 13, 'Write attempt of struct variable'))
+    line_number += 1
+    # Write attempt of void
+    error_cases.append('    disp << io_f();')
+    error_messages.append('{}:{} ****ERROR**** {}'.format(line_number, 13, 'Write attempt of void'))
+    line_number += 1
+    # Read attempt of function
+    error_cases.append('    input >> io_f;')
+    error_messages.append('{}:{} ****ERROR**** {}'.format(line_number, 14, 'Read attempt of function'))
+    line_number += 1
+    # Read attempt of struct name
+    error_cases.append('    input >> io_s;')
+    error_messages.append('{}:{} ****ERROR**** {}'.format(line_number, 14, 'Read attempt of struct name'))
+    line_number += 1
+    # Read attempt of struct variable
+    error_cases.append('    input >> s;')
+    error_messages.append('{}:{} ****ERROR**** {}'.format(line_number, 14, 'Read attempt of struct variable'))
+    # end testing
+    error_cases.append('}')
+    return error_cases, error_messages
+
+def gen_exp_error_cases(line_offset=1, char_offset=3+4):
+    """
+    Generate test cases for expression error checking
     For each combination of error type, generate a test case
     """
     line_number = line_offset
     error_cases, error_messages = [], []
     outer_types = inner_types = [LOGIC, RELATION, ARITH, EQUALITY]
+    # setting up the test environment and entering the test function
+    error_cases.append('//* test expressions')
+    error_cases.append('void e(int x){}')
+    error_cases.append('void test_expression(int x){')
+    line_number += 3
+    # loop through all possible exp error cases
     for outer_type in outer_types:
         for inner_type in inner_types:
             for outer_op in outer_type:
@@ -90,7 +142,7 @@ def gen_error_cases(line_offset=2+1, char_offset=3+4):
                     outer_val_rhs = gen_wrong_value(outer_type)
                     # generate outer expression, using the inner expression as lhs
                     outer_exp = '{} {} {}'.format(inner_exp, outer_op, outer_val_rhs)
-                    stmt = '    a({});'.format(outer_exp)
+                    stmt = '    e({});'.format(outer_exp)
                     error_cases.append(stmt)
 
                     # generate specific error message, including the character position of the error
@@ -107,17 +159,18 @@ def gen_error_cases(line_offset=2+1, char_offset=3+4):
                     if outer_type != EQUALITY: error_messages.append('{}:{} ****ERROR**** {}'.format(line_number, char_offset_err3, gen_err_message(outer_type)))
 
                     line_number += 1
-
+    # exiting the test function
+    error_cases.append('}')
     return error_cases, error_messages
 
 if __name__ == '__main__':
-    error_cases, error_messages = gen_error_cases()
+    error_cases, error_messages = gen_exp_error_cases()
+    error_cases_io, error_messages_io = gen_io_error_cases(line_offset=len(error_cases))
+    error_cases.extend(error_cases_io)
+    error_messages.extend(error_messages_io)
     with open('testErr.minim', 'w') as f:
-        f.write('void a(int x){}\n')
-        f.write('void b(int x){\n')
         for case in error_cases:
             f.write(case + '\n')
-        f.write('}\n')
     with open('testErr.expect', 'w') as f:
         for message in error_messages:
             f.write(message + '\n')
