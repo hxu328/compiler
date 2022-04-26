@@ -396,3 +396,22 @@
 171:12 ****ERROR**** Return with value in void function
 0:0 ****ERROR**** Return value missing
 177:12 ****ERROR**** Bad return value
+184:8 ****ERROR**** Non-bool expression in condition of if
+185:8 ****ERROR**** Non-bool expression in condition of if
+186:8 ****ERROR**** Non-bool expression in condition of if
+187:8 ****ERROR**** Non-bool expression in condition of if
+188:8 ****ERROR**** Non-bool expression in condition of if
+189:8 ****ERROR**** Non-bool expression in condition of if
+190:11 ****ERROR**** Non-bool expression in condition of while
+191:11 ****ERROR**** Non-bool expression in condition of while
+192:11 ****ERROR**** Non-bool expression in condition of while
+193:11 ****ERROR**** Non-bool expression in condition of while
+194:11 ****ERROR**** Non-bool expression in condition of while
+195:11 ****ERROR**** Non-bool expression in condition of while
+196:8 ****ERROR**** Equality operator used with void functions
+197:8 ****ERROR**** Equality operator used with functions
+198:8 ****ERROR**** Equality operator used with struct names
+199:8 ****ERROR**** Equality operator used with struct variables
+206:5 ****ERROR**** Function assignment
+207:5 ****ERROR**** Struct name assignment
+208:5 ****ERROR**** Struct variable assignment

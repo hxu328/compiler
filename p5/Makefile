@@ -60,9 +60,8 @@ EmptySymTableException.class: EmptySymTableException.java
 test:
 	java -cp $(CP) P5 test.minim test.out 2> test.err
 	diff test.expect test.err
-	java -cp $(CP) P5 testErr.minim testErr.out 2> testErr.err
-	diff testErr.expect testErr.err
-	#java -cp $(CP) P5 experiment.minim experiment.out
+	java -cp $(CP) P5 typeErrors.minim typeErrors.out 2> typeErrors.err
+	diff typeErrors.expect typeErrors.err
 ###
 # clean
 ###

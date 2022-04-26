@@ -176,4 +176,34 @@ int test_func_ret(){
 int test_func_bad_ret(){
     return true;
 }
-
+//* test conditionals
+void cond_f(){}
+struct cond_s{int s;};
+void test_conditionals(){
+    struct cond_s s;
+    if(cond_f){}
+    if(cond_f()){}
+    if(cond_s){}
+    if(s.s){}
+    if(1){}
+    if("string"){}
+    while(cond_f){}
+    while(cond_f()){}
+    while(cond_s){}
+    while(s.s){}
+    while(1){}
+    while("string"){}
+    if(cond_f() == cond_f()){}
+    if(cond_f == cond_f){}
+    if(cond_s == cond_s){}
+    if(s == s){}
+}
+//* test the assignment operator
+void asg_f(){}
+struct asg_s{int s;};
+void test_asg(){
+    struct asg_s s;
+    asg_f = asg_f;
+    asg_s = asg_s;
+    s = s;
+}
