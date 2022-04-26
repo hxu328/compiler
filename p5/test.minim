@@ -1,42 +1,64 @@
 bool bbb;
-struct S { int a; };
+struct S { int a; bool b;};
 struct S t;
 
-void f(int p1, bool p2) {
+int f(int p1, bool p2) {
 }
 
 void main() {
-    int aaa;
+    int i;
+    int j;
+    bool m;
+    bool n;
+    struct S s;
 
-    //* some errors involving illegal operations on functions
-    aaa = f + f;
-    bbb = f == 3;
-    bbb = f > main;
-    bbb = f == f;
+    //* unary operations
+    i++;
+    i--;
+    j = -i;
+    m = !n;
 
-    //* some errors involving bad function calls 
-    aaa();
-    f();
-    f(5);
-    f(aaa, aaa);
-    f(t, t.a);
-    S();
+    //* arithmetic operations
+    j = ((((i + 10) - 10) * 10) / 10);
 
-    //* some errors involving structs 
-    t = 5;
-    t = t;
-    input >> S;
-    t = true || 3;
-    bbb = S && t.a;
+    //* logical operations
+    m = ((m && n) || n) && !n;
 
-    //* error involving return
-    return 10;
+    //* control flow
+    if (m && n){
+        while(m){
+            m = !n;
+        }
+    }
 
-    //* other type errors 
-    aaa = aaa + (!false);
-    aaa = aaa + "foo";
-    bbb = aaa;
+    if (m && n){
+        while(m){
+            m = !n;
+        }
+    } else{
+        while(n){
+            n = !m;
+        }
+    }
 
-    //* don't give too many or too few error messages here 
-    bbb = (aaa + true) && (bbb < true);
+    //* assignment
+    s.a = i + j;
+    s.a = i + j;
+    s.b = m && n;
+    s.b = !s.b;
+    s.a = s.a + s.a;
+    i = s.a + j;
+
+    //* function call
+    i = f(i, m);
+    f(i + j, m && n);
+    f(f(i, m), m);
+
+    //* I/O
+    disp << i + j;
+    disp << m && n;
+    input >> i;
+    input >> m;
+    input >> s.a;
+    input >> s.b;
 }

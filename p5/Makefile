@@ -59,7 +59,7 @@ EmptySymTableException.class: EmptySymTableException.java
 ###
 test:
 	java -cp $(CP) P5 test.minim test.out 2> test.err
-	diff test.expect test.err
+	wc -l test.err
 	java -cp $(CP) P5 typeErrors.minim typeErrors.out 2> typeErrors.err
 	diff typeErrors.expect typeErrors.err
 ###
@@ -69,4 +69,4 @@ clean:
 	rm -f *~ *.class parser.java minim.jlex.java sym.java
 
 cleantest:
-	rm -f *.out
+	rm -f *.out *.err
