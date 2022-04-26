@@ -1,0 +1,218 @@
+//* test expressions
+void e(int x){}
+void test_expression(int x){
+    e((999 && 999) && 999);
+    e((999 || 999) && 999);
+    e((999 && 999) || 999);
+    e((999 || 999) || 999);
+    e((true < true) && 999);
+    e((true > true) && 999);
+    e((true <= true) && 999);
+    e((true >= true) && 999);
+    e((true < true) || 999);
+    e((true > true) || 999);
+    e((true <= true) || 999);
+    e((true >= true) || 999);
+    e((true + true) && 999);
+    e((true - true) && 999);
+    e((true * true) && 999);
+    e((true / true) && 999);
+    e((true + true) || 999);
+    e((true - true) || 999);
+    e((true * true) || 999);
+    e((true / true) || 999);
+    e((999 == "string") && 999);
+    e((true != 999) && 999);
+    e(("string" == true) || 999);
+    e((999 != "string") || 999);
+    e((999 && 999) < true);
+    e((999 || 999) < true);
+    e((999 && 999) > true);
+    e((999 || 999) > true);
+    e((999 && 999) <= true);
+    e((999 || 999) <= true);
+    e((999 && 999) >= true);
+    e((999 || 999) >= true);
+    e((true < true) < true);
+    e((true > true) < true);
+    e((true <= true) < true);
+    e((true >= true) < true);
+    e((true < true) > true);
+    e((true > true) > true);
+    e((true <= true) > true);
+    e((true >= true) > true);
+    e((true < true) <= true);
+    e((true > true) <= true);
+    e((true <= true) <= true);
+    e((true >= true) <= true);
+    e((true < true) >= true);
+    e((true > true) >= true);
+    e((true <= true) >= true);
+    e((true >= true) >= true);
+    e((true + true) < true);
+    e((true - true) < true);
+    e((true * true) < true);
+    e((true / true) < true);
+    e((true + true) > true);
+    e((true - true) > true);
+    e((true * true) > true);
+    e((true / true) > true);
+    e((true + true) <= true);
+    e((true - true) <= true);
+    e((true * true) <= true);
+    e((true / true) <= true);
+    e((true + true) >= true);
+    e((true - true) >= true);
+    e((true * true) >= true);
+    e((true / true) >= true);
+    e((true == 999) < true);
+    e(("string" != true) < true);
+    e((999 == "string") > true);
+    e((true != 999) > true);
+    e(("string" == true) <= true);
+    e((999 != "string") <= true);
+    e((true == 999) >= true);
+    e(("string" != true) >= true);
+    e((999 && 999) + true);
+    e((999 || 999) + true);
+    e((999 && 999) - true);
+    e((999 || 999) - true);
+    e((999 && 999) * true);
+    e((999 || 999) * true);
+    e((999 && 999) / true);
+    e((999 || 999) / true);
+    e((true < true) + true);
+    e((true > true) + true);
+    e((true <= true) + true);
+    e((true >= true) + true);
+    e((true < true) - true);
+    e((true > true) - true);
+    e((true <= true) - true);
+    e((true >= true) - true);
+    e((true < true) * true);
+    e((true > true) * true);
+    e((true <= true) * true);
+    e((true >= true) * true);
+    e((true < true) / true);
+    e((true > true) / true);
+    e((true <= true) / true);
+    e((true >= true) / true);
+    e((true + true) + true);
+    e((true - true) + true);
+    e((true * true) + true);
+    e((true / true) + true);
+    e((true + true) - true);
+    e((true - true) - true);
+    e((true * true) - true);
+    e((true / true) - true);
+    e((true + true) * true);
+    e((true - true) * true);
+    e((true * true) * true);
+    e((true / true) * true);
+    e((true + true) / true);
+    e((true - true) / true);
+    e((true * true) / true);
+    e((true / true) / true);
+    e((999 == "string") + true);
+    e((true != 999) + true);
+    e(("string" == true) - true);
+    e((999 != "string") - true);
+    e((true == 999) * true);
+    e(("string" != true) * true);
+    e((999 == "string") / true);
+    e((true != 999) / true);
+    e((999 && 999) == "string");
+    e((999 || 999) == true);
+    e((999 && 999) != 999);
+    e((999 || 999) != "string");
+    e((true < true) == true);
+    e((true > true) == 999);
+    e((true <= true) == "string");
+    e((true >= true) == true);
+    e((true < true) != 999);
+    e((true > true) != "string");
+    e((true <= true) != true);
+    e((true >= true) != 999);
+    e((true + true) == "string");
+    e((true - true) == true);
+    e((true * true) == 999);
+    e((true / true) == "string");
+    e((true + true) != true);
+    e((true - true) != 999);
+    e((true * true) != "string");
+    e((true / true) != true);
+    e((999 == "string") == true);
+    e((999 != "string") == true);
+    e((999 == "string") != true);
+    e((999 != "string") != true);
+}
+//* test I/O operations
+void io_f(){}
+struct io_s {int s;};
+void test_io(){
+    struct io_s s;
+    disp << io_f;
+    disp << io_s;
+    disp << s;
+    disp << io_f();
+    input >> io_f;
+    input >> io_s;
+    input >> s;
+}
+//* test function call
+void func(int x){}
+struct notfunc {int s;};
+void test_func_void(){
+    struct notfunc nf;
+    notfunc();
+    nf();
+    func(1, 2, 3);
+    func(true);
+    return true;
+}
+int test_func_ret(){
+    return;
+}
+int test_func_bad_ret(){
+    return true;
+}
+//* test conditionals
+void cond_f(){}
+struct cond_s{int s;};
+void test_conditionals(){
+    struct cond_s s;
+    if(cond_f){}
+    if(cond_f()){}
+    if(cond_s){}
+    if(s.s){}
+    if(1){}
+    if("string"){}
+    while(cond_f){}
+    while(cond_f()){}
+    while(cond_s){}
+    while(s.s){}
+    while(1){}
+    while("string"){}
+    if(cond_f() == cond_f()){}
+    if(cond_f == cond_f){}
+    if(cond_s == cond_s){}
+    if(s == s){}
+}
+//* test the assignment operator
+void asg_f(){}
+struct asg_s{int s;};
+void test_asg(){
+    struct asg_s s;
+    asg_f = asg_f;
+    asg_s = asg_s;
+    s = s;
+}
+//* test unary operators
+void test_unary(){
+    bool b;
+    int i;
+    b++;
+    b--;
+    b = -b;
+    i = !i;
+}

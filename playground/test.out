@@ -1,0 +1,54 @@
+bool bbb;
+struct S{
+    int a;
+    bool b;
+};
+
+struct S t;
+int f(int p1, bool p2) {
+}
+
+void main() {
+    int i;
+    int j;
+    bool m;
+    bool n;
+    struct S s;
+    i(int)++;
+    i(int)--;
+    j(int) = (-i(int));
+    m(bool) = (!n(bool));
+    j(int) = ((((i(int) + 10) - 10) * 10) / 10);
+    m(bool) = (((m(bool) && n(bool)) || n(bool)) && (!n(bool)));
+    if ((m(bool) && n(bool))) {
+        while (m(bool)) {
+            m(bool) = (!n(bool));
+        }
+    }
+    if ((m(bool) && n(bool))) {
+        while (m(bool)) {
+            m(bool) = (!n(bool));
+        }
+    }
+    else {
+        while (n(bool)) {
+            n(bool) = (!m(bool));
+        }
+    }
+    s(S).a(int) = (i(int) + j(int));
+    s(S).a(int) = (i(int) + j(int));
+    s(S).b(bool) = (m(bool) && n(bool));
+    s(S).b(bool) = (!s(S).b(bool));
+    s(S).a(int) = (s(S).a(int) + s(S).a(int));
+    i(int) = (s(S).a(int) + j(int));
+    i(int) = f(int,bool->int)(i(int), m(bool));
+    f(int,bool->int)((i(int) + j(int)), (m(bool) && n(bool)));
+    f(int,bool->int)(f(int,bool->int)(i(int), m(bool)), m(bool));
+    cout << (i(int) + j(int));
+    cout << (m(bool) && n(bool));
+    cin >> i(int);
+    cin >> m(bool);
+    cin >> s(S).a(int);
+    cin >> s(S).b(bool);
+}
+

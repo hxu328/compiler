@@ -1,0 +1,421 @@
+4:8 ****ERROR**** Logical operator with non-bool operand
+4:15 ****ERROR**** Logical operator with non-bool operand
+4:23 ****ERROR**** Logical operator with non-bool operand
+5:8 ****ERROR**** Logical operator with non-bool operand
+5:15 ****ERROR**** Logical operator with non-bool operand
+5:23 ****ERROR**** Logical operator with non-bool operand
+6:8 ****ERROR**** Logical operator with non-bool operand
+6:15 ****ERROR**** Logical operator with non-bool operand
+6:23 ****ERROR**** Logical operator with non-bool operand
+7:8 ****ERROR**** Logical operator with non-bool operand
+7:15 ****ERROR**** Logical operator with non-bool operand
+7:23 ****ERROR**** Logical operator with non-bool operand
+8:8 ****ERROR**** Relational operator with non-numeric operand
+8:15 ****ERROR**** Relational operator with non-numeric operand
+8:24 ****ERROR**** Logical operator with non-bool operand
+9:8 ****ERROR**** Relational operator with non-numeric operand
+9:15 ****ERROR**** Relational operator with non-numeric operand
+9:24 ****ERROR**** Logical operator with non-bool operand
+10:8 ****ERROR**** Relational operator with non-numeric operand
+10:16 ****ERROR**** Relational operator with non-numeric operand
+10:25 ****ERROR**** Logical operator with non-bool operand
+11:8 ****ERROR**** Relational operator with non-numeric operand
+11:16 ****ERROR**** Relational operator with non-numeric operand
+11:25 ****ERROR**** Logical operator with non-bool operand
+12:8 ****ERROR**** Relational operator with non-numeric operand
+12:15 ****ERROR**** Relational operator with non-numeric operand
+12:24 ****ERROR**** Logical operator with non-bool operand
+13:8 ****ERROR**** Relational operator with non-numeric operand
+13:15 ****ERROR**** Relational operator with non-numeric operand
+13:24 ****ERROR**** Logical operator with non-bool operand
+14:8 ****ERROR**** Relational operator with non-numeric operand
+14:16 ****ERROR**** Relational operator with non-numeric operand
+14:25 ****ERROR**** Logical operator with non-bool operand
+15:8 ****ERROR**** Relational operator with non-numeric operand
+15:16 ****ERROR**** Relational operator with non-numeric operand
+15:25 ****ERROR**** Logical operator with non-bool operand
+16:8 ****ERROR**** Arithmetic operator with non-numeric operand
+16:15 ****ERROR**** Arithmetic operator with non-numeric operand
+16:24 ****ERROR**** Logical operator with non-bool operand
+17:8 ****ERROR**** Arithmetic operator with non-numeric operand
+17:15 ****ERROR**** Arithmetic operator with non-numeric operand
+17:24 ****ERROR**** Logical operator with non-bool operand
+18:8 ****ERROR**** Arithmetic operator with non-numeric operand
+18:15 ****ERROR**** Arithmetic operator with non-numeric operand
+18:24 ****ERROR**** Logical operator with non-bool operand
+19:8 ****ERROR**** Arithmetic operator with non-numeric operand
+19:15 ****ERROR**** Arithmetic operator with non-numeric operand
+19:24 ****ERROR**** Logical operator with non-bool operand
+20:8 ****ERROR**** Arithmetic operator with non-numeric operand
+20:15 ****ERROR**** Arithmetic operator with non-numeric operand
+20:24 ****ERROR**** Logical operator with non-bool operand
+21:8 ****ERROR**** Arithmetic operator with non-numeric operand
+21:15 ****ERROR**** Arithmetic operator with non-numeric operand
+21:24 ****ERROR**** Logical operator with non-bool operand
+22:8 ****ERROR**** Arithmetic operator with non-numeric operand
+22:15 ****ERROR**** Arithmetic operator with non-numeric operand
+22:24 ****ERROR**** Logical operator with non-bool operand
+23:8 ****ERROR**** Arithmetic operator with non-numeric operand
+23:15 ****ERROR**** Arithmetic operator with non-numeric operand
+23:24 ****ERROR**** Logical operator with non-bool operand
+24:8 ****ERROR**** Type mismatch
+24:28 ****ERROR**** Logical operator with non-bool operand
+25:8 ****ERROR**** Type mismatch
+25:24 ****ERROR**** Logical operator with non-bool operand
+26:8 ****ERROR**** Type mismatch
+26:29 ****ERROR**** Logical operator with non-bool operand
+27:8 ****ERROR**** Type mismatch
+27:28 ****ERROR**** Logical operator with non-bool operand
+28:8 ****ERROR**** Logical operator with non-bool operand
+28:15 ****ERROR**** Logical operator with non-bool operand
+28:22 ****ERROR**** Relational operator with non-numeric operand
+29:8 ****ERROR**** Logical operator with non-bool operand
+29:15 ****ERROR**** Logical operator with non-bool operand
+29:22 ****ERROR**** Relational operator with non-numeric operand
+30:8 ****ERROR**** Logical operator with non-bool operand
+30:15 ****ERROR**** Logical operator with non-bool operand
+30:22 ****ERROR**** Relational operator with non-numeric operand
+31:8 ****ERROR**** Logical operator with non-bool operand
+31:15 ****ERROR**** Logical operator with non-bool operand
+31:22 ****ERROR**** Relational operator with non-numeric operand
+32:8 ****ERROR**** Logical operator with non-bool operand
+32:15 ****ERROR**** Logical operator with non-bool operand
+32:23 ****ERROR**** Relational operator with non-numeric operand
+33:8 ****ERROR**** Logical operator with non-bool operand
+33:15 ****ERROR**** Logical operator with non-bool operand
+33:23 ****ERROR**** Relational operator with non-numeric operand
+34:8 ****ERROR**** Logical operator with non-bool operand
+34:15 ****ERROR**** Logical operator with non-bool operand
+34:23 ****ERROR**** Relational operator with non-numeric operand
+35:8 ****ERROR**** Logical operator with non-bool operand
+35:15 ****ERROR**** Logical operator with non-bool operand
+35:23 ****ERROR**** Relational operator with non-numeric operand
+36:8 ****ERROR**** Relational operator with non-numeric operand
+36:15 ****ERROR**** Relational operator with non-numeric operand
+36:23 ****ERROR**** Relational operator with non-numeric operand
+37:8 ****ERROR**** Relational operator with non-numeric operand
+37:15 ****ERROR**** Relational operator with non-numeric operand
+37:23 ****ERROR**** Relational operator with non-numeric operand
+38:8 ****ERROR**** Relational operator with non-numeric operand
+38:16 ****ERROR**** Relational operator with non-numeric operand
+38:24 ****ERROR**** Relational operator with non-numeric operand
+39:8 ****ERROR**** Relational operator with non-numeric operand
+39:16 ****ERROR**** Relational operator with non-numeric operand
+39:24 ****ERROR**** Relational operator with non-numeric operand
+40:8 ****ERROR**** Relational operator with non-numeric operand
+40:15 ****ERROR**** Relational operator with non-numeric operand
+40:23 ****ERROR**** Relational operator with non-numeric operand
+41:8 ****ERROR**** Relational operator with non-numeric operand
+41:15 ****ERROR**** Relational operator with non-numeric operand
+41:23 ****ERROR**** Relational operator with non-numeric operand
+42:8 ****ERROR**** Relational operator with non-numeric operand
+42:16 ****ERROR**** Relational operator with non-numeric operand
+42:24 ****ERROR**** Relational operator with non-numeric operand
+43:8 ****ERROR**** Relational operator with non-numeric operand
+43:16 ****ERROR**** Relational operator with non-numeric operand
+43:24 ****ERROR**** Relational operator with non-numeric operand
+44:8 ****ERROR**** Relational operator with non-numeric operand
+44:15 ****ERROR**** Relational operator with non-numeric operand
+44:24 ****ERROR**** Relational operator with non-numeric operand
+45:8 ****ERROR**** Relational operator with non-numeric operand
+45:15 ****ERROR**** Relational operator with non-numeric operand
+45:24 ****ERROR**** Relational operator with non-numeric operand
+46:8 ****ERROR**** Relational operator with non-numeric operand
+46:16 ****ERROR**** Relational operator with non-numeric operand
+46:25 ****ERROR**** Relational operator with non-numeric operand
+47:8 ****ERROR**** Relational operator with non-numeric operand
+47:16 ****ERROR**** Relational operator with non-numeric operand
+47:25 ****ERROR**** Relational operator with non-numeric operand
+48:8 ****ERROR**** Relational operator with non-numeric operand
+48:15 ****ERROR**** Relational operator with non-numeric operand
+48:24 ****ERROR**** Relational operator with non-numeric operand
+49:8 ****ERROR**** Relational operator with non-numeric operand
+49:15 ****ERROR**** Relational operator with non-numeric operand
+49:24 ****ERROR**** Relational operator with non-numeric operand
+50:8 ****ERROR**** Relational operator with non-numeric operand
+50:16 ****ERROR**** Relational operator with non-numeric operand
+50:25 ****ERROR**** Relational operator with non-numeric operand
+51:8 ****ERROR**** Relational operator with non-numeric operand
+51:16 ****ERROR**** Relational operator with non-numeric operand
+51:25 ****ERROR**** Relational operator with non-numeric operand
+52:8 ****ERROR**** Arithmetic operator with non-numeric operand
+52:15 ****ERROR**** Arithmetic operator with non-numeric operand
+52:23 ****ERROR**** Relational operator with non-numeric operand
+53:8 ****ERROR**** Arithmetic operator with non-numeric operand
+53:15 ****ERROR**** Arithmetic operator with non-numeric operand
+53:23 ****ERROR**** Relational operator with non-numeric operand
+54:8 ****ERROR**** Arithmetic operator with non-numeric operand
+54:15 ****ERROR**** Arithmetic operator with non-numeric operand
+54:23 ****ERROR**** Relational operator with non-numeric operand
+55:8 ****ERROR**** Arithmetic operator with non-numeric operand
+55:15 ****ERROR**** Arithmetic operator with non-numeric operand
+55:23 ****ERROR**** Relational operator with non-numeric operand
+56:8 ****ERROR**** Arithmetic operator with non-numeric operand
+56:15 ****ERROR**** Arithmetic operator with non-numeric operand
+56:23 ****ERROR**** Relational operator with non-numeric operand
+57:8 ****ERROR**** Arithmetic operator with non-numeric operand
+57:15 ****ERROR**** Arithmetic operator with non-numeric operand
+57:23 ****ERROR**** Relational operator with non-numeric operand
+58:8 ****ERROR**** Arithmetic operator with non-numeric operand
+58:15 ****ERROR**** Arithmetic operator with non-numeric operand
+58:23 ****ERROR**** Relational operator with non-numeric operand
+59:8 ****ERROR**** Arithmetic operator with non-numeric operand
+59:15 ****ERROR**** Arithmetic operator with non-numeric operand
+59:23 ****ERROR**** Relational operator with non-numeric operand
+60:8 ****ERROR**** Arithmetic operator with non-numeric operand
+60:15 ****ERROR**** Arithmetic operator with non-numeric operand
+60:24 ****ERROR**** Relational operator with non-numeric operand
+61:8 ****ERROR**** Arithmetic operator with non-numeric operand
+61:15 ****ERROR**** Arithmetic operator with non-numeric operand
+61:24 ****ERROR**** Relational operator with non-numeric operand
+62:8 ****ERROR**** Arithmetic operator with non-numeric operand
+62:15 ****ERROR**** Arithmetic operator with non-numeric operand
+62:24 ****ERROR**** Relational operator with non-numeric operand
+63:8 ****ERROR**** Arithmetic operator with non-numeric operand
+63:15 ****ERROR**** Arithmetic operator with non-numeric operand
+63:24 ****ERROR**** Relational operator with non-numeric operand
+64:8 ****ERROR**** Arithmetic operator with non-numeric operand
+64:15 ****ERROR**** Arithmetic operator with non-numeric operand
+64:24 ****ERROR**** Relational operator with non-numeric operand
+65:8 ****ERROR**** Arithmetic operator with non-numeric operand
+65:15 ****ERROR**** Arithmetic operator with non-numeric operand
+65:24 ****ERROR**** Relational operator with non-numeric operand
+66:8 ****ERROR**** Arithmetic operator with non-numeric operand
+66:15 ****ERROR**** Arithmetic operator with non-numeric operand
+66:24 ****ERROR**** Relational operator with non-numeric operand
+67:8 ****ERROR**** Arithmetic operator with non-numeric operand
+67:15 ****ERROR**** Arithmetic operator with non-numeric operand
+67:24 ****ERROR**** Relational operator with non-numeric operand
+68:8 ****ERROR**** Type mismatch
+68:23 ****ERROR**** Relational operator with non-numeric operand
+69:8 ****ERROR**** Type mismatch
+69:28 ****ERROR**** Relational operator with non-numeric operand
+70:8 ****ERROR**** Type mismatch
+70:27 ****ERROR**** Relational operator with non-numeric operand
+71:8 ****ERROR**** Type mismatch
+71:23 ****ERROR**** Relational operator with non-numeric operand
+72:8 ****ERROR**** Type mismatch
+72:29 ****ERROR**** Relational operator with non-numeric operand
+73:8 ****ERROR**** Type mismatch
+73:28 ****ERROR**** Relational operator with non-numeric operand
+74:8 ****ERROR**** Type mismatch
+74:24 ****ERROR**** Relational operator with non-numeric operand
+75:8 ****ERROR**** Type mismatch
+75:29 ****ERROR**** Relational operator with non-numeric operand
+76:8 ****ERROR**** Logical operator with non-bool operand
+76:15 ****ERROR**** Logical operator with non-bool operand
+76:22 ****ERROR**** Arithmetic operator with non-numeric operand
+77:8 ****ERROR**** Logical operator with non-bool operand
+77:15 ****ERROR**** Logical operator with non-bool operand
+77:22 ****ERROR**** Arithmetic operator with non-numeric operand
+78:8 ****ERROR**** Logical operator with non-bool operand
+78:15 ****ERROR**** Logical operator with non-bool operand
+78:22 ****ERROR**** Arithmetic operator with non-numeric operand
+79:8 ****ERROR**** Logical operator with non-bool operand
+79:15 ****ERROR**** Logical operator with non-bool operand
+79:22 ****ERROR**** Arithmetic operator with non-numeric operand
+80:8 ****ERROR**** Logical operator with non-bool operand
+80:15 ****ERROR**** Logical operator with non-bool operand
+80:22 ****ERROR**** Arithmetic operator with non-numeric operand
+81:8 ****ERROR**** Logical operator with non-bool operand
+81:15 ****ERROR**** Logical operator with non-bool operand
+81:22 ****ERROR**** Arithmetic operator with non-numeric operand
+82:8 ****ERROR**** Logical operator with non-bool operand
+82:15 ****ERROR**** Logical operator with non-bool operand
+82:22 ****ERROR**** Arithmetic operator with non-numeric operand
+83:8 ****ERROR**** Logical operator with non-bool operand
+83:15 ****ERROR**** Logical operator with non-bool operand
+83:22 ****ERROR**** Arithmetic operator with non-numeric operand
+84:8 ****ERROR**** Relational operator with non-numeric operand
+84:15 ****ERROR**** Relational operator with non-numeric operand
+84:23 ****ERROR**** Arithmetic operator with non-numeric operand
+85:8 ****ERROR**** Relational operator with non-numeric operand
+85:15 ****ERROR**** Relational operator with non-numeric operand
+85:23 ****ERROR**** Arithmetic operator with non-numeric operand
+86:8 ****ERROR**** Relational operator with non-numeric operand
+86:16 ****ERROR**** Relational operator with non-numeric operand
+86:24 ****ERROR**** Arithmetic operator with non-numeric operand
+87:8 ****ERROR**** Relational operator with non-numeric operand
+87:16 ****ERROR**** Relational operator with non-numeric operand
+87:24 ****ERROR**** Arithmetic operator with non-numeric operand
+88:8 ****ERROR**** Relational operator with non-numeric operand
+88:15 ****ERROR**** Relational operator with non-numeric operand
+88:23 ****ERROR**** Arithmetic operator with non-numeric operand
+89:8 ****ERROR**** Relational operator with non-numeric operand
+89:15 ****ERROR**** Relational operator with non-numeric operand
+89:23 ****ERROR**** Arithmetic operator with non-numeric operand
+90:8 ****ERROR**** Relational operator with non-numeric operand
+90:16 ****ERROR**** Relational operator with non-numeric operand
+90:24 ****ERROR**** Arithmetic operator with non-numeric operand
+91:8 ****ERROR**** Relational operator with non-numeric operand
+91:16 ****ERROR**** Relational operator with non-numeric operand
+91:24 ****ERROR**** Arithmetic operator with non-numeric operand
+92:8 ****ERROR**** Relational operator with non-numeric operand
+92:15 ****ERROR**** Relational operator with non-numeric operand
+92:23 ****ERROR**** Arithmetic operator with non-numeric operand
+93:8 ****ERROR**** Relational operator with non-numeric operand
+93:15 ****ERROR**** Relational operator with non-numeric operand
+93:23 ****ERROR**** Arithmetic operator with non-numeric operand
+94:8 ****ERROR**** Relational operator with non-numeric operand
+94:16 ****ERROR**** Relational operator with non-numeric operand
+94:24 ****ERROR**** Arithmetic operator with non-numeric operand
+95:8 ****ERROR**** Relational operator with non-numeric operand
+95:16 ****ERROR**** Relational operator with non-numeric operand
+95:24 ****ERROR**** Arithmetic operator with non-numeric operand
+96:8 ****ERROR**** Relational operator with non-numeric operand
+96:15 ****ERROR**** Relational operator with non-numeric operand
+96:23 ****ERROR**** Arithmetic operator with non-numeric operand
+97:8 ****ERROR**** Relational operator with non-numeric operand
+97:15 ****ERROR**** Relational operator with non-numeric operand
+97:23 ****ERROR**** Arithmetic operator with non-numeric operand
+98:8 ****ERROR**** Relational operator with non-numeric operand
+98:16 ****ERROR**** Relational operator with non-numeric operand
+98:24 ****ERROR**** Arithmetic operator with non-numeric operand
+99:8 ****ERROR**** Relational operator with non-numeric operand
+99:16 ****ERROR**** Relational operator with non-numeric operand
+99:24 ****ERROR**** Arithmetic operator with non-numeric operand
+100:8 ****ERROR**** Arithmetic operator with non-numeric operand
+100:15 ****ERROR**** Arithmetic operator with non-numeric operand
+100:23 ****ERROR**** Arithmetic operator with non-numeric operand
+101:8 ****ERROR**** Arithmetic operator with non-numeric operand
+101:15 ****ERROR**** Arithmetic operator with non-numeric operand
+101:23 ****ERROR**** Arithmetic operator with non-numeric operand
+102:8 ****ERROR**** Arithmetic operator with non-numeric operand
+102:15 ****ERROR**** Arithmetic operator with non-numeric operand
+102:23 ****ERROR**** Arithmetic operator with non-numeric operand
+103:8 ****ERROR**** Arithmetic operator with non-numeric operand
+103:15 ****ERROR**** Arithmetic operator with non-numeric operand
+103:23 ****ERROR**** Arithmetic operator with non-numeric operand
+104:8 ****ERROR**** Arithmetic operator with non-numeric operand
+104:15 ****ERROR**** Arithmetic operator with non-numeric operand
+104:23 ****ERROR**** Arithmetic operator with non-numeric operand
+105:8 ****ERROR**** Arithmetic operator with non-numeric operand
+105:15 ****ERROR**** Arithmetic operator with non-numeric operand
+105:23 ****ERROR**** Arithmetic operator with non-numeric operand
+106:8 ****ERROR**** Arithmetic operator with non-numeric operand
+106:15 ****ERROR**** Arithmetic operator with non-numeric operand
+106:23 ****ERROR**** Arithmetic operator with non-numeric operand
+107:8 ****ERROR**** Arithmetic operator with non-numeric operand
+107:15 ****ERROR**** Arithmetic operator with non-numeric operand
+107:23 ****ERROR**** Arithmetic operator with non-numeric operand
+108:8 ****ERROR**** Arithmetic operator with non-numeric operand
+108:15 ****ERROR**** Arithmetic operator with non-numeric operand
+108:23 ****ERROR**** Arithmetic operator with non-numeric operand
+109:8 ****ERROR**** Arithmetic operator with non-numeric operand
+109:15 ****ERROR**** Arithmetic operator with non-numeric operand
+109:23 ****ERROR**** Arithmetic operator with non-numeric operand
+110:8 ****ERROR**** Arithmetic operator with non-numeric operand
+110:15 ****ERROR**** Arithmetic operator with non-numeric operand
+110:23 ****ERROR**** Arithmetic operator with non-numeric operand
+111:8 ****ERROR**** Arithmetic operator with non-numeric operand
+111:15 ****ERROR**** Arithmetic operator with non-numeric operand
+111:23 ****ERROR**** Arithmetic operator with non-numeric operand
+112:8 ****ERROR**** Arithmetic operator with non-numeric operand
+112:15 ****ERROR**** Arithmetic operator with non-numeric operand
+112:23 ****ERROR**** Arithmetic operator with non-numeric operand
+113:8 ****ERROR**** Arithmetic operator with non-numeric operand
+113:15 ****ERROR**** Arithmetic operator with non-numeric operand
+113:23 ****ERROR**** Arithmetic operator with non-numeric operand
+114:8 ****ERROR**** Arithmetic operator with non-numeric operand
+114:15 ****ERROR**** Arithmetic operator with non-numeric operand
+114:23 ****ERROR**** Arithmetic operator with non-numeric operand
+115:8 ****ERROR**** Arithmetic operator with non-numeric operand
+115:15 ****ERROR**** Arithmetic operator with non-numeric operand
+115:23 ****ERROR**** Arithmetic operator with non-numeric operand
+116:8 ****ERROR**** Type mismatch
+116:27 ****ERROR**** Arithmetic operator with non-numeric operand
+117:8 ****ERROR**** Type mismatch
+117:23 ****ERROR**** Arithmetic operator with non-numeric operand
+118:8 ****ERROR**** Type mismatch
+118:28 ****ERROR**** Arithmetic operator with non-numeric operand
+119:8 ****ERROR**** Type mismatch
+119:27 ****ERROR**** Arithmetic operator with non-numeric operand
+120:8 ****ERROR**** Type mismatch
+120:23 ****ERROR**** Arithmetic operator with non-numeric operand
+121:8 ****ERROR**** Type mismatch
+121:28 ****ERROR**** Arithmetic operator with non-numeric operand
+122:8 ****ERROR**** Type mismatch
+122:27 ****ERROR**** Arithmetic operator with non-numeric operand
+123:8 ****ERROR**** Type mismatch
+123:23 ****ERROR**** Arithmetic operator with non-numeric operand
+124:8 ****ERROR**** Logical operator with non-bool operand
+124:15 ****ERROR**** Logical operator with non-bool operand
+125:8 ****ERROR**** Logical operator with non-bool operand
+125:15 ****ERROR**** Logical operator with non-bool operand
+126:8 ****ERROR**** Logical operator with non-bool operand
+126:15 ****ERROR**** Logical operator with non-bool operand
+127:8 ****ERROR**** Logical operator with non-bool operand
+127:15 ****ERROR**** Logical operator with non-bool operand
+128:8 ****ERROR**** Relational operator with non-numeric operand
+128:15 ****ERROR**** Relational operator with non-numeric operand
+129:8 ****ERROR**** Relational operator with non-numeric operand
+129:15 ****ERROR**** Relational operator with non-numeric operand
+130:8 ****ERROR**** Relational operator with non-numeric operand
+130:16 ****ERROR**** Relational operator with non-numeric operand
+131:8 ****ERROR**** Relational operator with non-numeric operand
+131:16 ****ERROR**** Relational operator with non-numeric operand
+132:8 ****ERROR**** Relational operator with non-numeric operand
+132:15 ****ERROR**** Relational operator with non-numeric operand
+133:8 ****ERROR**** Relational operator with non-numeric operand
+133:15 ****ERROR**** Relational operator with non-numeric operand
+134:8 ****ERROR**** Relational operator with non-numeric operand
+134:16 ****ERROR**** Relational operator with non-numeric operand
+135:8 ****ERROR**** Relational operator with non-numeric operand
+135:16 ****ERROR**** Relational operator with non-numeric operand
+136:8 ****ERROR**** Arithmetic operator with non-numeric operand
+136:15 ****ERROR**** Arithmetic operator with non-numeric operand
+137:8 ****ERROR**** Arithmetic operator with non-numeric operand
+137:15 ****ERROR**** Arithmetic operator with non-numeric operand
+138:8 ****ERROR**** Arithmetic operator with non-numeric operand
+138:15 ****ERROR**** Arithmetic operator with non-numeric operand
+139:8 ****ERROR**** Arithmetic operator with non-numeric operand
+139:15 ****ERROR**** Arithmetic operator with non-numeric operand
+140:8 ****ERROR**** Arithmetic operator with non-numeric operand
+140:15 ****ERROR**** Arithmetic operator with non-numeric operand
+141:8 ****ERROR**** Arithmetic operator with non-numeric operand
+141:15 ****ERROR**** Arithmetic operator with non-numeric operand
+142:8 ****ERROR**** Arithmetic operator with non-numeric operand
+142:15 ****ERROR**** Arithmetic operator with non-numeric operand
+143:8 ****ERROR**** Arithmetic operator with non-numeric operand
+143:15 ****ERROR**** Arithmetic operator with non-numeric operand
+144:8 ****ERROR**** Type mismatch
+145:8 ****ERROR**** Type mismatch
+146:8 ****ERROR**** Type mismatch
+147:8 ****ERROR**** Type mismatch
+154:13 ****ERROR**** Write attempt of function
+155:13 ****ERROR**** Write attempt of struct name
+156:13 ****ERROR**** Write attempt of struct variable
+157:13 ****ERROR**** Write attempt of void
+158:14 ****ERROR**** Read attempt of function
+159:14 ****ERROR**** Read attempt of struct name
+160:14 ****ERROR**** Read attempt of struct variable
+167:5 ****ERROR**** Call attempt on non-function
+168:5 ****ERROR**** Call attempt on non-function
+169:5 ****ERROR**** Function call with wrong # of args
+170:10 ****ERROR**** Actual type and formal type do not match
+171:12 ****ERROR**** Return with value in void function
+0:0 ****ERROR**** Return value missing
+177:12 ****ERROR**** Bad return value
+184:8 ****ERROR**** Non-bool expression in condition of if
+185:8 ****ERROR**** Non-bool expression in condition of if
+186:8 ****ERROR**** Non-bool expression in condition of if
+187:8 ****ERROR**** Non-bool expression in condition of if
+188:8 ****ERROR**** Non-bool expression in condition of if
+189:8 ****ERROR**** Non-bool expression in condition of if
+190:11 ****ERROR**** Non-bool expression in condition of while
+191:11 ****ERROR**** Non-bool expression in condition of while
+192:11 ****ERROR**** Non-bool expression in condition of while
+193:11 ****ERROR**** Non-bool expression in condition of while
+194:11 ****ERROR**** Non-bool expression in condition of while
+195:11 ****ERROR**** Non-bool expression in condition of while
+196:8 ****ERROR**** Equality operator used with void functions
+197:8 ****ERROR**** Equality operator used with functions
+198:8 ****ERROR**** Equality operator used with struct names
+199:8 ****ERROR**** Equality operator used with struct variables
+206:5 ****ERROR**** Function assignment
+207:5 ****ERROR**** Struct name assignment
+208:5 ****ERROR**** Struct variable assignment
+214:5 ****ERROR**** Arithmetic operator with non-numeric operand
+215:5 ****ERROR**** Arithmetic operator with non-numeric operand
+216:10 ****ERROR**** Arithmetic operator with non-numeric operand
+217:10 ****ERROR**** Logical operator with non-bool operand
