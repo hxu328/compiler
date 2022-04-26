@@ -1,4 +1,0 @@
-void a(int x){}
-void b(int x){
-    a((999 == "string") && 999);
-}
