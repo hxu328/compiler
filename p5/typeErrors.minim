@@ -207,3 +207,12 @@ void test_asg(){
     asg_s = asg_s;
     s = s;
 }
+//* test unary operators
+void test_unary(){
+    bool b;
+    int i;
+    b++;
+    b--;
+    b = -b;
+    i = !i;
+}

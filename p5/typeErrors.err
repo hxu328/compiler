@@ -415,3 +415,7 @@
 206:5 ****ERROR**** Function assignment
 207:5 ****ERROR**** Struct name assignment
 208:5 ****ERROR**** Struct variable assignment
+214:5 ****ERROR**** Arithmetic operator with non-numeric operand
+215:5 ****ERROR**** Arithmetic operator with non-numeric operand
+216:10 ****ERROR**** Arithmetic operator with non-numeric operand
+217:10 ****ERROR**** Logical operator with non-bool operand
