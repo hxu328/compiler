@@ -1,0 +1,9 @@
+void main1() {
+    disp << "Hello world!";
+    disp << "\n";
+}
+
+void main2() {
+    disp << "Hello world!";
+    disp << "\n";
+}
