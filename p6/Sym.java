@@ -10,6 +10,7 @@ public class Sym {
     
     public Sym(Type type) {
         this.type = type;
+        this.offset = 0;
     }
     
     public Type getType() {

@@ -113,6 +113,12 @@ abstract class ASTnode {
     protected void doIndent(PrintWriter p, int indent) {
         for (int k=0; k<indent; k++) p.print(" ");
     }
+
+    // global offset, used to set formals and locals
+    static protected int myOffset;
+
+    // global function size (for locals)
+    static protected int myFnSize;
 }
 
 // **********************************************************************
@@ -223,6 +229,11 @@ class FormalsListNode extends ASTnode {
      ***/
     public List<Type> nameAnalysis(SymTable symTab) {
         List<Type> typeList = new LinkedList<Type>();
+
+        // initialize the offset for the formals list
+        myOffset = 4;
+
+        // iterate each formal
         for (FormalDeclNode node : myFormals) {
             Sym sym = node.nameAnalysis(symTab);
             if (sym != null) {
@@ -267,6 +278,10 @@ class FnBodyNode extends ASTnode {
      * - process the statement list
      ***/
     public void nameAnalysis(SymTable symTab) {
+
+        // initialize offset to -4 at the beginning of the fnBody
+        myOffset = -4;
+
         myDeclList.nameAnalysis(symTab);
         myStmtList.nameAnalysis(symTab);
     }    
@@ -474,6 +489,13 @@ class VarDeclNode extends DeclNode {
                 }
                 else {
                     sym = new Sym(myType.type());
+
+                    // set offset
+                    myOffset -= 4;
+                    sym.setOffset(myOffset);
+
+                    // increment the total size of function (locals)
+                    myFnSize += 4;
                 }
                 symTab.addDecl(name, sym);
                 myId.link(sym);
@@ -534,6 +556,10 @@ class FnDeclNode extends DeclNode {
     public Sym nameAnalysis(SymTable symTab) {
         String name = myId.name();
         FnSym sym = null;
+
+        // initialize total size of locals to be 0
+        myFnSize = 0;
+
         try {
 			if (symTab.lookupLocal(name) != null) {
 				ErrMsg.fatal(myId.lineNum(), myId.charNum(),
@@ -543,6 +569,11 @@ class FnDeclNode extends DeclNode {
 			else { // add function name to local symbol table
 				try {
 					sym = new FnSym(myType.type(), myFormalsList.length());
+
+                    // set the total size of formals for the function
+                    sym.setFormalSize(4 * myFormalsList.length());
+
+
 					symTab.addDecl(name, sym);
 					myId.link(sym);
 				} catch (DuplicateSymException ex) {
@@ -570,6 +601,9 @@ class FnDeclNode extends DeclNode {
         }
         
         myBody.nameAnalysis(symTab); // process the function body
+
+        // set the total size of locals for the function
+        sym.setLocalSize(myFnSize);
         
         try {
             symTab.removeScope();  // exit scope
@@ -655,7 +689,14 @@ class FormalDeclNode extends DeclNode {
         if (!badDecl) {  // insert into symbol table
             try {
                 sym = new Sym(myType.type());
+
+                // add the offset field to the sym
+                sym.setOffset(myOffset);
+                // add entry
                 symTab.addDecl(name, sym);
+                // increment  the offset by 4 after adding
+                myOffset += 4;
+
                 myId.link(sym);
             } catch (DuplicateSymException ex) {
                 System.err.println("Unexpected DuplicateSymException " +
@@ -1028,6 +1069,9 @@ class WriteStmtNode extends StmtNode {
             ErrMsg.fatal(myExp.lineNum(), myExp.charNum(),
                          "Write attempt of void");
         }
+
+        // fill the type of exp
+        expType = type;
     }
         
     public void unparse(PrintWriter p, int indent) {
@@ -1039,6 +1083,9 @@ class WriteStmtNode extends StmtNode {
 
     // one kid
     private ExpNode myExp;
+
+    // additonal information for the type of myExp
+    private Type expType;
 }
 
 class IfStmtNode extends StmtNode {
@@ -1572,7 +1619,14 @@ class IdNode extends ExpNode {
     public void unparse(PrintWriter p, int indent) {
         p.print(myStrVal);
         if (mySym != null) {
-            p.print("(" + mySym + ")");
+            // p.print("(" + mySym + ")");
+            if (!(mySym instanceof FnSym) && !(mySym instanceof StructSym) && !(mySym instanceof StructSym)){
+                int tempOffset = mySym.getOffset();
+                p.printf("(Offset: " + tempOffset + ")");
+            } else if (mySym instanceof FnSym) {
+                p.printf("(Formal size: " + ((FnSym)mySym).getFormalSize() + ", Local size: " + ((FnSym)mySym).getLocalSize() + ")");
+            }
+            
         }
     }
 

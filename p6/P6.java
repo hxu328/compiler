@@ -63,10 +63,18 @@ public class P6 {
 		if (!ErrMsg.getErr()) {  // if no errors, do type checking
 			((ProgramNode)root.value).typeCheck();
 		}
+
+        // unparse for testing
+        if (!ErrMsg.getErr()) {  // if no errors, do unparse	
+			((ASTnode)root.value).unparse(Codegen.p, 0);
+		}
 		
 		// if (!ErrMsg.getErr()) {  // if no errors, do code generation	
 		// 	((ProgramNode)root.value).codeGen();
 		// }
+        
+
+
         Codegen.p.close();
 
         return;
