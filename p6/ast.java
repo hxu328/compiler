@@ -119,6 +119,7 @@ abstract class ASTnode {
 
     // global function size (for locals)
     static protected int myFnSize;
+
 }
 
 // **********************************************************************
@@ -614,8 +615,8 @@ class FnDeclNode extends DeclNode {
                     // set the total size of formals for the function
                     sym.setFormalSize(4 * myFormalsList.length());
 
-
 					symTab.addDecl(name, sym);
+
 					myId.link(sym);
 				} catch (DuplicateSymException ex) {
 					System.err.println("Unexpected DuplicateSymException " +
@@ -672,7 +673,41 @@ class FnDeclNode extends DeclNode {
     }
 
     public void codeGen(){
+
+        String fctnName = myId.name();
+        FnSym fctnSym = (FnSym)(myId.sym());
+
+        // Preamble (signature)
+        Codegen.generate(".text");
+        if(fctnName.equals("main")){
+            Codegen.generate(".globl main");
+            Codegen.genLabel("main", "The main function");
+            // Codegen.genLabel("__start", "To get the Spim to recognize main function");
+        } else {
+            Codegen.genLabel("_" + fctnName, "Normal function");
+        }
+
+        // Prologue (set up function's AR)
+        Codegen.genPush(Codegen.RA);
+        Codegen.genPush(Codegen.FP);
+        Codegen.generate("addu", Codegen.FP, Codegen.SP, 8);
+        Codegen.generate("subu", Codegen.SP, Codegen.SP, fctnSym.getLocalSize());
+
+        // Body
         myBody.codeGen();
+
+        // Epilogue (tear down the AR)
+        Codegen.generateIndexed("lw", Codegen.RA, Codegen.FP, 0, "Restore return address");
+        Codegen.generateWithComment("move", "Restore frame pointer", Codegen.T0, Codegen.FP);
+        Codegen.generateIndexed("lw", Codegen.FP, Codegen.FP, -4);
+        Codegen.generateWithComment("move", "Restore stack pointer", Codegen.SP, Codegen.T0);
+        if(fctnName.equals("main")){
+            Codegen.generate("li", Codegen.V0, 10);
+            Codegen.generate("syscall");
+        } else {
+            Codegen.generate("jr", Codegen.RA);
+        }
+
     }
         
     public void unparse(PrintWriter p, int indent) {

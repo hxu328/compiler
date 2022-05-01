@@ -1,23 +1,9 @@
-int f1(int a, int b){
-    int w;
-    a = 1;
-    b = 2;
-    w = 3;
+int f(int a){
+    int b;
+    return a;
 }
 
 void main() {
-    int a;
-    bool b;
-    a = 1;
-    b = false;
     disp << "Hello world!";
     disp << "\n";
-    if(a == 1){
-        int k;
-        bool q;
-        k = -1;
-        q = true;
-    } else {
-        a = f1(1, 2);
-    }
 }
