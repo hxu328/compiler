@@ -211,7 +211,7 @@ class DeclListNode extends ASTnode {
                 ((DeclNode)it.next()).codeGen();
             }
         } catch (NoSuchElementException ex) {
-            System.err.println("unexpected NoSuchElementException in DeclListNode.print");
+            System.err.println("unexpected NoSuchElementException in DeclListNode.codegen");
             System.exit(-1);
         }
     }
@@ -257,6 +257,10 @@ class FormalsListNode extends ASTnode {
                 typeList.add(sym.getType());
             }
         }
+
+        // reset offset
+        myOffset = 0;
+
         return typeList;
     }    
     
@@ -298,8 +302,11 @@ class FnBodyNode extends ASTnode {
 
         // initialize offset to -4 at the beginning of the fnBody
         myOffset = -4;
-
         myDeclList.nameAnalysis(symTab);
+
+        // reset offset
+        myOffset = 0;
+
         myStmtList.nameAnalysis(symTab);
     }    
  
@@ -530,12 +537,14 @@ class VarDeclNode extends DeclNode {
                 else {
                     sym = new Sym(myType.type());
 
-                    // set offset
-                    myOffset -= 4;
-                    sym.setOffset(myOffset);
+                    if(myOffset != 0){
+                        // set offset
+                        myOffset -= 4;
+                        sym.setOffset(myOffset);
 
-                    // increment the total size of function (locals)
-                    myFnSize += 4;
+                        // increment the total size of function (locals)
+                        myFnSize += 4;
+                    }
                 }
                 symTab.addDecl(name, sym);
                 myId.link(sym);
@@ -553,7 +562,12 @@ class VarDeclNode extends DeclNode {
         return sym;
     }
 
-    public void codeGen(){} // do nothing here   
+    public void codeGen(){
+        // for global variable declarations
+        Codegen.generate(".data");
+        Codegen.generate(".align 2");
+        Codegen.generateLabeled("_" + myId.name(), ".space 4", "Global Variable Declaratioin");
+    }  
     
     public void unparse(PrintWriter p, int indent) {
         doIndent(p, indent);

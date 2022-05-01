@@ -1,9 +1,20 @@
+int k;
+int w;
+
 int f(int a){
     int b;
+    k = 1;
+    w = 2;
     return a;
 }
+
+int q;
+bool b;
 
 void main() {
     disp << "Hello world!";
     disp << "\n";
+    q = f(5);
+    w = f(3);
+    b = true;
 }
