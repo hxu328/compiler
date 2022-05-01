@@ -1,20 +1,41 @@
-int k;
-int w;
-
-int f(int a){
-    int b;
-    k = 1;
-    w = 2;
-    return a;
-}
-
-int q;
+int a;
 bool b;
 
 void main() {
-    disp << "Hello world!";
-    disp << "\n";
-    q = f(5);
-    w = f(3);
+    int c;
+    bool d;
+
+    int e;
+    int f;
+
+    bool k;
+    bool w;
+
+    a = 1;
     b = true;
+    c = 2;
+    d = false;
+
+    e = a;
+    k = b;
+    f = c;
+    w = d;
+
+    disp << a;
+    disp << "\n";
+    disp << b;
+    disp << "\n";
+    disp << c;
+    disp << "\n";
+    disp << d;
+    disp << "\n";
+
+    disp << e;
+    disp << "\n";
+    disp << k;
+    disp << "\n";
+    disp << f;
+    disp << "\n";
+    disp << w;
+    disp << "\n";
 }

@@ -1013,7 +1013,10 @@ class AssignStmtNode extends StmtNode {
     }
 
     public void codeGen(String fctnLabel){
-        
+        myAssign.codeGen();
+
+        // pop out the value left on stack, and ignore
+        Codegen.genPop(Codegen.T0);
     }
         
     public void unparse(PrintWriter p, int indent) {
@@ -1814,7 +1817,29 @@ class IdNode extends ExpNode {
     }
 
     public void codeGen(){
-        
+        int idOffset = mySym.getOffset();
+        if(idOffset == 0){
+            // id is global
+            Codegen.generateWithComment("lw", "Load global var: " + myStrVal, Codegen.T0, "_" + myStrVal);
+        } else {
+            // id is local
+            Codegen.generateIndexed("lw", Codegen.T0, Codegen.FP, idOffset, "Load local var: " + myStrVal);
+        }
+
+        Codegen.genPush(Codegen.T0);
+    }
+
+    public void genAddr(){
+        int idOffset = mySym.getOffset();
+        if(idOffset == 0){
+            // id is global
+            Codegen.generateWithComment("la", "Load global var addr: " + myStrVal, Codegen.T0, "_" + myStrVal);
+        } else {
+            // id is local
+            Codegen.generateIndexed("la", Codegen.T0, Codegen.FP, idOffset, "Load local var addr: " + myStrVal);
+        }
+
+        Codegen.genPush(Codegen.T0);
     }
            
     public void unparse(PrintWriter p, int indent) {
@@ -2059,7 +2084,13 @@ class AssignExpNode extends ExpNode {
     }
 
     public void codeGen(){
-        
+        Codegen.generateWithComment("", "ASSIGN");
+        ((IdNode)myLhs).genAddr();   // leave lhs address on stack
+        myExp.codeGen();             // leave rhs value on stack
+        Codegen.genPop(Codegen.T1);  // pop rhs into t1
+        Codegen.genPop(Codegen.T0);  // pop lhs into t0
+        Codegen.generateIndexed("sw", Codegen.T1, Codegen.T0, 0, "Store rhs to lhs");
+        Codegen.genPush(Codegen.T1); // push t1 on stack
     }
     
 	// *** unparse ***

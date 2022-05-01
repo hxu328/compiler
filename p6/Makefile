@@ -59,6 +59,9 @@ EmptySymTableException.class: EmptySymTableException.java
 test:
 	java -cp $(CP) P6 test.minim test.s
 
+testspim:
+	~cs536-1/public/tools/bin/spim -file test.s
+
 ###
 # clean
 ###
