@@ -120,6 +120,9 @@ abstract class ASTnode {
     // global function size (for locals)
     static protected int myFnSize;
 
+    // global hashtable for keep track of string literal & label
+    static protected Hashtable<String, String> stringTable;
+
 }
 
 // **********************************************************************
@@ -155,6 +158,9 @@ class ProgramNode extends ASTnode {
     }
 
     public void codeGen(){
+        // initialize the hashtable for string literals
+        stringTable = new Hashtable<>();
+
         myDeclList.codeGen();
     }
     
@@ -317,8 +323,8 @@ class FnBodyNode extends ASTnode {
         myStmtList.typeCheck(retType);
     }
 
-    public void codeGen(){
-        myStmtList.codeGen();
+    public void codeGen(String fctnLabel){
+        myStmtList.codeGen(fctnLabel);
     }    
           
     public void unparse(PrintWriter p, int indent) {
@@ -355,9 +361,9 @@ class StmtListNode extends ASTnode {
         }
     }
 
-    public void codeGen(){
+    public void codeGen(String fctnLabel ){
         for(StmtNode node : myStmts) {
-            node.codeGen();
+            node.codeGen(fctnLabel);
         }
     }
     
@@ -690,15 +696,16 @@ class FnDeclNode extends DeclNode {
 
         String fctnName = myId.name();
         FnSym fctnSym = (FnSym)(myId.sym());
+        String exitLabel = "_" + fctnName + "_Exit";
 
         // Preamble (signature)
         Codegen.generate(".text");
         if(fctnName.equals("main")){
             Codegen.generate(".globl main");
-            Codegen.genLabel("main", "The main function");
+            Codegen.genLabel("main", "Function Entry");
             // Codegen.genLabel("__start", "To get the Spim to recognize main function");
         } else {
-            Codegen.genLabel("_" + fctnName, "Normal function");
+            Codegen.genLabel("_" + fctnName, "Function Entry");
         }
 
         // Prologue (set up function's AR)
@@ -708,9 +715,10 @@ class FnDeclNode extends DeclNode {
         Codegen.generate("subu", Codegen.SP, Codegen.SP, fctnSym.getLocalSize());
 
         // Body
-        myBody.codeGen();
+        myBody.codeGen(exitLabel);
 
         // Epilogue (tear down the AR)
+        Codegen.genLabel(exitLabel, "Function Exit");
         Codegen.generateIndexed("lw", Codegen.RA, Codegen.FP, 0, "Restore return address");
         Codegen.generateWithComment("move", "Restore frame pointer", Codegen.T0, Codegen.FP);
         Codegen.generateIndexed("lw", Codegen.FP, Codegen.FP, -4);
@@ -981,7 +989,7 @@ class StructNode extends TypeNode {
 abstract class StmtNode extends ASTnode {
     abstract public void nameAnalysis(SymTable symTab);
     abstract public void typeCheck(Type retType);
-    abstract public void codeGen();
+    abstract public void codeGen(String fctnLabel);
 }
 
 class AssignStmtNode extends StmtNode {
@@ -1004,7 +1012,7 @@ class AssignStmtNode extends StmtNode {
         myAssign.typeCheck();
     }
 
-    public void codeGen(){
+    public void codeGen(String fctnLabel){
         
     }
         
@@ -1043,7 +1051,7 @@ class PostIncStmtNode extends StmtNode {
         }
     }
 
-    public void codeGen(){
+    public void codeGen(String fctnLabel){
         
     }
         
@@ -1082,7 +1090,7 @@ class PostDecStmtNode extends StmtNode {
         }
     }
 
-    public void codeGen(){
+    public void codeGen(String fctnLabel){
         
     }
         
@@ -1131,7 +1139,7 @@ class ReadStmtNode extends StmtNode {
         }
     }
 
-    public void codeGen(){
+    public void codeGen(String fctnLabel){
         
     }
     
@@ -1189,8 +1197,19 @@ class WriteStmtNode extends StmtNode {
         expType = type;
     }
 
-    public void codeGen(){
-        
+    public void codeGen(String fctnLabel){
+        Codegen.generateWithComment("", "WRITE");
+        myExp.codeGen();
+        Codegen.genPop(Codegen.A0);
+
+        if(expType.isStringType()){
+            Codegen.generate("li", Codegen.V0, 4);
+        } else {
+            Codegen.generate("li", Codegen.V0, 1);
+        }
+
+        Codegen.generate("syscall");
+
     }
         
     public void unparse(PrintWriter p, int indent) {
@@ -1250,7 +1269,7 @@ class IfStmtNode extends StmtNode {
         myStmtList.typeCheck(retType);
     }
 
-    public void codeGen(){
+    public void codeGen(String fctnLabel){
         
     }
        
@@ -1332,7 +1351,7 @@ class IfElseStmtNode extends StmtNode {
         myElseStmtList.typeCheck(retType);
     }
 
-    public void codeGen(){
+    public void codeGen(String fctnLabel){
         
     }
         
@@ -1415,7 +1434,7 @@ class WhileStmtNode extends StmtNode {
         p.println("}");
     }
 
-    public void codeGen(){
+    public void codeGen(String fctnLabel){
         
     }
 
@@ -1451,7 +1470,7 @@ class CallStmtNode extends StmtNode {
         p.println(";");
     }
 
-    public void codeGen(){
+    public void codeGen(String fctnLabel){
         
     }
 
@@ -1501,7 +1520,7 @@ class ReturnStmtNode extends StmtNode {
         
     }
 
-    public void codeGen(){
+    public void codeGen(String fctnLabel){
         
     }
     
@@ -1565,7 +1584,9 @@ class IntLitNode extends ExpNode {
     }
 
     public void codeGen(){
-        
+        Codegen.generateWithComment("", "Push int on stack");
+        Codegen.generate("li", Codegen.T0, myIntVal);
+        Codegen.genPush(Codegen.T0);
     }
     
     public void unparse(PrintWriter p, int indent) {
@@ -1606,7 +1627,22 @@ class StringLitNode extends ExpNode {
     }
 
     public void codeGen(){
-        
+        String labelString;
+
+        // Create string label if necessary
+        if(stringTable.containsKey(myStrVal)){
+            labelString = stringTable.get(myStrVal);
+        } else {
+            labelString = Codegen.nextLabel();
+            Codegen.generate(".data");
+            Codegen.generateLabeled(labelString, ".asciiz " + myStrVal, "String Declaration");
+            stringTable.put(myStrVal, labelString);
+        }
+
+        // Push address of string on stack
+        Codegen.generate(".text");
+        Codegen.generate("la", Codegen.T0, labelString);
+        Codegen.genPush(Codegen.T0);
     }
         
     public void unparse(PrintWriter p, int indent) {
@@ -1646,7 +1682,9 @@ class TrueNode extends ExpNode {
     }
 
     public void codeGen(){
-        
+        Codegen.generateWithComment("", "Push bool(true) on stack");
+        Codegen.generate("li", Codegen.T0, 1);
+        Codegen.genPush(Codegen.T0);
     }
         
     public void unparse(PrintWriter p, int indent) {
@@ -1685,7 +1723,9 @@ class FalseNode extends ExpNode {
     }
 
     public void codeGen(){
-        
+        Codegen.generateWithComment("", "Push bool(false) on stack");
+        Codegen.generate("li", Codegen.T0, 0);
+        Codegen.genPush(Codegen.T0);
     }
         
     public void unparse(PrintWriter p, int indent) {
