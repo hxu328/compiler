@@ -1,14 +1,23 @@
-struct Point {
-    int x;
-    int y;
-};
-int f(int x, bool b) { }
+int f1(int a, int b){
+    int w;
+    a = 1;
+    b = 2;
+    w = 3;
+}
+
 void main() {
     int a;
     bool b;
-    struct Point p;
-    p.x = a;
-    b = a == 3;
-    f(a + p.y*2, b);
-    main();
+    a = 1;
+    b = false;
+    disp << "Hello world!";
+    disp << "\n";
+    if(a == 1){
+        int k;
+        bool q;
+        k = -1;
+        q = true;
+    } else {
+        a = f1(1, 2);
+    }
 }
