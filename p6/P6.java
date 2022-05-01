@@ -65,13 +65,13 @@ public class P6 {
 		}
 
         // unparse for testing
-        if (!ErrMsg.getErr()) {  // if no errors, do unparse	
-			((ASTnode)root.value).unparse(Codegen.p, 0);
-		}
-		
-		// if (!ErrMsg.getErr()) {  // if no errors, do code generation	
-		// 	((ProgramNode)root.value).codeGen();
+        // if (!ErrMsg.getErr()) {  // if no errors, do unparse	
+		// 	((ASTnode)root.value).unparse(Codegen.p, 0);
 		// }
+		
+		if (!ErrMsg.getErr()) {  // if no errors, do code generation	
+			((ProgramNode)root.value).codeGen();
+		}
         
 
 

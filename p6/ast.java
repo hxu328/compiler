@@ -154,7 +154,7 @@ class ProgramNode extends ASTnode {
     }
 
     public void codeGen(){
-
+        myDeclList.codeGen();
     }
     
     public void unparse(PrintWriter p, int indent) {
@@ -204,7 +204,15 @@ class DeclListNode extends ASTnode {
     }
 
     public void codeGen(){
-        
+        Iterator it = myDecls.iterator();
+        try {
+            while (it.hasNext()) {
+                ((DeclNode)it.next()).codeGen();
+            }
+        } catch (NoSuchElementException ex) {
+            System.err.println("unexpected NoSuchElementException in DeclListNode.print");
+            System.exit(-1);
+        }
     }
     
     public void unparse(PrintWriter p, int indent) {
@@ -302,7 +310,7 @@ class FnBodyNode extends ASTnode {
     }
 
     public void codeGen(){
-        
+        myStmtList.codeGen();
     }    
           
     public void unparse(PrintWriter p, int indent) {
@@ -340,7 +348,9 @@ class StmtListNode extends ASTnode {
     }
 
     public void codeGen(){
-        
+        for(StmtNode node : myStmts) {
+            node.codeGen();
+        }
     }
     
     public void unparse(PrintWriter p, int indent) {
@@ -398,7 +408,13 @@ class ExpListNode extends ASTnode {
     }
 
     public void codeGen(){
-        
+        Iterator<ExpNode> it = myExps.iterator();
+        if (it.hasNext()) { // if there is at least one element
+            it.next().codeGen();
+            while (it.hasNext()) {  // print the rest of the list
+                it.next().codeGen();
+            }
+        } 
     }
     
     public void unparse(PrintWriter p, int indent) {
@@ -429,7 +445,8 @@ abstract class DeclNode extends ASTnode {
     // default version of typeCheck for non-function decls
     public void typeCheck() { }
 
-    public void codeGen(){ }
+    abstract public void codeGen();
+
 }
 
 class VarDeclNode extends DeclNode {
@@ -533,7 +550,9 @@ class VarDeclNode extends DeclNode {
         }
         
         return sym;
-    }   
+    }
+
+    public void codeGen(){} // do nothing here   
     
     public void unparse(PrintWriter p, int indent) {
         doIndent(p, indent);
@@ -653,7 +672,7 @@ class FnDeclNode extends DeclNode {
     }
 
     public void codeGen(){
-        
+        myBody.codeGen();
     }
         
     public void unparse(PrintWriter p, int indent) {
@@ -736,7 +755,9 @@ class FormalDeclNode extends DeclNode {
         }  
         
         return sym;
-    } 		
+    }
+
+    public void codeGen(){}; 		
     
     public void unparse(PrintWriter p, int indent) {
         myType.unparse(p, 0);
@@ -802,7 +823,9 @@ class StructDeclNode extends DeclNode {
         }
         
         return null;
-    }    
+    }
+
+    public void codeGen(){}    
     
     public void unparse(PrintWriter p, int indent) {
         doIndent(p, indent);
@@ -1460,6 +1483,7 @@ abstract class ExpNode extends ASTnode {
     abstract public Type typeCheck();
     abstract public int lineNum();
     abstract public int charNum();
+    abstract public void codeGen();
 
 }
 
@@ -2422,6 +2446,10 @@ class DivideNode extends ArithmeticExpNode {
 class AndNode extends LogicalExpNode {
     public AndNode(ExpNode exp1, ExpNode exp2) {
         super(exp1, exp2);
+    }
+
+    public void codeGen(){
+        
     }
     
     public void unparse(PrintWriter p, int indent) {
