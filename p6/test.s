@@ -303,6 +303,88 @@ main:		# Function Entry
 	li    $v0, 5
 	syscall
 	sw    $v0, 0($t0)	# Store readin to ID
+			# PostIncrement
+	la    $t0, _a		# Load global var addr: a
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, _a		# Load global var: a
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t1, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	addi  $t1, $t1, 1
+	sw    $t1, 0($t0)	# Increment by one
+			# PostIncrement
+	la    $t0, _a		# Load global var addr: a
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, _a		# Load global var: a
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t1, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	addi  $t1, $t1, 1
+	sw    $t1, 0($t0)	# Increment by one
+			# WRITE
+	lw    $t0, _a		# Load global var: a
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 1
+	syscall
+			# WRITE
+	.text
+	la    $t0, .L0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+			# PostDecrement
+	la    $t0, _a		# Load global var addr: a
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, _a		# Load global var: a
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t1, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	addi  $t1, $t1, -1
+	sw    $t1, 0($t0)	# Decrement by one
+			# PostDecrement
+	la    $t0, _a		# Load global var addr: a
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, _a		# Load global var: a
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t1, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	addi  $t1, $t1, -1
+	sw    $t1, 0($t0)	# Decrement by one
+			# PostDecrement
+	la    $t0, _a		# Load global var addr: a
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, _a		# Load global var: a
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t1, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	addi  $t1, $t1, -1
+	sw    $t1, 0($t0)	# Decrement by one
 			# WRITE
 	lw    $t0, _a		# Load global var: a
 	sw    $t0, 0($sp)	# PUSH

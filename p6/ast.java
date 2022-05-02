@@ -1055,7 +1055,13 @@ class PostIncStmtNode extends StmtNode {
     }
 
     public void codeGen(String fctnLabel){
-        
+        Codegen.generateWithComment("", "PostIncrement");
+        ((IdNode)myExp).genAddr();      // leave the addr of exp on stack
+        ((IdNode)myExp).codeGen();      // leave the value of exp on stack
+        Codegen.genPop(Codegen.T1);     // pop the value into t1
+        Codegen.genPop(Codegen.T0);     // pop the addr into t0
+        Codegen.generate("addi", Codegen.T1, Codegen.T1, 1);
+        Codegen.generateIndexed("sw", Codegen.T1, Codegen.T0, 0, "Increment by one");
     }
         
     public void unparse(PrintWriter p, int indent) {
@@ -1094,7 +1100,13 @@ class PostDecStmtNode extends StmtNode {
     }
 
     public void codeGen(String fctnLabel){
-        
+        Codegen.generateWithComment("", "PostDecrement");
+        ((IdNode)myExp).genAddr();      // leave the addr of exp on stack
+        ((IdNode)myExp).codeGen();      // leave the value of exp on stack
+        Codegen.genPop(Codegen.T1);     // pop the value into t1
+        Codegen.genPop(Codegen.T0);     // pop the addr into t0
+        Codegen.generate("addi", Codegen.T1, Codegen.T1, -1);
+        Codegen.generateIndexed("sw", Codegen.T1, Codegen.T0, 0, "Decrement by one");
     }
         
     public void unparse(PrintWriter p, int indent) {

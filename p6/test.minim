@@ -41,6 +41,13 @@ void main() {
 
     disp << "Please input a value(int): ";
     input >> a;
+    a++;
+    a++;
+    disp << a;
+    disp << "\n";
+    a--;
+    a--;
+    a--;
     disp << a;
     disp << "\n";
 }
