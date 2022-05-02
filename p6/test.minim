@@ -2,63 +2,37 @@ int a;
 bool b;
 
 void main() {
-    int c;
-    bool d;
-
-    int e;
-    int f;
-
-    bool k;
-    bool w;
-
-    a = 1;
-    b = true;
-    c = 2;
-    d = false;
-
-    e = a;
-    k = b;
-    f = c;
-    w = d;
-
-    disp << a;
+    int t1;
+    bool t2;
+    int t3;
+    t3 = 3;
+    t2 = false;
+    t1 = 1;
+    
+    
+    t2 = t1 < t3;
+    disp << (1 < 2);
     disp << "\n";
-    disp << b;
+    disp << (1 < 1);
     disp << "\n";
-    disp << c;
+    disp << (1 < 0);
     disp << "\n";
-    disp << d;
+     disp << (1 <= 2);
     disp << "\n";
-
-    disp << e;
+    disp << (1 <= 1);
     disp << "\n";
-    disp << k;
+    disp << (1 <= 0);
     disp << "\n";
-    disp << f;
+     disp << (1 > 2);
     disp << "\n";
-    disp << w;
+    disp << (1 > 1);
     disp << "\n";
-
-    disp << "Please input a value(int): ";
-    input >> a;
-    a = (a + a) + (a + 1);
-    disp << a;
+    disp << (1 > 0);
     disp << "\n";
-    a = a * a;
-    c = c * c;
-    c = c / c;
-    disp << -(a + c);
+     disp << (1 >= 2);
     disp << "\n";
-    disp << b;
+    disp << (1 >= 1);
     disp << "\n";
-    disp << !b;
-    disp << "\n";
-    disp << d;
-    disp << "\n";
-    disp << !d;
-    disp << "\n";
-    disp << k;
-    disp << "\n";
-    disp << !k;
+    disp << (1 >= 0);
     disp << "\n";
 }

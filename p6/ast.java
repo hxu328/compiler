@@ -2551,6 +2551,11 @@ abstract class RelationalExpNode extends BinaryExpNode {
         
         return retType;
     }
+
+    public void codeGen(){
+        Codegen.generateWithComment("", "Enter RelationalExpNode");
+        super.codeGen();
+    }
 }
 
 class PlusNode extends ArithmeticExpNode {
@@ -2719,7 +2724,10 @@ class LessNode extends RelationalExpNode {
     }
 
     public void codeGen(){
-        
+        Codegen.generateWithComment("", "Enter LessNode");
+        super.codeGen();            // leave lhs in t0, rhs in t1
+        Codegen.generateWithComment("slt", "Set t0 to 1 if lhs < rhs, otherwise 0", Codegen.T0, Codegen.T0, Codegen.T1);
+        Codegen.genPush(Codegen.T0);
     }
     
     public void unparse(PrintWriter p, int indent) {
@@ -2737,7 +2745,10 @@ class GreaterNode extends RelationalExpNode {
     }
 
     public void codeGen(){
-        
+        Codegen.generateWithComment("", "Enter GreaterNode");
+        super.codeGen();            // leave lhs in t0, rhs in t1
+        Codegen.generateWithComment("sgt", "Set t0 to 1 if lhs > rhs, otherwise 0", Codegen.T0, Codegen.T0, Codegen.T1);
+        Codegen.genPush(Codegen.T0);
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -2755,7 +2766,10 @@ class LessEqNode extends RelationalExpNode {
     }
 
     public void codeGen(){
-        
+        Codegen.generateWithComment("", "Enter LessEqNode");
+        super.codeGen();            // leave lhs in t0, rhs in t1
+        Codegen.generateWithComment("sle", "Set t0 to 1 if lhs <= rhs, otherwise 0", Codegen.T0, Codegen.T0, Codegen.T1);
+        Codegen.genPush(Codegen.T0);
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -2773,7 +2787,10 @@ class GreaterEqNode extends RelationalExpNode {
     }
 
     public void codeGen(){
-        
+        Codegen.generateWithComment("", "Enter GreaterEqNode");
+        super.codeGen();            // leave lhs in t0, rhs in t1
+        Codegen.generateWithComment("sge", "Set t0 to 1 if lhs >= rhs, otherwise 0", Codegen.T0, Codegen.T0, Codegen.T1);
+        Codegen.genPush(Codegen.T0);
     }
 
     public void unparse(PrintWriter p, int indent) {

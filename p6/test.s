@@ -12,13 +12,13 @@ main:		# Function Entry
 	sw    $fp, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 	addu  $fp, $sp, 8
-	subu  $sp, $sp, 24
+	subu  $sp, $sp, 12
 			# ASSIGN
-	la    $t0, _a		# Load global var addr: a
+	la    $t0, -16($fp)	# Load local var addr: t3
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 			# Push int on stack
-	li    $t0, 1
+	li    $t0, 3
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 	lw    $t1, 4($sp)	# POP
@@ -31,41 +31,7 @@ main:		# Function Entry
 	lw    $t0, 4($sp)	# POP
 	addu  $sp, $sp, 4
 			# ASSIGN
-	la    $t0, _b		# Load global var addr: b
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-			# Push bool(true) on stack
-	li    $t0, 1
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t1, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	lw    $t0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	sw    $t1, 0($t0)	# Store rhs to lhs
-	sw    $t1, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-			# ASSIGN
-	la    $t0, -8($fp)	# Load local var addr: c
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-			# Push int on stack
-	li    $t0, 2
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t1, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	lw    $t0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	sw    $t1, 0($t0)	# Store rhs to lhs
-	sw    $t1, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-			# ASSIGN
-	la    $t0, -12($fp)	# Load local var addr: d
+	la    $t0, -12($fp)	# Load local var addr: t2
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 			# Push bool(false) on stack
@@ -82,26 +48,11 @@ main:		# Function Entry
 	lw    $t0, 4($sp)	# POP
 	addu  $sp, $sp, 4
 			# ASSIGN
-	la    $t0, -16($fp)	# Load local var addr: e
+	la    $t0, -8($fp)	# Load local var addr: t1
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
-	lw    $t0, _a		# Load global var: a
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t1, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	lw    $t0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	sw    $t1, 0($t0)	# Store rhs to lhs
-	sw    $t1, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-			# ASSIGN
-	la    $t0, -24($fp)	# Load local var addr: k
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t0, _b		# Load global var: b
+			# Push int on stack
+	li    $t0, 1
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 	lw    $t1, 4($sp)	# POP
@@ -114,26 +65,23 @@ main:		# Function Entry
 	lw    $t0, 4($sp)	# POP
 	addu  $sp, $sp, 4
 			# ASSIGN
-	la    $t0, -20($fp)	# Load local var addr: f
+	la    $t0, -12($fp)	# Load local var addr: t2
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
-	lw    $t0, -8($fp)	# Load local var: c
+			# Enter LessNode
+			# Enter RelationalExpNode
+			# Enter BinaryExpNode
+	lw    $t0, -8($fp)	# Load local var: t1
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, -16($fp)	# Load local var: t3
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 	lw    $t1, 4($sp)	# POP
 	addu  $sp, $sp, 4
 	lw    $t0, 4($sp)	# POP
 	addu  $sp, $sp, 4
-	sw    $t1, 0($t0)	# Store rhs to lhs
-	sw    $t1, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-			# ASSIGN
-	la    $t0, -28($fp)	# Load local var addr: w
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t0, -12($fp)	# Load local var: d
+	slt   $t0, $t0, $t1		# Set t0 to 1 if lhs < rhs, otherwise 0
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 	lw    $t1, 4($sp)	# POP
@@ -146,7 +94,22 @@ main:		# Function Entry
 	lw    $t0, 4($sp)	# POP
 	addu  $sp, $sp, 4
 			# WRITE
-	lw    $t0, _a		# Load global var: a
+			# Enter LessNode
+			# Enter RelationalExpNode
+			# Enter BinaryExpNode
+			# Push int on stack
+	li    $t0, 1
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+			# Push int on stack
+	li    $t0, 2
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t1, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	slt   $t0, $t0, $t1		# Set t0 to 1 if lhs < rhs, otherwise 0
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 	lw    $a0, 4($sp)	# POP
@@ -165,171 +128,11 @@ main:		# Function Entry
 	li    $v0, 4
 	syscall
 			# WRITE
-	lw    $t0, _b		# Load global var: b
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 1
-	syscall
-			# WRITE
-	.text
-	la    $t0, .L0
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 4
-	syscall
-			# WRITE
-	lw    $t0, -8($fp)	# Load local var: c
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 1
-	syscall
-			# WRITE
-	.text
-	la    $t0, .L0
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 4
-	syscall
-			# WRITE
-	lw    $t0, -12($fp)	# Load local var: d
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 1
-	syscall
-			# WRITE
-	.text
-	la    $t0, .L0
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 4
-	syscall
-			# WRITE
-	lw    $t0, -16($fp)	# Load local var: e
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 1
-	syscall
-			# WRITE
-	.text
-	la    $t0, .L0
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 4
-	syscall
-			# WRITE
-	lw    $t0, -24($fp)	# Load local var: k
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 1
-	syscall
-			# WRITE
-	.text
-	la    $t0, .L0
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 4
-	syscall
-			# WRITE
-	lw    $t0, -20($fp)	# Load local var: f
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 1
-	syscall
-			# WRITE
-	.text
-	la    $t0, .L0
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 4
-	syscall
-			# WRITE
-	lw    $t0, -28($fp)	# Load local var: w
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 1
-	syscall
-			# WRITE
-	.text
-	la    $t0, .L0
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 4
-	syscall
-			# WRITE
-	.data
-.L1:	.asciiz "Please input a value(int): "	# String Declaration
-	.text
-	la    $t0, .L1
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 4
-	syscall
-			# READ
-	la    $t0, _a		# Load global var addr: a
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 5
-	syscall
-	sw    $v0, 0($t0)	# Store readin to ID
-			# ASSIGN
-	la    $t0, _a		# Load global var addr: a
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-			# Enter PlusNode
-			# Enter ArithmeticNode
+			# Enter LessNode
+			# Enter RelationalExpNode
 			# Enter BinaryExpNode
-			# Enter PlusNode
-			# Enter ArithmeticNode
-			# Enter BinaryExpNode
-	lw    $t0, _a		# Load global var: a
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t0, _a		# Load global var: a
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t1, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	lw    $t0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	add   $t0, $t0, $t1		# Add two expressions
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-			# Enter PlusNode
-			# Enter ArithmeticNode
-			# Enter BinaryExpNode
-	lw    $t0, _a		# Load global var: a
+			# Push int on stack
+	li    $t0, 1
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 			# Push int on stack
@@ -340,27 +143,7 @@ main:		# Function Entry
 	addu  $sp, $sp, 4
 	lw    $t0, 4($sp)	# POP
 	addu  $sp, $sp, 4
-	add   $t0, $t0, $t1		# Add two expressions
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t1, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	lw    $t0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	add   $t0, $t0, $t1		# Add two expressions
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t1, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	lw    $t0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	sw    $t1, 0($t0)	# Store rhs to lhs
-	sw    $t1, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-			# WRITE
-	lw    $t0, _a		# Load global var: a
+	slt   $t0, $t0, $t1		# Set t0 to 1 if lhs < rhs, otherwise 0
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 	lw    $a0, 4($sp)	# POP
@@ -376,120 +159,151 @@ main:		# Function Entry
 	addu  $sp, $sp, 4
 	li    $v0, 4
 	syscall
-			# ASSIGN
-	la    $t0, _a		# Load global var addr: a
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-			# Enter TimesNode
-			# Enter ArithmeticNode
+			# WRITE
+			# Enter LessNode
+			# Enter RelationalExpNode
 			# Enter BinaryExpNode
-	lw    $t0, _a		# Load global var: a
+			# Push int on stack
+	li    $t0, 1
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
-	lw    $t0, _a		# Load global var: a
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t1, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	lw    $t0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	mult  $t0, $t1		# Multiply two expressions
-	mflo  $t0
+			# Push int on stack
+	li    $t0, 0
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 	lw    $t1, 4($sp)	# POP
 	addu  $sp, $sp, 4
 	lw    $t0, 4($sp)	# POP
 	addu  $sp, $sp, 4
-	sw    $t1, 0($t0)	# Store rhs to lhs
-	sw    $t1, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-			# ASSIGN
-	la    $t0, -8($fp)	# Load local var addr: c
+	slt   $t0, $t0, $t1		# Set t0 to 1 if lhs < rhs, otherwise 0
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
-			# Enter TimesNode
-			# Enter ArithmeticNode
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 1
+	syscall
+			# WRITE
+	.text
+	la    $t0, .L0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+			# WRITE
+			# Enter LessEqNode
+			# Enter RelationalExpNode
 			# Enter BinaryExpNode
-	lw    $t0, -8($fp)	# Load local var: c
+			# Push int on stack
+	li    $t0, 1
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
-	lw    $t0, -8($fp)	# Load local var: c
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t1, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	lw    $t0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	mult  $t0, $t1		# Multiply two expressions
-	mflo  $t0
+			# Push int on stack
+	li    $t0, 2
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 	lw    $t1, 4($sp)	# POP
 	addu  $sp, $sp, 4
 	lw    $t0, 4($sp)	# POP
 	addu  $sp, $sp, 4
-	sw    $t1, 0($t0)	# Store rhs to lhs
-	sw    $t1, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-			# ASSIGN
-	la    $t0, -8($fp)	# Load local var addr: c
+	sle   $t0, $t0, $t1		# Set t0 to 1 if lhs <= rhs, otherwise 0
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
-			# Enter DivideNode
-			# Enter ArithmeticNode
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 1
+	syscall
+			# WRITE
+	.text
+	la    $t0, .L0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+			# WRITE
+			# Enter LessEqNode
+			# Enter RelationalExpNode
 			# Enter BinaryExpNode
-	lw    $t0, -8($fp)	# Load local var: c
+			# Push int on stack
+	li    $t0, 1
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
-	lw    $t0, -8($fp)	# Load local var: c
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t1, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	lw    $t0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	div   $t0, $t1		# Divide two expressions
-	mflo  $t0
+			# Push int on stack
+	li    $t0, 1
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 	lw    $t1, 4($sp)	# POP
 	addu  $sp, $sp, 4
 	lw    $t0, 4($sp)	# POP
 	addu  $sp, $sp, 4
-	sw    $t1, 0($t0)	# Store rhs to lhs
-	sw    $t1, 0($sp)	# PUSH
+	sle   $t0, $t0, $t1		# Set t0 to 1 if lhs <= rhs, otherwise 0
+	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
-	lw    $t0, 4($sp)	# POP
+	lw    $a0, 4($sp)	# POP
 	addu  $sp, $sp, 4
+	li    $v0, 1
+	syscall
 			# WRITE
-			# Enter UnaryMinusNode
-			# Enter UnaryExpNode
-			# Enter PlusNode
-			# Enter ArithmeticNode
+	.text
+	la    $t0, .L0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+			# WRITE
+			# Enter LessEqNode
+			# Enter RelationalExpNode
 			# Enter BinaryExpNode
-	lw    $t0, _a		# Load global var: a
+			# Push int on stack
+	li    $t0, 1
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
-	lw    $t0, -8($fp)	# Load local var: c
+			# Push int on stack
+	li    $t0, 0
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 	lw    $t1, 4($sp)	# POP
 	addu  $sp, $sp, 4
 	lw    $t0, 4($sp)	# POP
 	addu  $sp, $sp, 4
-	add   $t0, $t0, $t1		# Add two expressions
+	sle   $t0, $t0, $t1		# Set t0 to 1 if lhs <= rhs, otherwise 0
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 1
+	syscall
+			# WRITE
+	.text
+	la    $t0, .L0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+			# WRITE
+			# Enter GreaterNode
+			# Enter RelationalExpNode
+			# Enter BinaryExpNode
+			# Push int on stack
+	li    $t0, 1
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+			# Push int on stack
+	li    $t0, 2
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t1, 4($sp)	# POP
+	addu  $sp, $sp, 4
 	lw    $t0, 4($sp)	# POP
 	addu  $sp, $sp, 4
-	li    $t1, -1
-	mult  $t0, $t1		# Negate exp
-	mflo  $t0
+	sgt   $t0, $t0, $t1		# Set t0 to 1 if lhs > rhs, otherwise 0
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 	lw    $a0, 4($sp)	# POP
@@ -506,55 +320,22 @@ main:		# Function Entry
 	li    $v0, 4
 	syscall
 			# WRITE
-	lw    $t0, _b		# Load global var: b
+			# Enter GreaterNode
+			# Enter RelationalExpNode
+			# Enter BinaryExpNode
+			# Push int on stack
+	li    $t0, 1
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
+			# Push int on stack
+	li    $t0, 1
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t1, 4($sp)	# POP
 	addu  $sp, $sp, 4
-	li    $v0, 1
-	syscall
-			# WRITE
-	.text
-	la    $t0, .L0
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 4
-	syscall
-			# WRITE
-			# Enter NotNode
-			# Enter UnaryExpNode
-	lw    $t0, _b		# Load global var: b
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
 	lw    $t0, 4($sp)	# POP
 	addu  $sp, $sp, 4
-	li    $t1, 0
-	beq   $t0, $t1, .L2		# Compare with false(0)
-	sw    $t1, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	b     .L3
-.L2:
-	li    $t1, 1
-	sw    $t1, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-.L3:
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 1
-	syscall
-			# WRITE
-	.text
-	la    $t0, .L0
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 4
-	syscall
-			# WRITE
-	lw    $t0, -12($fp)	# Load local var: d
+	sgt   $t0, $t0, $t1		# Set t0 to 1 if lhs > rhs, otherwise 0
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 	lw    $a0, 4($sp)	# POP
@@ -571,38 +352,22 @@ main:		# Function Entry
 	li    $v0, 4
 	syscall
 			# WRITE
-			# Enter NotNode
-			# Enter UnaryExpNode
-	lw    $t0, -12($fp)	# Load local var: d
+			# Enter GreaterNode
+			# Enter RelationalExpNode
+			# Enter BinaryExpNode
+			# Push int on stack
+	li    $t0, 1
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
+			# Push int on stack
+	li    $t0, 0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t1, 4($sp)	# POP
+	addu  $sp, $sp, 4
 	lw    $t0, 4($sp)	# POP
 	addu  $sp, $sp, 4
-	li    $t1, 0
-	beq   $t0, $t1, .L4		# Compare with false(0)
-	sw    $t1, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	b     .L5
-.L4:
-	li    $t1, 1
-	sw    $t1, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-.L5:
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 1
-	syscall
-			# WRITE
-	.text
-	la    $t0, .L0
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 4
-	syscall
-			# WRITE
-	lw    $t0, -24($fp)	# Load local var: k
+	sgt   $t0, $t0, $t1		# Set t0 to 1 if lhs > rhs, otherwise 0
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 	lw    $a0, 4($sp)	# POP
@@ -619,23 +384,88 @@ main:		# Function Entry
 	li    $v0, 4
 	syscall
 			# WRITE
-			# Enter NotNode
-			# Enter UnaryExpNode
-	lw    $t0, -24($fp)	# Load local var: k
+			# Enter GreaterEqNode
+			# Enter RelationalExpNode
+			# Enter BinaryExpNode
+			# Push int on stack
+	li    $t0, 1
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
+			# Push int on stack
+	li    $t0, 2
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t1, 4($sp)	# POP
+	addu  $sp, $sp, 4
 	lw    $t0, 4($sp)	# POP
 	addu  $sp, $sp, 4
-	li    $t1, 0
-	beq   $t0, $t1, .L6		# Compare with false(0)
-	sw    $t1, 0($sp)	# PUSH
+	sge   $t0, $t0, $t1		# Set t0 to 1 if lhs >= rhs, otherwise 0
+	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
-	b     .L7
-.L6:
-	li    $t1, 1
-	sw    $t1, 0($sp)	# PUSH
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 1
+	syscall
+			# WRITE
+	.text
+	la    $t0, .L0
+	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
-.L7:
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+			# WRITE
+			# Enter GreaterEqNode
+			# Enter RelationalExpNode
+			# Enter BinaryExpNode
+			# Push int on stack
+	li    $t0, 1
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+			# Push int on stack
+	li    $t0, 1
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t1, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	sge   $t0, $t0, $t1		# Set t0 to 1 if lhs >= rhs, otherwise 0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 1
+	syscall
+			# WRITE
+	.text
+	la    $t0, .L0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+			# WRITE
+			# Enter GreaterEqNode
+			# Enter RelationalExpNode
+			# Enter BinaryExpNode
+			# Push int on stack
+	li    $t0, 1
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+			# Push int on stack
+	li    $t0, 0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t1, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	sge   $t0, $t0, $t1		# Set t0 to 1 if lhs >= rhs, otherwise 0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
 	lw    $a0, 4($sp)	# POP
 	addu  $sp, $sp, 4
 	li    $v0, 1
