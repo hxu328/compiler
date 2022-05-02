@@ -422,12 +422,11 @@ class ExpListNode extends ASTnode {
     }
 
     public void codeGen(){
-        Iterator<ExpNode> it = myExps.iterator();
-        if (it.hasNext()) { // if there is at least one element
-            it.next().codeGen();
-            while (it.hasNext()) {  // print the rest of the list
-                it.next().codeGen();
-            }
+
+        // codegen in reverse order
+        Iterator<ExpNode> it = ((LinkedList<ExpNode>)myExps).descendingIterator();
+        while (it.hasNext()) { // if there is at least one element
+            (it.next()).codeGen();
         } 
     }
     
@@ -1543,6 +1542,11 @@ class CallStmtNode extends StmtNode {
     }
 
     public void codeGen(String fctnLabel){
+        // myCall will leave a value on stack (void fctn will leave a fake value) 
+        myCall.codeGen();
+
+        // pop return value and ignore
+        Codegen.genPop(Codegen.T0);
         
     }
 
@@ -1593,7 +1597,12 @@ class ReturnStmtNode extends StmtNode {
     }
 
     public void codeGen(String fctnLabel){
-        
+        // only evaluate exp when exp is not null
+        if(myExp != null){
+            myExp.codeGen();                // leave the value of exp on stack
+            Codegen.genPop(Codegen.V0);     // pop the value into v0
+        }
+        Codegen.generateWithComment("j", "Return: jump to functioin epilogue", fctnLabel);
     }
     
     public void unparse(PrintWriter p, int indent) {
@@ -1909,6 +1918,16 @@ class IdNode extends ExpNode {
         }
 
         Codegen.genPush(Codegen.T0);
+    }
+
+    public void genJumpAndLink(){
+        // jump to target function
+        Codegen.generateWithComment("", "Begin Call function: " + myStrVal);
+        Codegen.generate("jal", "_" + myStrVal);
+
+        // tear down actuals after return
+        Codegen.generateWithComment("", "After Call function: " + myStrVal);
+        Codegen.generate("addu", Codegen.SP, Codegen.SP, ((FnSym)mySym).getFormalSize());
     }
            
     public void unparse(PrintWriter p, int indent) {
@@ -2241,7 +2260,15 @@ class CallExpNode extends ExpNode {
     }
 
     public void codeGen(){
-        
+        // Precall: push actuals on stack
+        myExpList.codeGen();
+
+        // Jump to callee & tear down actuals after return
+        myId.genJumpAndLink();
+
+        // Push return value on stack (might be a fake return value)
+        Codegen.genPush(Codegen.V0);
+
     }
         
     // *** unparse ***

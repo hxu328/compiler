@@ -1,56 +1,72 @@
 int a;
 bool b;
 
+void f1(){
+    int a;
+    disp << "Reach f1\n";
+}
+
+void f2(int a){
+    int b;
+    disp << "Reach f2\n";
+}
+
+int f3(int a, int b){
+    int c;
+
+    c = a + b;
+    return c;
+    c = 10;
+}
+
+int f4(){
+    return f3(3, 4);
+}
+
+bool f5(bool a, bool b){
+    return b;
+}
+
+int recursion(int n){
+    if(n == 1){
+        return 1;
+    } else {
+        return n + recursion(n-1);
+    }
+}
+
 void main() {
-    int t1;
-    bool t2;
-    int t3;
-    t3 = 3;
-    t2 = false;
-    t1 = 1;
-    
-    if(t3 == 3){
-        t3++;
-    }
-    
-    disp << t3;
+    int k;
+    bool m;
+    bool n;
+    bool l;
+
+    k = 5;
+    m = true;
+    n = false;
+
+    f1();
+    f2(k);
+
+    disp << k;
     disp << "\n";
 
-    if(t1 == 3){
-        t1++;
-    }
-    
-    disp << t1;
+    k = f3(2, 4);
+    disp << k;
     disp << "\n";
 
-    if(t2 == true){
-        disp << "t2 is true\n";
-    } else {
-        disp << "t2 is false\n";
-    }
-    disp << "end of t2\n";
-
-    if(t3 == 4){
-        disp << "t3 is 4\n";
-    } else {
-        disp << "t3 is not 4\n";
-    }
-    disp << "end of t3\n";
-
-    t1 = 1;
-    while (t1 < 1){
-        disp << "should not enter here\n";
-    }
-    disp << "end of t1 loop\n";
-    disp << t1;
+    k = f4();
+    disp << k;
     disp << "\n";
 
-    while (t1 < 5){
-        disp << "enter loop\n";
-        t1 ++;
-    }
-    disp << "end of t1 loop\n";
-    disp << t1;
+    l = f5(m, n);
+    disp << l;
     disp << "\n";
+
+    k = recursion(5);
+    disp << k;
+    disp << "\n";
+
+
     
 }
