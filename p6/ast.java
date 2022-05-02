@@ -2242,6 +2242,12 @@ abstract class UnaryExpNode extends ExpNode {
     public void nameAnalysis(SymTable symTab) {
         myExp.nameAnalysis(symTab);
     }
+
+    public void codeGen(){
+        Codegen.generateWithComment("", "Enter UnaryExpNode");
+        myExp.codeGen();             // leave exp value on stack
+        Codegen.genPop(Codegen.T0);  // pop exp value into t0
+    }
     
     // one child
     protected ExpNode myExp;
@@ -2323,7 +2329,12 @@ class UnaryMinusNode extends UnaryExpNode {
     }
 
     public void codeGen(){
-        
+        Codegen.generateWithComment("", "Enter UnaryMinusNode");
+        super.codeGen();                         // leave value in t0
+        Codegen.generate("li", Codegen.T1, -1);  // leave -1 in t1
+        Codegen.generateWithComment("mult", "Negate exp", Codegen.T0, Codegen.T1);
+        Codegen.generate("mflo", Codegen.T0);    // store result in t0
+        Codegen.genPush(Codegen.T0);             // push result on stack
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -2359,6 +2370,21 @@ class NotNode extends UnaryExpNode {
     }
 
     public void codeGen(){
+        Codegen.generateWithComment("", "Enter NotNode");
+        super.codeGen();                         // leave value in t0
+        Codegen.generate("li", Codegen.T1, 0);   // leave false(0) in t1
+        String falseLabel = Codegen.nextLabel();
+        String endLabel = Codegen.nextLabel();
+        Codegen.generateWithComment("beq", "Compare with false(0)", Codegen.T0, Codegen.T1, falseLabel);
+        Codegen.genPush(Codegen.T1);             // push false on stack
+        Codegen.generate("b", endLabel);
+        Codegen.genLabel(falseLabel);
+        Codegen.generate("li", Codegen.T1, 1);   // leave true(1) in t1
+        Codegen.genPush(Codegen.T1);
+        Codegen.genLabel(endLabel);
+
+
+        
     }
 
     public void unparse(PrintWriter p, int indent) {

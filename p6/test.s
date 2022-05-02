@@ -467,6 +467,8 @@ main:		# Function Entry
 	lw    $t0, 4($sp)	# POP
 	addu  $sp, $sp, 4
 			# WRITE
+			# Enter UnaryMinusNode
+			# Enter UnaryExpNode
 			# Enter PlusNode
 			# Enter ArithmeticNode
 			# Enter BinaryExpNode
@@ -483,6 +485,157 @@ main:		# Function Entry
 	add   $t0, $t0, $t1		# Add two expressions
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $t1, -1
+	mult  $t0, $t1		# Negate exp
+	mflo  $t0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 1
+	syscall
+			# WRITE
+	.text
+	la    $t0, .L0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+			# WRITE
+	lw    $t0, _b		# Load global var: b
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 1
+	syscall
+			# WRITE
+	.text
+	la    $t0, .L0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+			# WRITE
+			# Enter NotNode
+			# Enter UnaryExpNode
+	lw    $t0, _b		# Load global var: b
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $t1, 0
+	beq   $t0, $t1, .L2		# Compare with false(0)
+	sw    $t1, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	b     .L3
+.L2:
+	li    $t1, 1
+	sw    $t1, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+.L3:
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 1
+	syscall
+			# WRITE
+	.text
+	la    $t0, .L0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+			# WRITE
+	lw    $t0, -12($fp)	# Load local var: d
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 1
+	syscall
+			# WRITE
+	.text
+	la    $t0, .L0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+			# WRITE
+			# Enter NotNode
+			# Enter UnaryExpNode
+	lw    $t0, -12($fp)	# Load local var: d
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $t1, 0
+	beq   $t0, $t1, .L4		# Compare with false(0)
+	sw    $t1, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	b     .L5
+.L4:
+	li    $t1, 1
+	sw    $t1, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+.L5:
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 1
+	syscall
+			# WRITE
+	.text
+	la    $t0, .L0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+			# WRITE
+	lw    $t0, -24($fp)	# Load local var: k
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 1
+	syscall
+			# WRITE
+	.text
+	la    $t0, .L0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+			# WRITE
+			# Enter NotNode
+			# Enter UnaryExpNode
+	lw    $t0, -24($fp)	# Load local var: k
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $t1, 0
+	beq   $t0, $t1, .L6		# Compare with false(0)
+	sw    $t1, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	b     .L7
+.L6:
+	li    $t1, 1
+	sw    $t1, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+.L7:
 	lw    $a0, 4($sp)	# POP
 	addu  $sp, $sp, 4
 	li    $v0, 1

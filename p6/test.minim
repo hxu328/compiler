@@ -47,6 +47,18 @@ void main() {
     a = a * a;
     c = c * c;
     c = c / c;
-    disp << a + c;
+    disp << -(a + c);
+    disp << "\n";
+    disp << b;
+    disp << "\n";
+    disp << !b;
+    disp << "\n";
+    disp << d;
+    disp << "\n";
+    disp << !d;
+    disp << "\n";
+    disp << k;
+    disp << "\n";
+    disp << !k;
     disp << "\n";
 }
