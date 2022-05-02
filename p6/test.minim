@@ -10,29 +10,18 @@ void main() {
     t1 = 1;
     
     
-    t2 = t1 < t3;
-    disp << (1 < 2);
+    disp << (1 != 2);
     disp << "\n";
-    disp << (1 < 1);
+    disp << (1 != 1);
     disp << "\n";
-    disp << (1 < 0);
+    disp << (true != true);
     disp << "\n";
-     disp << (1 <= 2);
+    disp << (true != false);
     disp << "\n";
-    disp << (1 <= 1);
+    disp << ("hello" != "hello");
     disp << "\n";
-    disp << (1 <= 0);
+    disp << ("hello" != "world");
     disp << "\n";
-     disp << (1 > 2);
-    disp << "\n";
-    disp << (1 > 1);
-    disp << "\n";
-    disp << (1 > 0);
-    disp << "\n";
-     disp << (1 >= 2);
-    disp << "\n";
-    disp << (1 >= 1);
-    disp << "\n";
-    disp << (1 >= 0);
-    disp << "\n";
+
+    
 }

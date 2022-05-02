@@ -2518,6 +2518,11 @@ abstract class EqualityExpNode extends BinaryExpNode {
         
         return retType;
     }
+
+    public void codeGen(){
+        Codegen.generateWithComment("", "Enter EqualityExpNode");
+        super.codeGen();
+    }
 }
 
 abstract class RelationalExpNode extends BinaryExpNode {
@@ -2688,7 +2693,10 @@ class EqualsNode extends EqualityExpNode {
     }
 
     public void codeGen(){
-        
+        Codegen.generateWithComment("", "Enter EqualsNode");
+        super.codeGen();            // leave lhs in t0, rhs in t1
+        Codegen.generateWithComment("seq", "Set t0 to 1 if lhs == rhs, otherwise 0", Codegen.T0, Codegen.T0, Codegen.T1);
+        Codegen.genPush(Codegen.T0);
     }
     
     public void unparse(PrintWriter p, int indent) {
@@ -2706,7 +2714,10 @@ class NotEqualsNode extends EqualityExpNode {
     }
 
     public void codeGen(){
-        
+        Codegen.generateWithComment("", "Enter NotEqualsNode");
+        super.codeGen();            // leave lhs in t0, rhs in t1
+        Codegen.generateWithComment("sne", "Set t0 to 1 if lhs != rhs, otherwise 0", Codegen.T0, Codegen.T0, Codegen.T1);
+        Codegen.genPush(Codegen.T0);
     }
     
     public void unparse(PrintWriter p, int indent) {
