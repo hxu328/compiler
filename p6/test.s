@@ -303,8 +303,17 @@ main:		# Function Entry
 	li    $v0, 5
 	syscall
 	sw    $v0, 0($t0)	# Store readin to ID
-			# PostIncrement
+			# ASSIGN
 	la    $t0, _a		# Load global var addr: a
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+			# Enter PlusNode
+			# Enter ArithmeticNode
+			# Enter BinaryExpNode
+			# Enter PlusNode
+			# Enter ArithmeticNode
+			# Enter BinaryExpNode
+	lw    $t0, _a		# Load global var: a
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 	lw    $t0, _a		# Load global var: a
@@ -314,21 +323,42 @@ main:		# Function Entry
 	addu  $sp, $sp, 4
 	lw    $t0, 4($sp)	# POP
 	addu  $sp, $sp, 4
-	addi  $t1, $t1, 1
-	sw    $t1, 0($t0)	# Increment by one
-			# PostIncrement
-	la    $t0, _a		# Load global var addr: a
+	add   $t0, $t0, $t1		# Add two expressions
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
+			# Enter PlusNode
+			# Enter ArithmeticNode
+			# Enter BinaryExpNode
 	lw    $t0, _a		# Load global var: a
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+			# Push int on stack
+	li    $t0, 1
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 	lw    $t1, 4($sp)	# POP
 	addu  $sp, $sp, 4
 	lw    $t0, 4($sp)	# POP
 	addu  $sp, $sp, 4
-	addi  $t1, $t1, 1
-	sw    $t1, 0($t0)	# Increment by one
+	add   $t0, $t0, $t1		# Add two expressions
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t1, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	add   $t0, $t0, $t1		# Add two expressions
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t1, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	sw    $t1, 0($t0)	# Store rhs to lhs
+	sw    $t1, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
 			# WRITE
 	lw    $t0, _a		# Load global var: a
 	sw    $t0, 0($sp)	# PUSH
@@ -346,8 +376,14 @@ main:		# Function Entry
 	addu  $sp, $sp, 4
 	li    $v0, 4
 	syscall
-			# PostDecrement
+			# ASSIGN
 	la    $t0, _a		# Load global var addr: a
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+			# Enter TimesNode
+			# Enter ArithmeticNode
+			# Enter BinaryExpNode
+	lw    $t0, _a		# Load global var: a
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 	lw    $t0, _a		# Load global var: a
@@ -357,36 +393,94 @@ main:		# Function Entry
 	addu  $sp, $sp, 4
 	lw    $t0, 4($sp)	# POP
 	addu  $sp, $sp, 4
-	addi  $t1, $t1, -1
-	sw    $t1, 0($t0)	# Decrement by one
-			# PostDecrement
-	la    $t0, _a		# Load global var addr: a
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t0, _a		# Load global var: a
+	mult  $t0, $t1		# Multiply two expressions
+	mflo  $t0
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 	lw    $t1, 4($sp)	# POP
 	addu  $sp, $sp, 4
 	lw    $t0, 4($sp)	# POP
 	addu  $sp, $sp, 4
-	addi  $t1, $t1, -1
-	sw    $t1, 0($t0)	# Decrement by one
-			# PostDecrement
-	la    $t0, _a		# Load global var addr: a
+	sw    $t1, 0($t0)	# Store rhs to lhs
+	sw    $t1, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+			# ASSIGN
+	la    $t0, -8($fp)	# Load local var addr: c
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
-	lw    $t0, _a		# Load global var: a
+			# Enter TimesNode
+			# Enter ArithmeticNode
+			# Enter BinaryExpNode
+	lw    $t0, -8($fp)	# Load local var: c
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, -8($fp)	# Load local var: c
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 	lw    $t1, 4($sp)	# POP
 	addu  $sp, $sp, 4
 	lw    $t0, 4($sp)	# POP
 	addu  $sp, $sp, 4
-	addi  $t1, $t1, -1
-	sw    $t1, 0($t0)	# Decrement by one
+	mult  $t0, $t1		# Multiply two expressions
+	mflo  $t0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t1, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	sw    $t1, 0($t0)	# Store rhs to lhs
+	sw    $t1, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+			# ASSIGN
+	la    $t0, -8($fp)	# Load local var addr: c
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+			# Enter DivideNode
+			# Enter ArithmeticNode
+			# Enter BinaryExpNode
+	lw    $t0, -8($fp)	# Load local var: c
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, -8($fp)	# Load local var: c
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t1, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	div   $t0, $t1		# Divide two expressions
+	mflo  $t0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t1, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	sw    $t1, 0($t0)	# Store rhs to lhs
+	sw    $t1, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
 			# WRITE
+			# Enter PlusNode
+			# Enter ArithmeticNode
+			# Enter BinaryExpNode
 	lw    $t0, _a		# Load global var: a
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, -8($fp)	# Load local var: c
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t1, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	add   $t0, $t0, $t1		# Add two expressions
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 	lw    $a0, 4($sp)	# POP

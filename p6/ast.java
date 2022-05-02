@@ -2278,6 +2278,15 @@ abstract class BinaryExpNode extends ExpNode {
         myExp1.nameAnalysis(symTab);
         myExp2.nameAnalysis(symTab);
     }
+
+    public void codeGen(){
+        Codegen.generateWithComment("", "Enter BinaryExpNode");
+        myExp1.codeGen();   // leave lhs value on stack
+        myExp2.codeGen();   // leave rhs value on stack
+        Codegen.genPop(Codegen.T1);  // pop rhs into t1
+        Codegen.genPop(Codegen.T0);  // pop lhs into t0
+        
+    }
     
     // two kids
     protected ExpNode myExp1;
@@ -2350,7 +2359,6 @@ class NotNode extends UnaryExpNode {
     }
 
     public void codeGen(){
-        
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -2394,6 +2402,11 @@ abstract class ArithmeticExpNode extends BinaryExpNode {
         }
         
         return retType;
+    }
+
+    public void codeGen(){
+        Codegen.generateWithComment("", "Enter ArithmeticNode");
+        super.codeGen();
     }
 }
 
@@ -2520,7 +2533,11 @@ class PlusNode extends ArithmeticExpNode {
     }
 
     public void codeGen(){
-        
+        Codegen.generateWithComment("", "Enter PlusNode");
+        super.codeGen();    // leave lhs in t0, rhs in t1
+        Codegen.generateWithComment("add", "Add two expressions", Codegen.T0, Codegen.T0, Codegen.T1);
+        Codegen.genPush(Codegen.T0);    // push result on stack
+
     }
     
     public void unparse(PrintWriter p, int indent) {
@@ -2538,7 +2555,10 @@ class MinusNode extends ArithmeticExpNode {
     }
 
     public void codeGen(){
-        
+        Codegen.generateWithComment("", "Enter MinusNode");
+        super.codeGen();    // leave lhs in t0, rhs in t1
+        Codegen.generateWithComment("sub", "Subtract two expressions", Codegen.T0, Codegen.T0, Codegen.T1);
+        Codegen.genPush(Codegen.T0);    // push result on stack
     }
     
     public void unparse(PrintWriter p, int indent) {
@@ -2556,7 +2576,11 @@ class TimesNode extends ArithmeticExpNode {
     }
 
     public void codeGen(){
-        
+        Codegen.generateWithComment("", "Enter TimesNode");
+        super.codeGen();    // leave lhs in t0, rhs in t1
+        Codegen.generateWithComment("mult", "Multiply two expressions", Codegen.T0, Codegen.T1);
+        Codegen.generate("mflo", Codegen.T0);   // store result in t0
+        Codegen.genPush(Codegen.T0);    // push result on stack
     }
 
     
@@ -2575,7 +2599,11 @@ class DivideNode extends ArithmeticExpNode {
     }
 
     public void codeGen(){
-        
+        Codegen.generateWithComment("", "Enter DivideNode");
+        super.codeGen();    // leave lhs in t0, rhs in t1
+        Codegen.generateWithComment("div", "Divide two expressions", Codegen.T0, Codegen.T1);
+        Codegen.generate("mflo", Codegen.T0);   // store result in t0
+        Codegen.genPush(Codegen.T0);    // push result on stack
     }
     
     public void unparse(PrintWriter p, int indent) {
