@@ -2657,7 +2657,25 @@ class AndNode extends LogicalExpNode {
     }
 
     public void codeGen(){
+        Codegen.generateWithComment("", "Enter AndNode");
+        myExp1.codeGen();
+        Codegen.genPop(Codegen.T0);                 // leave lhs value in t0
+        Codegen.generate("li", Codegen.T1, 1);      // leave "true" in t1
         
+        // generate labels
+        String falseLabel = Codegen.nextLabel();
+        String endLabel = Codegen.nextLabel();
+
+        // control flow
+        Codegen.generateWithComment("bne", "AndNode: evaluate lhs first", Codegen.T0, Codegen.T1, falseLabel);
+
+        myExp2.codeGen();                           // leave rhs value on stack if lhs is true
+        Codegen.generate("b", endLabel);
+        
+        Codegen.genLabel(falseLabel);
+        Codegen.genPush(Codegen.T0);                // push false on stack
+
+        Codegen.genLabel(endLabel);
     }
     
     public void unparse(PrintWriter p, int indent) {
@@ -2675,7 +2693,25 @@ class OrNode extends LogicalExpNode {
     }
 
     public void codeGen(){
+        Codegen.generateWithComment("", "Enter OrNode");
+        myExp1.codeGen();
+        Codegen.genPop(Codegen.T0);                 // leave lhs value in t0
+        Codegen.generate("li", Codegen.T1, 0);      // leave "false" in t1
         
+        // generate labels
+        String trueLabel = Codegen.nextLabel();
+        String endLabel = Codegen.nextLabel();
+
+        // control flow
+        Codegen.generateWithComment("bne", "OrNode: evaluate lhs first", Codegen.T0, Codegen.T1, trueLabel);
+
+        myExp2.codeGen();                           // leave rhs value on stack if lhs is false
+        Codegen.generate("b", endLabel);
+        
+        Codegen.genLabel(trueLabel);
+        Codegen.genPush(Codegen.T0);                // push true on stack
+
+        Codegen.genLabel(endLabel);
     }
     
     public void unparse(PrintWriter p, int indent) {

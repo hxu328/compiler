@@ -10,17 +10,13 @@ void main() {
     t1 = 1;
     
     
-    disp << (1 != 2);
+    disp << true || true;
     disp << "\n";
-    disp << (1 != 1);
+    disp << true || false;
     disp << "\n";
-    disp << (true != true);
+    disp << false || false;
     disp << "\n";
-    disp << (true != false);
-    disp << "\n";
-    disp << ("hello" != "hello");
-    disp << "\n";
-    disp << ("hello" != "world");
+    disp << false || true;
     disp << "\n";
 
     

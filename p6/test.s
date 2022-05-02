@@ -65,197 +65,129 @@ main:		# Function Entry
 	lw    $t0, 4($sp)	# POP
 	addu  $sp, $sp, 4
 			# WRITE
-			# Enter NotEqualsNode
-			# Enter EqualityExpNode
-			# Enter BinaryExpNode
-			# Push int on stack
+			# Enter OrNode
+			# Push bool(true) on stack
 	li    $t0, 1
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
-			# Push int on stack
-	li    $t0, 2
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t1, 4($sp)	# POP
-	addu  $sp, $sp, 4
 	lw    $t0, 4($sp)	# POP
 	addu  $sp, $sp, 4
-	sne   $t0, $t0, $t1		# Set t0 to 1 if lhs != rhs, otherwise 0
+	li    $t1, 0
+	bne   $t0, $t1, .L0		# OrNode: evaluate lhs first
+			# Push bool(true) on stack
+	li    $t0, 1
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
+	b     .L1
+.L0:
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+.L1:
 	lw    $a0, 4($sp)	# POP
 	addu  $sp, $sp, 4
 	li    $v0, 1
 	syscall
 			# WRITE
 	.data
-.L0:	.asciiz "\n"	# String Declaration
-	.text
-	la    $t0, .L0
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 4
-	syscall
-			# WRITE
-			# Enter NotEqualsNode
-			# Enter EqualityExpNode
-			# Enter BinaryExpNode
-			# Push int on stack
-	li    $t0, 1
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-			# Push int on stack
-	li    $t0, 1
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t1, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	lw    $t0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	sne   $t0, $t0, $t1		# Set t0 to 1 if lhs != rhs, otherwise 0
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 1
-	syscall
-			# WRITE
-	.text
-	la    $t0, .L0
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 4
-	syscall
-			# WRITE
-			# Enter NotEqualsNode
-			# Enter EqualityExpNode
-			# Enter BinaryExpNode
-			# Push bool(true) on stack
-	li    $t0, 1
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-			# Push bool(true) on stack
-	li    $t0, 1
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t1, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	lw    $t0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	sne   $t0, $t0, $t1		# Set t0 to 1 if lhs != rhs, otherwise 0
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 1
-	syscall
-			# WRITE
-	.text
-	la    $t0, .L0
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 4
-	syscall
-			# WRITE
-			# Enter NotEqualsNode
-			# Enter EqualityExpNode
-			# Enter BinaryExpNode
-			# Push bool(true) on stack
-	li    $t0, 1
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-			# Push bool(false) on stack
-	li    $t0, 0
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t1, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	lw    $t0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	sne   $t0, $t0, $t1		# Set t0 to 1 if lhs != rhs, otherwise 0
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 1
-	syscall
-			# WRITE
-	.text
-	la    $t0, .L0
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 4
-	syscall
-			# WRITE
-			# Enter NotEqualsNode
-			# Enter EqualityExpNode
-			# Enter BinaryExpNode
-	.data
-.L1:	.asciiz "hello"	# String Declaration
-	.text
-	la    $t0, .L1
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	.text
-	la    $t0, .L1
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $t1, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	lw    $t0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	sne   $t0, $t0, $t1		# Set t0 to 1 if lhs != rhs, otherwise 0
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 1
-	syscall
-			# WRITE
-	.text
-	la    $t0, .L0
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	lw    $a0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	li    $v0, 4
-	syscall
-			# WRITE
-			# Enter NotEqualsNode
-			# Enter EqualityExpNode
-			# Enter BinaryExpNode
-	.text
-	la    $t0, .L1
-	sw    $t0, 0($sp)	# PUSH
-	subu  $sp, $sp, 4
-	.data
-.L2:	.asciiz "world"	# String Declaration
+.L2:	.asciiz "\n"	# String Declaration
 	.text
 	la    $t0, .L2
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
-	lw    $t1, 4($sp)	# POP
+	lw    $a0, 4($sp)	# POP
 	addu  $sp, $sp, 4
-	lw    $t0, 4($sp)	# POP
-	addu  $sp, $sp, 4
-	sne   $t0, $t0, $t1		# Set t0 to 1 if lhs != rhs, otherwise 0
+	li    $v0, 4
+	syscall
+			# WRITE
+			# Enter OrNode
+			# Push bool(true) on stack
+	li    $t0, 1
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $t1, 0
+	bne   $t0, $t1, .L3		# OrNode: evaluate lhs first
+			# Push bool(false) on stack
+	li    $t0, 0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	b     .L4
+.L3:
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+.L4:
 	lw    $a0, 4($sp)	# POP
 	addu  $sp, $sp, 4
 	li    $v0, 1
 	syscall
 			# WRITE
 	.text
-	la    $t0, .L0
+	la    $t0, .L2
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+			# WRITE
+			# Enter OrNode
+			# Push bool(false) on stack
+	li    $t0, 0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $t1, 0
+	bne   $t0, $t1, .L5		# OrNode: evaluate lhs first
+			# Push bool(false) on stack
+	li    $t0, 0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	b     .L6
+.L5:
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+.L6:
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 1
+	syscall
+			# WRITE
+	.text
+	la    $t0, .L2
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+			# WRITE
+			# Enter OrNode
+			# Push bool(false) on stack
+	li    $t0, 0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $t1, 0
+	bne   $t0, $t1, .L7		# OrNode: evaluate lhs first
+			# Push bool(true) on stack
+	li    $t0, 1
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	b     .L8
+.L7:
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+.L8:
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 1
+	syscall
+			# WRITE
+	.text
+	la    $t0, .L2
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 	lw    $a0, 4($sp)	# POP
