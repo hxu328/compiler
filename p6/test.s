@@ -283,6 +283,43 @@ main:		# Function Entry
 	addu  $sp, $sp, 4
 	li    $v0, 4
 	syscall
+			# WRITE
+	.data
+.L1:	.asciiz "Please input a value(int): "	# String Declaration
+	.text
+	la    $t0, .L1
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+			# READ
+	la    $t0, _a		# Load global var addr: a
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 5
+	syscall
+	sw    $v0, 0($t0)	# Store readin to ID
+			# WRITE
+	lw    $t0, _a		# Load global var: a
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 1
+	syscall
+			# WRITE
+	.text
+	la    $t0, .L0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
 _main_Exit:		# Function Exit
 	lw    $ra, 0($fp)	# Restore return address
 	move  $t0, $fp		# Restore frame pointer

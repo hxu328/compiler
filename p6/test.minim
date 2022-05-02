@@ -38,4 +38,9 @@ void main() {
     disp << "\n";
     disp << w;
     disp << "\n";
+
+    disp << "Please input a value(int): ";
+    input >> a;
+    disp << a;
+    disp << "\n";
 }

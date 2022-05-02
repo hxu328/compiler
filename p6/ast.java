@@ -1143,7 +1143,19 @@ class ReadStmtNode extends StmtNode {
     }
 
     public void codeGen(String fctnLabel){
-        
+        Codegen.generateWithComment("", "READ");
+
+        // leave ID's address on stack, pop it into t0
+        ((IdNode)myExp).genAddr();
+        Codegen.genPop(Codegen.T0);
+
+        // do the system call, get the readin value into v0
+        Codegen.generate("li", Codegen.V0, 5);
+        Codegen.generate("syscall");
+
+        // store the value form v0 to the the ID's address
+        Codegen.generateIndexed("sw", Codegen.V0, Codegen.T0, 0, "Store readin to ID");
+
     }
     
     public void unparse(PrintWriter p, int indent) {
