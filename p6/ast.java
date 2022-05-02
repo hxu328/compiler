@@ -1297,7 +1297,19 @@ class IfStmtNode extends StmtNode {
     }
 
     public void codeGen(String fctnLabel){
-        
+        Codegen.generateWithComment("", "Enter If Stmt");
+        myExp.codeGen();
+        Codegen.genPop(Codegen.T0);             // leave exp value in t0
+        Codegen.generate("li", Codegen.T1, 1);  // leave true in t1
+
+        // generate labels
+        String falseLabel = Codegen.nextLabel();
+
+        // control flow
+        Codegen.generateWithComment("bne", "Ifstmt: compare with true", Codegen.T0, Codegen.T1, falseLabel);
+        myStmtList.codeGen(fctnLabel);          // if true, codegen for stmts
+
+        Codegen.genLabel(falseLabel);
     }
        
     public void unparse(PrintWriter p, int indent) {
@@ -1379,7 +1391,24 @@ class IfElseStmtNode extends StmtNode {
     }
 
     public void codeGen(String fctnLabel){
-        
+        Codegen.generateWithComment("", "Enter IfElse Stmt");
+        myExp.codeGen();
+        Codegen.genPop(Codegen.T0);             // leave exp value in t0
+        Codegen.generate("li", Codegen.T1, 1);  // leave true in t1
+
+        // generate labels
+        String falseLabel = Codegen.nextLabel();
+        String endLabel = Codegen.nextLabel();
+
+        // control flow
+        Codegen.generateWithComment("bne", "IfElseStmt: compare with true", Codegen.T0, Codegen.T1, falseLabel);
+        myThenStmtList.codeGen(fctnLabel);          // if true, codegen for then stmts
+        Codegen.generate("b", endLabel);
+
+        Codegen.genLabel(falseLabel);               // if false, codegen for else stmts
+        myElseStmtList.codeGen(fctnLabel);
+
+        Codegen.genLabel(endLabel);
     }
         
     public void unparse(PrintWriter p, int indent) {
@@ -1462,7 +1491,23 @@ class WhileStmtNode extends StmtNode {
     }
 
     public void codeGen(String fctnLabel){
-        
+        Codegen.generateWithComment("", "Enter While Stmt");
+
+        // generate labels
+        String loopLabel = Codegen.nextLabel();
+        String endLabel = Codegen.nextLabel();
+
+        // control flow
+        Codegen.genLabel(loopLabel);
+        myExp.codeGen();
+        Codegen.genPop(Codegen.T0);             // leave exp value in t0
+        Codegen.generate("li", Codegen.T1, 1);  // leave true in t1
+        Codegen.generateWithComment("bne", "While Stmt: compare with true", Codegen.T0, Codegen.T1, endLabel);
+
+        myStmtList.codeGen(fctnLabel);          // if true, codegen for stmts, and loop
+        Codegen.generate("b", loopLabel);
+
+        Codegen.genLabel(endLabel);
     }
 
     // three kids

@@ -9,15 +9,48 @@ void main() {
     t2 = false;
     t1 = 1;
     
+    if(t3 == 3){
+        t3++;
+    }
     
-    disp << true || true;
-    disp << "\n";
-    disp << true || false;
-    disp << "\n";
-    disp << false || false;
-    disp << "\n";
-    disp << false || true;
+    disp << t3;
     disp << "\n";
 
+    if(t1 == 3){
+        t1++;
+    }
+    
+    disp << t1;
+    disp << "\n";
+
+    if(t2 == true){
+        disp << "t2 is true\n";
+    } else {
+        disp << "t2 is false\n";
+    }
+    disp << "end of t2\n";
+
+    if(t3 == 4){
+        disp << "t3 is 4\n";
+    } else {
+        disp << "t3 is not 4\n";
+    }
+    disp << "end of t3\n";
+
+    t1 = 1;
+    while (t1 < 1){
+        disp << "should not enter here\n";
+    }
+    disp << "end of t1 loop\n";
+    disp << t1;
+    disp << "\n";
+
+    while (t1 < 5){
+        disp << "enter loop\n";
+        t1 ++;
+    }
+    disp << "end of t1 loop\n";
+    disp << t1;
+    disp << "\n";
     
 }
