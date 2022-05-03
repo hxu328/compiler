@@ -259,6 +259,7 @@ _recursion_Exit:		# Function Exit
 	.text
 	.globl main
 main:		# Function Entry
+# __start:		# To get the Spim to recognize main function
 	sw    $ra, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 	sw    $fp, 0($sp)	# PUSH

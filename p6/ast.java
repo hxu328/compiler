@@ -702,7 +702,7 @@ class FnDeclNode extends DeclNode {
         if(fctnName.equals("main")){
             Codegen.generate(".globl main");
             Codegen.genLabel("main", "Function Entry");
-            // Codegen.genLabel("__start", "To get the Spim to recognize main function");
+            Codegen.genLabel("# __start", "To get the Spim to recognize main function");
         } else {
             Codegen.genLabel("_" + fctnName, "Function Entry");
         }
