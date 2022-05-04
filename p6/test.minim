@@ -63,7 +63,6 @@ void main() {
     int j;
     bool m;
     bool n;
-    bool l;
 
     //* assignment: id = literal
     k = 5;
@@ -111,8 +110,44 @@ void main() {
     disp << fib_recurison(10);
     disp << "\n";
 
-    //* dynamic programming using global memo
+    //* dynamic programming using the global memo variable
     disp << "fib_dp(10) = ";
     disp << fib_dp(10);
     disp << "\n";
+
+    //* edge cases
+    //* string comparison
+    if(and("string" == "string", "str" != "string")){
+        disp << "string comparison passed!\n";
+    } else{
+        disp << "string comparison failed!\n";
+    }
+    //* short circuit
+    if(!(false && fib_recurison(100000000) == -1)){
+        if(true || fib_recurison(100000000) == -1){
+            disp << "short circuit passed!\n";
+        }
+    }
+    //* output boolean
+    disp << "true, false = ";
+    disp << m;
+    disp << ", ";
+    disp << n;
+    disp << "\n";
+    //* input boolean
+    disp << "Please enter \"1\": ";
+    input >> m;
+    disp << "Please enter \"0\": ";
+    input >> n;
+    if(m && !n){
+        disp << "input bool test passed!\n";
+    }
+    disp << "Please enter \"5\": ";
+    input >> k;
+    disp << "Please enter \"-5\": ";
+    input >> j;
+    if(k == 5 && j == -5){
+        disp << "input int test passed!\n";
+    }
+    disp << "ALL TESTS PASSED!\n";
 }

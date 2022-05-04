@@ -550,7 +550,7 @@ main:		# Function Entry
 	sw    $fp, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 	addu  $fp, $sp, 8
-	subu  $sp, $sp, 20
+	subu  $sp, $sp, 16
 			# ASSIGN
 	la    $t0, -8($fp)	# Load local var addr: k
 	sw    $t0, 0($sp)	# PUSH
@@ -1117,6 +1117,468 @@ main:		# Function Entry
 			# WRITE
 	.text
 	la    $t0, .L19
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+			# Enter IfElse Stmt
+			# Enter NotEqualsNode
+			# Enter EqualityExpNode
+			# Enter BinaryExpNode
+	.data
+.L33:	.asciiz "str"	# String Declaration
+	.text
+	la    $t0, .L33
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	.data
+.L34:	.asciiz "string"	# String Declaration
+	.text
+	la    $t0, .L34
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t1, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	sne   $t0, $t0, $t1		# Set t0 to 1 if lhs != rhs, otherwise 0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+			# Enter EqualsNode
+			# Enter EqualityExpNode
+			# Enter BinaryExpNode
+	.text
+	la    $t0, .L34
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	.text
+	la    $t0, .L34
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t1, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	seq   $t0, $t0, $t1		# Set t0 to 1 if lhs == rhs, otherwise 0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+			# Begin Call function: and
+	jal   _and
+			# After Call function: and
+	addu  $sp, $sp, 8
+	sw    $v0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $t1, 1
+	bne   $t0, $t1, .L35		# IfElseStmt: compare with true
+			# WRITE
+	.data
+.L37:	.asciiz "string comparison passed!\n"	# String Declaration
+	.text
+	la    $t0, .L37
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+	b     .L36
+.L35:
+			# WRITE
+	.data
+.L38:	.asciiz "string comparison failed!\n"	# String Declaration
+	.text
+	la    $t0, .L38
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+.L36:
+			# Enter If Stmt
+			# Enter NotNode
+			# Enter UnaryExpNode
+			# Enter AndNode
+			# Push bool(false) on stack
+	li    $t0, 0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $t1, 1
+	bne   $t0, $t1, .L39		# AndNode: evaluate lhs first
+			# Enter EqualsNode
+			# Enter EqualityExpNode
+			# Enter BinaryExpNode
+			# Push int on stack
+	li    $t0, 100000000
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+			# Begin Call function: fib_recurison
+	jal   _fib_recurison
+			# After Call function: fib_recurison
+	addu  $sp, $sp, 4
+	sw    $v0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+			# Enter UnaryMinusNode
+			# Enter UnaryExpNode
+			# Push int on stack
+	li    $t0, 1
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $t1, -1
+	mult  $t0, $t1		# Negate exp
+	mflo  $t0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t1, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	seq   $t0, $t0, $t1		# Set t0 to 1 if lhs == rhs, otherwise 0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	b     .L40
+.L39:
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+.L40:
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $t1, 0
+	beq   $t0, $t1, .L41		# Compare with false(0)
+	sw    $t1, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	b     .L42
+.L41:
+	li    $t1, 1
+	sw    $t1, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+.L42:
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $t1, 1
+	bne   $t0, $t1, .L43		# Ifstmt: compare with true
+			# Enter If Stmt
+			# Enter OrNode
+			# Push bool(true) on stack
+	li    $t0, 1
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $t1, 0
+	bne   $t0, $t1, .L44		# OrNode: evaluate lhs first
+			# Enter EqualsNode
+			# Enter EqualityExpNode
+			# Enter BinaryExpNode
+			# Push int on stack
+	li    $t0, 100000000
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+			# Begin Call function: fib_recurison
+	jal   _fib_recurison
+			# After Call function: fib_recurison
+	addu  $sp, $sp, 4
+	sw    $v0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+			# Enter UnaryMinusNode
+			# Enter UnaryExpNode
+			# Push int on stack
+	li    $t0, 1
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $t1, -1
+	mult  $t0, $t1		# Negate exp
+	mflo  $t0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t1, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	seq   $t0, $t0, $t1		# Set t0 to 1 if lhs == rhs, otherwise 0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	b     .L45
+.L44:
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+.L45:
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $t1, 1
+	bne   $t0, $t1, .L46		# Ifstmt: compare with true
+			# WRITE
+	.data
+.L47:	.asciiz "short circuit passed!\n"	# String Declaration
+	.text
+	la    $t0, .L47
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+.L46:
+.L43:
+			# WRITE
+	.data
+.L48:	.asciiz "true, false = "	# String Declaration
+	.text
+	la    $t0, .L48
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+			# WRITE
+	lw    $t0, -16($fp)	# Load local var: m
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 1
+	syscall
+			# WRITE
+	.data
+.L49:	.asciiz ", "	# String Declaration
+	.text
+	la    $t0, .L49
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+			# WRITE
+	lw    $t0, -20($fp)	# Load local var: n
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 1
+	syscall
+			# WRITE
+	.text
+	la    $t0, .L19
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+			# WRITE
+	.data
+.L50:	.asciiz "Please enter \"1\": "	# String Declaration
+	.text
+	la    $t0, .L50
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+			# READ
+	la    $t0, -16($fp)	# Load local var addr: m
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 5
+	syscall
+	sw    $v0, 0($t0)	# Store readin to ID
+			# WRITE
+	.data
+.L51:	.asciiz "Please enter \"0\": "	# String Declaration
+	.text
+	la    $t0, .L51
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+			# READ
+	la    $t0, -20($fp)	# Load local var addr: n
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 5
+	syscall
+	sw    $v0, 0($t0)	# Store readin to ID
+			# Enter If Stmt
+			# Enter AndNode
+	lw    $t0, -16($fp)	# Load local var: m
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $t1, 1
+	bne   $t0, $t1, .L52		# AndNode: evaluate lhs first
+			# Enter NotNode
+			# Enter UnaryExpNode
+	lw    $t0, -20($fp)	# Load local var: n
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $t1, 0
+	beq   $t0, $t1, .L54		# Compare with false(0)
+	sw    $t1, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	b     .L55
+.L54:
+	li    $t1, 1
+	sw    $t1, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+.L55:
+	b     .L53
+.L52:
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+.L53:
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $t1, 1
+	bne   $t0, $t1, .L56		# Ifstmt: compare with true
+			# WRITE
+	.data
+.L57:	.asciiz "input bool test passed!\n"	# String Declaration
+	.text
+	la    $t0, .L57
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+.L56:
+			# WRITE
+	.data
+.L58:	.asciiz "Please enter \"5\": "	# String Declaration
+	.text
+	la    $t0, .L58
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+			# READ
+	la    $t0, -8($fp)	# Load local var addr: k
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 5
+	syscall
+	sw    $v0, 0($t0)	# Store readin to ID
+			# WRITE
+	.data
+.L59:	.asciiz "Please enter \"-5\": "	# String Declaration
+	.text
+	la    $t0, .L59
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+			# READ
+	la    $t0, -12($fp)	# Load local var addr: j
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 5
+	syscall
+	sw    $v0, 0($t0)	# Store readin to ID
+			# Enter If Stmt
+			# Enter AndNode
+			# Enter EqualsNode
+			# Enter EqualityExpNode
+			# Enter BinaryExpNode
+	lw    $t0, -8($fp)	# Load local var: k
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+			# Push int on stack
+	li    $t0, 5
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t1, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	seq   $t0, $t0, $t1		# Set t0 to 1 if lhs == rhs, otherwise 0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $t1, 1
+	bne   $t0, $t1, .L60		# AndNode: evaluate lhs first
+			# Enter EqualsNode
+			# Enter EqualityExpNode
+			# Enter BinaryExpNode
+	lw    $t0, -12($fp)	# Load local var: j
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+			# Enter UnaryMinusNode
+			# Enter UnaryExpNode
+			# Push int on stack
+	li    $t0, 5
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $t1, -1
+	mult  $t0, $t1		# Negate exp
+	mflo  $t0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $t1, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	seq   $t0, $t0, $t1		# Set t0 to 1 if lhs == rhs, otherwise 0
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	b     .L61
+.L60:
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+.L61:
+	lw    $t0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $t1, 1
+	bne   $t0, $t1, .L62		# Ifstmt: compare with true
+			# WRITE
+	.data
+.L63:	.asciiz "input int test passed!\n"	# String Declaration
+	.text
+	la    $t0, .L63
+	sw    $t0, 0($sp)	# PUSH
+	subu  $sp, $sp, 4
+	lw    $a0, 4($sp)	# POP
+	addu  $sp, $sp, 4
+	li    $v0, 4
+	syscall
+.L62:
+			# WRITE
+	.data
+.L64:	.asciiz "ALL TESTS PASSED!\n"	# String Declaration
+	.text
+	la    $t0, .L64
 	sw    $t0, 0($sp)	# PUSH
 	subu  $sp, $sp, 4
 	lw    $a0, 4($sp)	# POP
