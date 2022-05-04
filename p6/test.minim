@@ -1,72 +1,118 @@
-int a;
-bool b;
+//* global variable declarations
+int memo;
 
-void f1(){
+void void_func_with_no_args(){
     int a;
-    disp << "Reach f1\n";
+    disp << "Called void_func_with_no_args\n";
 }
 
-void f2(int a){
-    int b;
-    disp << "Reach f2\n";
+void void_func_with_args(int a){
+    disp << "Called void_func_with_args(";
+    disp << a;
+    disp << ")\n";
 }
 
-int f3(int a, int b){
+int sum(int a, int b){
     int c;
-
     c = a + b;
     return c;
-    c = 10;
 }
 
-int f4(){
-    return f3(3, 4);
-}
-
-bool f5(bool a, bool b){
-    return b;
-}
-
-int recursion(int n){
-    if(n == 1){
-        return 1;
-    } else {
-        return n + recursion(n-1);
+int mult(int a, int b){
+    int c;
+    c = 0;
+    while(a > 0){
+        c = sum(c, b);
+        a--;
     }
+    return c;
+}
+
+bool and(bool m, bool n){
+    return m && n;
+}
+
+bool or(bool m, bool n){
+    return m || n;
+}
+
+int fib_recurison(int n){
+    if(n <= 2){
+        return 1;
+    }
+    return fib_recurison(n - 2) + fib_recurison(n - 1);
+}
+
+int fib_dp(int n){
+    int curr;
+    int tmp;
+    memo = 0;
+    curr = 1;
+    while(n > 1){
+        tmp = curr;
+        curr = memo + curr;
+        memo = tmp;
+        n--;
+    }
+    return curr;
 }
 
 void main() {
+    //* int and bool literal declarations
     int k;
+    int j;
     bool m;
     bool n;
     bool l;
 
+    //* assignment: id = literal
     k = 5;
+    j = -5;
     m = true;
     n = false;
 
-    f1();
-    f2(k);
+    //* assignment: id = id
+    k = -j;
+    j = -k;
+    m = !n;
+    n = !m;
 
+    //* void function calls
+    void_func_with_no_args(); //* Reach void_func_with_no_args
+    void_func_with_args(k);  //* Reach void_func_with_args 5
+    void_func_with_args(k + j);  //* Reach void_func_with_args 0
+    void_func_with_args(-1);  //* Reach void_func_with_args -1
+
+    //* function returns
+    disp << "sum(5, 5): ";
     disp << k;
+    disp << " + ";
+    disp << j;
+    disp << " = "; 
+    disp << sum(k, j);
     disp << "\n";
 
-    k = f3(2, 4);
-    disp << k;
+    //* loop
+    disp << "mult(5, -5): ";
+    disp << mult(k, j);  //* -25 = -25
+    disp << " = ";
+    disp << k * j;
     disp << "\n";
 
-    k = f4();
-    disp << k;
+    //* condition
+    if(!and(m, n) == or(!m, !n)){
+        disp << "de morgan's law passed!\n";
+    } else{
+        disp << "de morgan's law failed!\n";
+    }
+
+    //* recursion
+    disp << "fib_recurison(10) = ";
+    disp << fib_recurison(10);
     disp << "\n";
 
-    l = f5(m, n);
-    disp << l;
+    //* dynamic programming using global memo
+    disp << "fib_dp(10) = ";
+    disp << fib_dp(10);
     disp << "\n";
-
-    k = recursion(5);
-    disp << k;
-    disp << "\n";
-
-
-    
 }
