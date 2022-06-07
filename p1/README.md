@@ -1,11 +1,7 @@
 ### Overview
-In this assignment, you will write several Java classes to be used later in the semester to represent a symbol table. This is a simple assignment to get you up to speed with your computing environment, Java, and our programming and testing conventions.
-
-Make sure you read through everything carefully. The assignment appears long, but it is less work than it might initially seem. If it seems difficult, ask for help; you may be misunderstanding something.
+This is a simple version of symbol table used for later components of the compiler
 
 ### Specifications
-For this assignment you will implement four Java classes: `SymTable`, `Sym`, `DuplicateSymException`, and `EmptySymTableException`. You will also write a program called `P1.java` to test your implementations and answer some questions in a file named `Questions.txt`.
-
 The SymTable class will be used by the compiler you write later in the semester to represent a symbol table: a data structure that stores the identifiers declared in the program being compiled (e.g., function and variable names) and information about each identifier (e.g., its type, where it will be stored at runtime). The symbol table will be implemented as a `List` of `HashMaps`. Eventually, each `HashMap` will store the identifiers declared in one *scope* in the program being compiled.
 
 The `HashMap` keys will be `Strings` (the declared identifier names) and the associated information will be `Syms` (you will also implement the `Sym` class). For now, the only information in a `Sym` will be the type of the identifier, represented using a `String` (e.g., "int", "double", etc.).
